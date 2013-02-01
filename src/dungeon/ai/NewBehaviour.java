@@ -29,18 +29,23 @@ public class NewBehaviour implements Behaviour
   Creature fCreature = null;
   Random fRandom = new Random();
 
-  // This specifies whether the creature will stay in the room it starts in
   static final boolean KEEP_TO_ROOMS = true;
 
-  /* (non-Javadoc)
+   /* (non-Javadoc)
    * @see dungeon.ai.Behaviour#onTick(dungeon.model.Game)
    */
   public boolean onTick(Game game)
   {
-    // default routine to move the character on a clock tick.
+    boolean hasActed = tryActions(fCreature, game);
 
-    // first check if the creature can attack something,
-    // pick up something, or open a door
+    if (!hasActed)
+      return move(game);
+
+    return false;
+  }
+
+  private boolean tryActions(Creature fCreature, Game game)
+  {
     if (ActionAttack.performAction(fCreature, game))
       return true;
 
@@ -48,10 +53,6 @@ public class NewBehaviour implements Behaviour
       return true;
 
     if (ActionDoor.performAction(fCreature, game))
-      return true;
-
-    // if the creature can't do any of the above, figure out how it will move
-    if (move(game))
       return true;
 
     return false;
@@ -70,52 +71,50 @@ public class NewBehaviour implements Behaviour
    */
   boolean move(Game game)
   {
-    // creature has not moved
+    updateGoal(fCreature, game);
+
     boolean moved = false;
 
-    // does the creature have a goal?  If not, set one
+    if (fCreature.getGoal() != null)
+      moved = fCreature.moveToGoal(game);
+
+    if (!moved)
+      moved = tryRandomMovement(fCreature, game);
+
+    return moved;
+  }
+
+  private void updateGoal(Creature fCreature, Game game)
+  {
     if (fCreature.getGoal() == null)
     {
       Rectangle2D bounds = null; // where to look for new goal
 
-      // if KEEP_TO_ROOMS is set, look for a goal point in the same tile (room)
       if (NewBehaviour.KEEP_TO_ROOMS)
       {
         Tile tile = game.getMap().getTileAt(fCreature.getLocation());
         bounds = tile.getArea();
       }
-      // otherwise, look for a goal point anywhere on map
       else
       {
         bounds = game.getMap().getBounds(0);
       }
 
-      // pick random goal point within bounds
       double x = bounds.getX() + (bounds.getWidth() * fRandom.nextDouble());
       double y = bounds.getY() + (bounds.getHeight() * fRandom.nextDouble());
       Point2D goal_pt = new Point2D.Double(x, y);
 
-      // check that this point is within a room. not occupied by another creature, etc
       if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
-        // all conditions passed, set a new goal
         fCreature.setGoal(goal_pt, game);
     }
-
-    // if the creature has a goal (perhaps set above), move towards it
-    if (fCreature.getGoal() != null)
-    {
-      moved = fCreature.moveToGoal(game);
-    }
-
-    // if the creature hasn't moved towards a goal, make it move randomly
-    if (!moved)
-    {
-      double theta = fRandom.nextDouble() * Math.PI * 2;
-      moved = fCreature.move(theta, game);
-    }
-
-    return moved;
   }
+
+  private boolean tryRandomMovement(Creature fCreature, Game game)
+  {
+    double theta = fRandom.nextDouble() * Math.PI * 2;
+    return fCreature.move(theta, game);
+  }
+
 
   public boolean deathTick(Game game) {
     // TODO Auto-generated method stub
