@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Game Name="p-Bayes">
+    <Map>
+      <Tiles>
+        <Vector>
+          <Floor Height="10" Width="10" X="0.0" Y="0.0"/>  
+          <!-- G -->
+          <Floor Height="10" Width="10" X="10.0" Y="0.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="0.0"/>  
+          <Floor Height="10" Width="10" X="30.0" Y="0.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="0.0"/> 
+          <Floor Height="10" Width="10" X="50.0" Y="0.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="0.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="0.0"/>  
+          <FlameTrap Height="10" Width="10" X="80.0" Y="0.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="90.0" Y="0.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="0.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="0.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="0.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="0.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="0.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="0.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="0.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="0.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="0.0"/>
+          <Floor Height="10" Width="10" X="190.0" Y="0.0"/>  
+          
+          <Floor Height="10" Width="10" X="0.0" Y="10.0"/> 
+          <FlameTrap Height="10" Width="10" X="10.0" Y="10.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="20.0" Y="10.0"/>  
+          <FlameTrap Height="10" Width="10" X="30.0" Y="10.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="10.0"/> 
+          <Floor Height="10" Width="10" X="50.0" Y="10.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="10.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="10.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="80.0" Y="10.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="10.0"/>   
+          <FlameTrap Height="10" Width="10" X="100.0" Y="10.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="10.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="10.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="10.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="10.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="10.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="10.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="10.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="10.0"/>
+          <Floor Height="10" Width="10" X="190.0" Y="10.0"/>  
+          
+          <FlameTrap Height="10" Width="10" X="0.0" Y="20.0"/> 
+          <Floor Height="10" Width="10" X="10.0" Y="20.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="20.0"/>  
+          <FlameTrap Height="10" Width="10" X="30.0" Y="20.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="20.0"/> 
+          <Floor Height="10" Width="10" X="50.0" Y="20.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="20.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="20.0"/>  
+          <Floor Height="10" Width="10" X="80.0" Y="20.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="20.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="20.0"/>
+          <!-- G -->
+          <Floor Height="10" Width="10" X="110.0" Y="20.0"/>  
+          <!-- G -->
+          <Floor Height="10" Width="10" X="120.0" Y="20.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="130.0" Y="20.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="20.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="20.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="20.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="20.0"/>    
+          <FlameTrap Height="10" Width="10" X="180.0" Y="20.0"/>
+          <!-- G -->
+          <Floor Height="10" Width="10" X="190.0" Y="20.0"/>       
+          
+          <Floor Height="10" Width="10" X="0.0" Y="30.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="10.0" Y="30.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="30.0"/> 
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="30.0" Y="30.0"/>  
+          <!-- G -->
+          <Floor Height="10" Width="10" X="40.0" Y="30.0"/> 
+          <Floor Height="10" Width="10" X="50.0" Y="30.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="30.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="30.0"/>  
+          <Floor Height="10" Width="10" X="80.0" Y="30.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="30.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="30.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="30.0"/>  
+          <FlameTrap Height="10" Width="10" X="120.0" Y="30.0"/> 
+          <!-- G -->         
+          <FlameTrap Height="10" Width="10" X="130.0" Y="30.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="30.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="30.0"/>   
+          <FlameTrap Height="10" Width="10" X="160.0" Y="30.0"/>
+          <!-- G -->
+          <Floor Height="10" Width="10" X="170.0" Y="30.0"/>
+          <!-- G -->    
+          <FlameTrap Height="10" Width="10" X="180.0" Y="30.0"/>
+          <!-- G -->
+          <FlameTrap Height="10" Width="10" X="190.0" Y="30.0"/>
+          <!-- G --> 
+          
+          <Floor Height="10" Width="10" X="0.0" Y="40.0"/> 
+          <Floor Height="10" Width="10" X="10.0" Y="40.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="40.0"/>  
+          <Floor Height="10" Width="10" X="30.0" Y="40.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="40.0"/> 
+          <Floor Height="10" Width="10" X="50.0" Y="40.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="40.0"/>
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="70.0" Y="40.0"/>  
+          <Floor Height="10" Width="10" X="80.0" Y="40.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="40.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="40.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="40.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="40.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="40.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="40.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="40.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="40.0"/>
+          <!-- G -->
+          <Floor Height="10" Width="10" X="170.0" Y="40.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="40.0"/>
+          <!-- G -->
+          <Floor Height="10" Width="10" X="190.0" Y="40.0"/>  
+          
+          <Floor Height="10" Width="10" X="0.0" Y="50.0"/> 
+          <Floor Height="10" Width="10" X="10.0" Y="50.0"/> 
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="20.0" Y="50.0"/>  
+          <Floor Height="10" Width="10" X="30.0" Y="50.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="50.0"/> 
+          <Floor Height="10" Width="10" X="50.0" Y="50.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="50.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="50.0"/>  
+          <FlameTrap Height="10" Width="10" X="80.0" Y="50.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="50.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="50.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="50.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="50.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="50.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="50.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="50.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="50.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="50.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="50.0"/>
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="190.0" Y="50.0"/>  
+          
+          <Floor Height="10" Width="10" X="0.0" Y="60.0"/> 
+          <Floor Height="10" Width="10" X="10.0" Y="60.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="60.0"/>  
+          <Floor Height="10" Width="10" X="30.0" Y="60.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="60.0"/> 
+          <FlameTrap Height="10" Width="10" X="50.0" Y="60.0"/> 
+          <!-- G --> 
+          <FlameTrap Height="10" Width="10" X="60.0" Y="60.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="70.0" Y="60.0"/>  
+          <Floor Height="10" Width="10" X="80.0" Y="60.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="60.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="60.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="60.0"/>  
+          <FlameTrap Height="10" Width="10" X="120.0" Y="60.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="130.0" Y="60.0"/> 
+          <FlameTrap Height="10" Width="10" X="140.0" Y="60.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="60.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="160.0" Y="60.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="60.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="60.0"/>
+          <FlameTrap Height="10" Width="10" X="190.0" Y="60.0"/>
+          
+          <FlameTrap Height="10" Width="10" X="0.0" Y="70.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="10.0" Y="70.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="70.0"/>  
+          <Floor Height="10" Width="10" X="30.0" Y="70.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="70.0"/> 
+          <Floor Height="10" Width="10" X="50.0" Y="70.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="70.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="70.0"/>
+          <!-- G -->
+          <Floor Height="10" Width="10" X="80.0" Y="70.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="70.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="70.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="70.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="70.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="70.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="70.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="70.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="70.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="70.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="70.0"/>
+          <!-- G -->
+          <Floor Height="10" Width="10" X="190.0" Y="70.0"/>  
+                     
+          <Floor Height="10" Width="10" X="0.0" Y="80.0"/> 
+          <FlameTrap Height="10" Width="10" X="10.0" Y="80.0"/>
+          <!-- G -->  
+          <Floor Height="10" Width="10" X="20.0" Y="80.0"/>  
+          <FlameTrap Height="10" Width="10" X="30.0" Y="80.0"/> 
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="40.0" Y="80.0"/> 
+          <FlameTrap Height="10" Width="10" X="50.0" Y="80.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="60.0" Y="80.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="80.0"/>  
+          <Floor Height="10" Width="10" X="80.0" Y="80.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="80.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="80.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="80.0"/>  
+          <FlameTrap Height="10" Width="10" X="120.0" Y="80.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="130.0" Y="80.0"/> 
+          <FlameTrap Height="10" Width="10" X="140.0" Y="80.0"/>
+          <!-- G -->
+          <FlameTrap Height="10" Width="10" X="150.0" Y="80.0"/>   
+          <!-- G -->
+          <Floor Height="10" Width="10" X="160.0" Y="80.0"/>
+          <!-- G -->
+          <Floor Height="10" Width="10" X="170.0" Y="80.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="80.0"/>
+          <Floor Height="10" Width="10" X="190.0" Y="80.0"/>
+          
+          <Floor Height="10" Width="10" X="0.0" Y="90.0"/> 
+          <Floor Height="10" Width="10" X="10.0" Y="90.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="90.0"/>  
+          <Floor Height="10" Width="10" X="30.0" Y="90.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="90.0"/> 
+          <Floor Height="10" Width="10" X="50.0" Y="90.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="90.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="90.0"/> 
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="80.0" Y="90.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="90.0"/> 
+          <!-- G --> 
+          <FlameTrap Height="10" Width="10" X="100.0" Y="90.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="90.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="90.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="90.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="90.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="90.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="90.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="90.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="90.0"/>
+          <Floor Height="10" Width="10" X="190.0" Y="90.0"/>   
+          
+          <Floor Height="10" Width="10" X="0.0" Y="100.0"/> 
+          <Floor Height="10" Width="10" X="10.0" Y="100.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="100.0"/>  
+          <Floor Height="10" Width="10" X="30.0" Y="100.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="100.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="50.0" Y="100.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="100.0"/> 
+          <FlameTrap Height="10" Width="10" X="70.0" Y="100.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="80.0" Y="100.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="100.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="100.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="100.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="100.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="100.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="100.0"/>
+          <FlameTrap Height="10" Width="10" X="150.0" Y="100.0"/>
+          <!-- G -->   
+          <FlameTrap Height="10" Width="10" X="160.0" Y="100.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="100.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="100.0"/>
+          <Floor Height="10" Width="10" X="190.0" Y="100.0"/>  
+          
+          <Floor Height="10" Width="10" X="0.0" Y="110.0"/> 
+          <FlameTrap Height="10" Width="10" X="10.0" Y="110.0"/> 
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="20.0" Y="110.0"/>  
+          <FlameTrap Height="10" Width="10" X="30.0" Y="110.0"/> 
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="40.0" Y="110.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="50.0" Y="110.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="110.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="110.0"/>  
+          <!-- G -->
+          <Floor Height="10" Width="10" X="80.0" Y="110.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="110.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="110.0"/>
+          <FlameTrap Height="10" Width="10" X="110.0" Y="110.0"/> 
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="120.0" Y="110.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="110.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="140.0" Y="110.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="110.0"/>   
+          <FlameTrap Height="10" Width="10" X="160.0" Y="110.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="110.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="110.0"/>
+          <Floor Height="10" Width="10" X="190.0" Y="110.0"/>  
+          
+          <FlameTrap Height="10" Width="10" X="0.0" Y="120.0"/> 
+          <Floor Height="10" Width="10" X="10.0" Y="120.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="120.0"/>  
+          <Floor Height="10" Width="10" X="30.0" Y="120.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="120.0"/> 
+          <Floor Height="10" Width="10" X="50.0" Y="120.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="120.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="120.0"/>  
+          <Floor Height="10" Width="10" X="80.0" Y="120.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="120.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="120.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="120.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="120.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="120.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="120.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="120.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="120.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="120.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="120.0"/>
+          <FlameTrap Height="10" Width="10" X="190.0" Y="120.0"/>  
+          <!-- G -->
+          
+          <Floor Height="10" Width="10" X="0.0" Y="130.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="10.0" Y="130.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="130.0"/>  
+          <Floor Height="10" Width="10" X="30.0" Y="130.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="130.0"/> 
+          <Floor Height="10" Width="10" X="50.0" Y="130.0"/>
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="60.0" Y="130.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="130.0"/>  
+          <FlameTrap Height="10" Width="10" X="80.0" Y="130.0"/>
+          <!-- G --> 
+          <FlameTrap Height="10" Width="10" X="90.0" Y="130.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="130.0"/>
+          <FlameTrap Height="10" Width="10" X="110.0" Y="130.0"/>
+          <!-- G -->  
+          <FlameTrap Height="10" Width="10" X="120.0" Y="130.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="130.0" Y="130.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="130.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="130.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="130.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="130.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="130.0"/>
+          <Floor Height="10" Width="10" X="190.0" Y="130.0"/> 
+          
+          <Floor Height="10" Width="10" X="0.0" Y="140.0"/> 
+          <FlameTrap Height="10" Width="10" X="10.0" Y="140.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="140.0"/>  
+          <Floor Height="10" Width="10" X="30.0" Y="140.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="140.0"/> 
+          <FlameTrap Height="10" Width="10" X="50.0" Y="140.0"/>
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="60.0" Y="140.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="140.0"/>  
+          <Floor Height="10" Width="10" X="80.0" Y="140.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="140.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="140.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="140.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="140.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="140.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="140.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="140.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="140.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="140.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="140.0"/>
+          <Floor Height="10" Width="10" X="190.0" Y="140.0"/>  
+                  
+          <FlameTrap Height="10" Width="10" X="0.0" Y="150.0"/> 
+          <Floor Height="10" Width="10" X="10.0" Y="150.0"/>  
+          <Floor Height="10" Width="10" X="20.0" Y="150.0"/>  
+          <Floor Height="10" Width="10" X="30.0" Y="150.0"/>  
+          <Floor Height="10" Width="10" X="40.0" Y="150.0"/> 
+          <Floor Height="10" Width="10" X="50.0" Y="150.0"/> 
+          <Floor Height="10" Width="10" X="60.0" Y="150.0"/> 
+          <Floor Height="10" Width="10" X="70.0" Y="150.0"/>  
+          <Floor Height="10" Width="10" X="80.0" Y="150.0"/> 
+          <Floor Height="10" Width="10" X="90.0" Y="150.0"/>   
+          <FlameTrap Height="10" Width="10" X="100.0" Y="150.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="150.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="150.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="150.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="150.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="150.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="150.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="150.0"/>
+          <!-- G -->    
+          <Floor Height="10" Width="10" X="180.0" Y="150.0"/>
+          <!-- G -->
+          <Floor Height="10" Width="10" X="190.0" Y="150.0"/> 
+          <!-- G --> 
+           
+          <Floor Height="10" Width="10" X="0.0"   Y="160.0"/> 
+          <Floor Height="10" Width="10" X="10.0"  Y="160.0"/>  
+          <Floor Height="10" Width="10" X="20.0"  Y="160.0"/>  
+          <!-- G -->
+          <FlameTrap Height="10" Width="10" X="30.0"  Y="160.0"/> 
+          <!-- G -->  
+          <FlameTrap Height="10" Width="10" X="40.0"  Y="160.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="50.0"  Y="160.0"/> 
+          <Floor Height="10" Width="10" X="60.0"  Y="160.0"/> 
+          <Floor Height="10" Width="10" X="70.0"  Y="160.0"/>  
+          <Floor Height="10" Width="10" X="80.0"  Y="160.0"/> 
+          <Floor Height="10" Width="10" X="90.0"  Y="160.0"/>
+          <!-- G -->   
+          <Floor Height="10" Width="10" X="100.0" Y="160.0"/>
+          <FlameTrap Height="10" Width="10" X="110.0" Y="160.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="160.0"/> 
+          <FlameTrap Height="10" Width="10" X="130.0" Y="160.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="160.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="160.0"/>   
+          <FlameTrap Height="10" Width="10" X="160.0" Y="160.0"/>
+          <FlameTrap Height="10" Width="10" X="170.0" Y="160.0"/>    
+          <!-- G -->
+          <Floor Height="10" Width="10" X="180.0" Y="160.0"/>
+          <Floor Height="10" Width="10" X="190.0" Y="160.0"/>
+          
+          <Floor Height="10" Width="10" X="0.0"   Y="170.0"/> 
+          <Floor Height="10" Width="10" X="10.0"  Y="170.0"/>  
+          <Floor Height="10" Width="10" X="20.0"  Y="170.0"/>  
+          <Floor Height="10" Width="10" X="30.0"  Y="170.0"/>  
+          <Floor Height="10" Width="10" X="40.0"  Y="170.0"/> 
+          <Floor Height="10" Width="10" X="50.0"  Y="170.0"/> 
+          <Floor Height="10" Width="10" X="60.0"  Y="170.0"/>
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="70.0"  Y="170.0"/> 
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="80.0"  Y="170.0"/> 
+          <Floor Height="10" Width="10" X="90.0"  Y="170.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="170.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="170.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="170.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="170.0"/> 
+          <Floor Height="10" Width="10" X="140.0" Y="170.0"/>
+          <Floor Height="10" Width="10" X="150.0" Y="170.0"/>   
+          <Floor Height="10" Width="10" X="160.0" Y="170.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="170.0"/>    
+          <Floor Height="10" Width="10" X="180.0" Y="170.0"/>
+          <Floor Height="10" Width="10" X="190.0" Y="170.0"/>  
+          
+          <Floor Height="10" Width="10" X="0.0"   Y="180.0"/>
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="10.0"  Y="180.0"/>  
+          <FlameTrap Height="10" Width="10" X="20.0"  Y="180.0"/>  
+          <Floor Height="10" Width="10" X="30.0"  Y="180.0"/>  
+          <FlameTrap Height="10" Width="10" X="40.0"  Y="180.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="50.0"  Y="180.0"/> 
+          <Floor Height="10" Width="10" X="60.0"  Y="180.0"/> 
+          <Floor Height="10" Width="10" X="70.0"  Y="180.0"/>  
+          <Floor Height="10" Width="10" X="80.0"  Y="180.0"/> 
+          <Floor Height="10" Width="10" X="90.0"  Y="180.0"/>   
+          <Floor Height="10" Width="10" X="100.0" Y="180.0"/>
+          <Floor Height="10" Width="10" X="110.0" Y="180.0"/>  
+          <Floor Height="10" Width="10" X="120.0" Y="180.0"/> 
+          <Floor Height="10" Width="10" X="130.0" Y="180.0"/> 
+          <FlameTrap Height="10" Width="10" X="140.0" Y="180.0"/>
+          <!-- G -->
+          <FlameTrap Height="10" Width="10" X="150.0" Y="180.0"/>
+          <!-- G -->   
+          <Floor Height="10" Width="10" X="160.0" Y="180.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="180.0"/>    
+          <FlameTrap Height="10" Width="10" X="180.0" Y="180.0"/>
+          <Floor Height="10" Width="10" X="190.0" Y="180.0"/> 
+          <!-- G --> 
+          
+          <FlameTrap Height="10" Width="10" X="0.0"   Y="190.0"/> 
+          <FlameTrap Height="10" Width="10" X="10.0"  Y="190.0"/>  
+          <FlameTrap Height="10" Width="10" X="20.0"  Y="190.0"/>
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="30.0"  Y="190.0"/> 
+          <!-- G --> 
+          <FlameTrap Height="10" Width="10" X="40.0"  Y="190.0"/> 
+          <Floor Height="10" Width="10" X="50.0"  Y="190.0"/> 
+          <Floor Height="10" Width="10" X="60.0"  Y="190.0"/> 
+          <Floor Height="10" Width="10" X="70.0"  Y="190.0"/>  
+          <FlameTrap Height="10" Width="10" X="80.0"  Y="190.0"/> 
+          <Floor Height="10" Width="10" X="90.0"  Y="190.0"/> 
+          <!-- G -->  
+          <Floor Height="10" Width="10" X="100.0" Y="190.0"/>
+          <!-- G -->
+          <Floor Height="10" Width="10" X="110.0" Y="190.0"/>  
+          <!-- G -->
+          <Floor Height="10" Width="10" X="120.0" Y="190.0"/> 
+          <!-- G -->
+          <Floor Height="10" Width="10" X="130.0" Y="190.0"/> 
+          <FlameTrap Height="10" Width="10" X="140.0" Y="190.0"/>
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="150.0" Y="190.0"/>  
+          <!-- G --> 
+          <Floor Height="10" Width="10" X="160.0" Y="190.0"/>
+          <Floor Height="10" Width="10" X="170.0" Y="190.0"/>  
+          <!-- G -->  
+          <Floor Height="10" Width="10" X="180.0" Y="190.0"/>
+          <!-- G -->
+          <Floor Height="10" Width="10" X="190.0" Y="190.0"/> 
+          <!-- G --> 
+        </Vector>
+      </Tiles>
+    </Map>
+    
+  <Creatures>
+    <Vector>
+     <Orc CurrentEnergy="10" CurrentHealth="10000" Gold="20" X="25" Y="25" Behaviour="dungeon.ai.SimpleUtilBehaviour">
+      </Orc> 
+    </Vector>
+  </Creatures>
+  
+  <Treasure>
+    <Vector>
+      <Gold Worth="10" X="85"  Y="5"/>
+      <Gold Worth="10" X="15"  Y="15"/> 
+      <Gold Worth="10" X="75"  Y="15"/> 
+      <Gold Worth="10" X="105" Y="25"/>
+      <Gold Worth="10" X="115" Y="25"/>
+      <Gold Worth="10" X="125" Y="25"/>
+      <Gold Worth="10" X="185" Y="25"/>
+      <Gold Worth="10" X="5"   Y="35"/>
+      <Gold Worth="10" X="25"  Y="35"/>
+      <Gold Worth="10" X="35"  Y="35"/> 
+      <Gold Worth="10" X="125" Y="35"/> 
+      <Gold Worth="10" X="165" Y="35"/> 
+      <Gold Worth="10" X="175" Y="35"/> 
+      <Gold Worth="10" X="185" Y="35"/> 
+      <Gold Worth="10" X="195" Y="35"/>
+      <Gold Worth="10" X="65"  Y="65"/> 
+      <Gold Worth="10" X="165" Y="45"/>
+      <Gold Worth="10" X="185" Y="45"/>
+      <Gold Worth="10" X="15"  Y="55"/>
+      <Gold Worth="10" X="185" Y="55"/>
+      <Gold Worth="10" X="55"  Y="65"/> 
+      <Gold Worth="10" X="65"  Y="65"/>
+      <Gold Worth="10" X="125" Y="65"/>
+      <Gold Worth="10" X="155" Y="65"/>  
+      <Gold Worth="10" X="5"   Y="75"/>
+      <Gold Worth="10" X="75"  Y="75"/>  
+      <Gold Worth="10" X="185" Y="75"/>  
+      <Gold Worth="10" X="15"  Y="85"/>
+      <Gold Worth="10" X="35"  Y="85"/>  
+      <Gold Worth="10" X="55"  Y="85"/>
+      <Gold Worth="10" X="125" Y="85"/>
+      <Gold Worth="10" X="145" Y="85"/>
+      <Gold Worth="10" X="155" Y="85"/>
+      <Gold Worth="10" X="165" Y="85"/>
+      <Gold Worth="10" X="75"  Y="95"/>
+      <Gold Worth="10" X="95"  Y="95"/>   
+      <Gold Worth="10" X="45"  Y="105"/>
+      <Gold Worth="10" X="75"  Y="105"/> 
+      <Gold Worth="10" X="155" Y="105"/>  
+      <Gold Worth="10" X="15"  Y="115"/>
+      <Gold Worth="10" X="35"  Y="115"/> 
+      <Gold Worth="10" X="45"  Y="115"/> 
+      <Gold Worth="10" X="75"  Y="115"/>
+      <Gold Worth="10" X="115" Y="115"/> 
+      <Gold Worth="10" X="135" Y="115"/> 
+      <Gold Worth="10" X="195" Y="125"/> 
+      <Gold Worth="10" X="5"   Y="135"/>
+      <Gold Worth="10" X="55"  Y="135"/>
+      <Gold Worth="10" X="85"  Y="135"/>  
+      <Gold Worth="10" X="115" Y="135"/>
+      <Gold Worth="10" X="125" Y="135"/>
+      <Gold Worth="10" X="55"  Y="145"/>
+      <Gold Worth="10" X="175" Y="155"/>  
+      <Gold Worth="10" X="185" Y="155"/>
+      <Gold Worth="10" X="195" Y="155"/> 
+      <Gold Worth="10" X="25"  Y="165"/>
+      <Gold Worth="10" X="35"  Y="165"/>  
+      <Gold Worth="10" X="45"  Y="165"/>
+      <Gold Worth="10" X="95"  Y="165"/>
+      <Gold Worth="10" X="175" Y="165"/>
+      <Gold Worth="10" X="65"  Y="175"/>
+      <Gold Worth="10" X="75"  Y="175"/>
+      <Gold Worth="10" X="5"   Y="185"/>
+      <Gold Worth="10" X="45"  Y="185"/>
+      <Gold Worth="10" X="145" Y="185"/>
+      <Gold Worth="10" X="155"  Y="185"/>
+      <Gold Worth="10" X="195" Y="185"/>
+      <Gold Worth="10" X="25"  Y="195"/>
+      <Gold Worth="10" X="35" Y="195"/>
+      <Gold Worth="10" X="95"  Y="195"/>
+      <Gold Worth="10" X="105" Y="195"/>
+      <Gold Worth="10" X="115"  Y="195"/>
+      <Gold Worth="10" X="125" Y="195"/>
+      <Gold Worth="10" X="145"  Y="195"/>
+      <Gold Worth="10" X="155" Y="195"/>
+      <Gold Worth="10" X="175" Y="195"/>
+      <Gold Worth="10" X="185"  Y="195"/>
+      <Gold Worth="10" X="195" Y="195"/>
+    </Vector>
+  </Treasure>
+  </Game>

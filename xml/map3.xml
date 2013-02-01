@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Game Name="map3" Tournament="true">
+<!-- Map -->
+    <Map>
+      <Tiles>
+        <Vector>
+          <Floor Height="80" Width="70" X="0.0"   Y="20.0" />  
+          <Floor Height="70" Width="80" X="100.0" Y="130.0"/>  
+          <Floor Height="80" Width="80" X="100.0" Y="20.0" />  
+          
+          <Floor Height="20" Width="20" X="160" Y="0.0"/>  
+          <Floor Height="20" Width="20" X="180" Y="0.0"/>  
+          <Floor Height="20" Width="20" X="180" Y="20"/> 
+          
+          <Floor Height="20" Width="30" X="70.0"  Y="20.0" />  
+          <Floor Height="30" Width="20" X="160.0" Y="100.0"/>     
+          
+          <Floor Height="20" Width="30" X="70.0" Y="170.0"/>    
+          <Floor Height="30" Width="20" X="10.0"  Y="100.0"/>   
+                    
+          <FlameTrap Height="20" Width="10" X="70.0"  Y="80.0"/>   
+          <FlameTrap Height="10" Width="20" X="100.0" Y="120.0"/> 
+          
+          <Floor Height="20" Width="20" X="80.0" Y="80.0"/> 
+          <Floor Height="20" Width="20" X="100.0" Y="100.0"/>  
+          
+          <Floor Height="35" Width="35" X="0.0"  Y="130.0"/> 
+          <Floor Height="35" Width="35" X="35.0" Y="165.0"/> 
+
+          <Pit   Height="20" Width="20" X="140.0" Y="0.0" />  
+          <Pit   Height="20" Width="20" X="180.0" Y="40.0" />   
+        </Vector>
+      </Tiles>
+    </Map>
+<!-- Treasure -->    
+    <Treasure>
+      <Vector>
+        <Gold Worth="6"   X="20"  Y="120"/>
+        <Gold Worth="6"   X="80" Y="180"/> 
+        
+        <Gold Worth="10"  X="60"  Y="90"/>
+        <Gold Worth="10"  X="110" Y="140"/>
+        
+        <Potion Type="0" X="185" Y="5"/>
+        <Potion Type="0" X="195" Y="5"/>
+        <Potion Type="0" X="185" Y="15"/>
+        <Potion Type="0" X="195" Y="15"/>
+        
+        <Potion Type="0" X="10" Y="30"/>
+        <Potion Type="0" X="170" Y="190"/>
+        
+        <Gold Worth="20"  X="90" Y="30"/>
+        <Gold Worth="20"  X="170" Y="110"/>
+        
+        <Gold Worth="100" X="110" Y="120"/>
+        <Gold Worth="100" X="80"  Y="90" />
+        
+        <Gold Worth="15"   X="110" Y="90"/> 
+       </Vector>
+    </Treasure>
+<!-- Factions -->
+  <Factions> 
+    <Vector>
+     <Faction Name="yellow" Behaviour="dungeon.ai.collinson.STFBehaviour"/> 
+     <Faction Name="blue"   Behaviour="dungeon.ai.collinson.STFBehaviour"/> 
+    </Vector> 
+   </Factions>  
+<!-- Creature -->    
+  <Creatures>
+    <Vector>
+      <!-- Yellow Ogre -->
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="20" Y="160" Behaviour="dungeon.ai.DefaultBehaviour" Faction="yellow">
+        <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Ogre >
+      
+      <!-- Yellow Ogre 2 -->
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="170" Y="120" Behaviour="dungeon.ai.DefaultBehaviour" Faction="yellow">
+        <Attacks><Vector><Sword/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Ogre >
+    
+      <!-- Yellow Orc -->
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="0" X="10" Y="150" Behaviour="dungeon.ai.DefaultBehaviour" Faction="yellow">
+        <Attacks><Vector><Smash/><Dagger/><Longbow/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Orc> 
+      
+    <!-- Yellow Orc 2-->
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="10" X="90" Y="175" Behaviour="dungeon.ai.DefaultBehaviour" Faction="yellow">
+        <Attacks><Vector><Smash/><Dagger/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Orc> 
+      
+      <!-- Blue Ogre -->
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="40" Y="180" Behaviour="dungeon.ai.DefaultBehaviour" Faction="blue">
+        <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Ogre >
+      
+       <!-- Blue Ogre 2 -->
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="80" Y="30" Behaviour="dungeon.ai.DefaultBehaviour" Faction="blue">
+        <Attacks><Vector><Sword/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Ogre >
+
+
+      <!-- Blue Orc -->
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="0" X="50" Y="190" Behaviour="dungeon.ai.DefaultBehaviour" Faction="blue">
+        <Attacks><Vector><Smash/><Dagger/><Longbow/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Orc> 
+      
+            <!-- Blue Orc 2 -->
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="10" X="25" Y="110" Behaviour="dungeon.ai.DefaultBehaviour" Faction="blue">
+        <Attacks><Vector><Smash/><Dagger/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Orc> 
+
+    </Vector>
+  </Creatures>  
+</Game>

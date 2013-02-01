@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Game Name="simple">
+    <Map>
+      <Tiles>
+        <Vector>
+          <Floor Height="50" Width="50" X="0.0" Y="0.0"/>
+         </Vector>
+      </Tiles>
+    </Map>
+  <Creatures>
+    <Vector>
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="25" Y="25" Behaviour="dungeon.ai.DefaultBehaviour">
+        <Attacks><Vector><Smash/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Orc>
+    </Vector>
+  </Creatures>
+  <Treasure>
+    <Vector>
+      <Gold Worth="10" X="23" Y="17"/>
+      <Gold Worth="20" X="5" Y="37"/>
+      <Gold Worth="30" X="42" Y="11"/>
+      <Gold Worth="40" X="45" Y="29"/>
+      <Potion Type="0" X="3" Y="5"/>
+    </Vector>
+  </Treasure>
+  </Game>

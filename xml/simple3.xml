@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Game Name="simple">
+    <Map>
+      <Tiles>
+        <Vector>
+          <Floor Height="50" Width="50" X="0.0" Y="0.0"/>
+          <Floor Height="10" Width="25" X="50.0" Y="0.0"/>
+          <Floor Height="50" Width="50" X="75.0" Y="0.0"/>
+          <Floor Height="25" Width="10" X="80.0" Y="50.0"/>
+          <Floor Height="50" Width="50" X="75.0" Y="75.0"/>
+         </Vector>
+      </Tiles>
+    </Map>
+  <Creatures>
+    <Vector>
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="25" Y="25" Behaviour="dungeon.ai.DefaultBehaviour">
+        <Attacks><Vector><Smash/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Orc>
+    </Vector>
+  </Creatures>
+  <Treasure>
+    <Vector>
+      <Gold Worth="20" X="5" Y="37"/>
+      <Potion Type="0" X="3" Y="5"/>
+      <Gold Worth="20" X="60" Y="5"/>
+      <Gold Worth="20" X="80" Y="10"/>
+      <Gold Worth="20" X="100" Y="35"/>
+      <Gold Worth="20" X="120" Y="45"/>
+      <Gold Worth="50" X="100" Y="100"/>
+
+    </Vector>
+  </Treasure>
+  </Game>
