@@ -88,25 +88,27 @@ public class NewBehaviour implements Behaviour
   {
     if (fCreature.getGoal() == null)
     {
-      Rectangle2D bounds = null; // where to look for new goal
+      Rectangle2D bounds = getBounds(fCreature, game); // where to look for new goal
 
-      if (NewBehaviour.KEEP_TO_ROOMS)
-      {
-        Tile tile = game.getMap().getTileAt(fCreature.getLocation());
-        bounds = tile.getArea();
-      }
-      else
-      {
-        bounds = game.getMap().getBounds(0);
-      }
-
-      double x = bounds.getX() + (bounds.getWidth() * fRandom.nextDouble());
-      double y = bounds.getY() + (bounds.getHeight() * fRandom.nextDouble());
-      Point2D goal_pt = new Point2D.Double(x, y);
+      Point2D goal_pt = findGoal(bounds, game);
 
       if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
         fCreature.setGoal(goal_pt, game);
     }
+  }
+
+  private Point2D findGoal(Rectangle2D bounds, Game game)
+  {
+    double x = bounds.getX() + (bounds.getWidth() * fRandom.nextDouble());
+    double y = bounds.getY() + (bounds.getHeight() * fRandom.nextDouble());
+    return new Point2D.Double(x, y);
+  }
+
+  private Rectangle2D getBounds(Creature fCreature, Game game) {
+    if (NewBehaviour.KEEP_TO_ROOMS)
+      return game.getMap().getTileAt(fCreature.getLocation()).getArea();
+    else
+      return game.getMap().getBounds(0);
   }
 
   private boolean tryRandomMovement(Creature fCreature, Game game)
