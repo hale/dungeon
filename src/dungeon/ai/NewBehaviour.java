@@ -93,7 +93,7 @@ public class NewBehaviour implements Behaviour
     Point2D goal_pt = achievableTreasureLocation(fCreature, bounds, game);
 
     if (goal_pt == null)
-      goal_pt = nearestRoomLocation(fCreature, game);
+      goal_pt = nextRoomLocation(fCreature, game);
 
     if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
       fCreature.setGoal(goal_pt, game);
@@ -127,7 +127,7 @@ public class NewBehaviour implements Behaviour
     return null;
   }
 
-  private Point2D nearestRoomLocation(Creature fCreature, Game game)
+  private Point2D nextRoomLocation(Creature fCreature, Game game)
   {
     Tile currentTile = game.getMap().getTileAt(fCreature.getLocation());
     for (Tile tile : game.getMap().getTiles()) {
@@ -135,6 +135,12 @@ public class NewBehaviour implements Behaviour
         return currentTile.getTouchPoint(tile);
     }
     return null;
+  }
+
+  private Point2D nextUnvisitedRoomLocation(Creature fCreature, Game game)
+  {
+    // TODO: use a list of unvisited rooms
+    return nextRoomLocation(fCreature, game);
   }
 
 
