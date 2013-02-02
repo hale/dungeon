@@ -13,8 +13,8 @@
   <build>
     <directory>${basedir}/dist/</directory> <!-- output directory for build -->
     <sourceDirectory>src</sourceDirectory>
-    <plugins>
 
+    <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -37,23 +37,11 @@
           <mainClass>dungeon.App</mainClass>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
 
   <reporting>
     <outputDirectory>${basedir}/dist/</outputDirectory>
-<!--    <plugins>-->
-      <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-javadoc-plugin</artifactId>-->
-        <!--<version>2.9</version>-->
-        <!--<configuration>-->
-          <!--<reportOutputDirectory>${project.reporting.outputDirectory}/myoutput</reportOutputDirectory>-->
-          <!--<destDir>dist</destDir>-->
-        <!--</configuration>-->
-      <!--</plugin>-->
-    <!--</plugins>-->
   </reporting>
 
 
