@@ -106,7 +106,7 @@ public class NewBehaviour implements Behaviour
 
   private Point2D firstTreasureLocation(Game game)
   {
-    return game.getTreasure().get(0).getLocation();
+    return game.getTreasure().firstElement().getLocation();
   }
 
   private Rectangle2D getBounds(Creature fCreature, Game game) {
