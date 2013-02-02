@@ -72,15 +72,11 @@ public class NewBehaviour implements Behaviour
   boolean move(Game game)
   {
     updateGoal(fCreature, game);
-
     boolean moved = false;
-
     if (fCreature.getGoal() != null)
       moved = fCreature.moveToGoal(game);
-
     if (!moved)
       moved = tryRandomMovement(fCreature, game);
-
     return moved;
   }
 
