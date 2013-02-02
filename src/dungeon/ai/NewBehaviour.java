@@ -12,6 +12,8 @@ import dungeon.model.items.mobs.Creature;
 import dungeon.model.structure.Tile;
 
 import dungeon.collections.TreasureList;
+import dungeon.model.items.treasure.Treasure;
+import dungeon.model.items.Item;
 
 
 /**
@@ -34,74 +36,65 @@ public class NewBehaviour implements Behaviour
 
   static final boolean KEEP_TO_ROOMS = true;
 
-   /* (non-Javadoc)
-   * @see dungeon.ai.Behaviour#onTick(dungeon.model.Game)
-   */
+  /* TICKS */
+
   public boolean onTick(Game game)
   {
     boolean hasActed = tryActions(fCreature, game);
-
     if (!hasActed)
       return move(game);
-
     return false;
   }
+
+  public boolean deathTick(Game game) {
+    return false;
+  }
+
+  public boolean gameOverTick(Game game) {
+    return false;
+  }
+
+  /* ACTIONS */
 
   private boolean tryActions(Creature fCreature, Game game)
   {
     if (ActionAttack.performAction(fCreature, game))
       return true;
-
     if (ActionPickUp.performAction(fCreature, game))
       return true;
-
     if (ActionDoor.performAction(fCreature, game))
       return true;
-
     return false;
   }
 
-  /**
-   * Make the creature move, dictated by its goal
-   * <BR>
-   * <UL>
-   * <LI>If the creature has no goal, it will set one</LI>
-   * <LI>The creature will then attempt to walk towards its goal</LI>
-   * <LI>If it cannot, it will attempt to take a step in a random direction</LI>
-   * </UL>
-   * @param game The current game state
-   * @return Returns true if the creature moved; false otherwise
-   */
+  /* MOVEMENT */
+
   boolean move(Game game)
   {
     updateGoal(fCreature, game);
+
     boolean moved = false;
-    if (fCreature.getGoal() != null)
+    if (fCreature.hasGoal())
       moved = fCreature.moveToGoal(game);
     if (!moved)
-      moved = tryRandomMovement(fCreature, game);
+      moved = takeRandomStep(fCreature, game);
     return moved;
   }
 
   private void updateGoal(Creature fCreature, Game game)
   {
-    if (fCreature.getGoal() == null)
-    {
-      Rectangle2D bounds = getBounds(fCreature, game); // where to look for new goal
+    if (fCreature.hasGoal())
+      return;
 
-      Point2D goal_pt = firstTreasure(game);
+    Rectangle2D bounds = getBounds(fCreature, game);
+    Point2D goal_pt = randomLocation(bounds, game);
 
-
-      if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
-        fCreature.setGoal(goal_pt, game);
-    }
+    if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
+      fCreature.setGoal(goal_pt, game);
   }
 
-  private Point2D firstPossibleTreasure(Creature fCreature, Game game)
-  {
-    TreasureList tl = game.getTreasure();
-    return tl.get(0).getLocation();
-  }
+
+  /* GOAL DETERMINATION */
 
   private Point2D randomLocation(Rectangle2D bounds, Game game)
   {
@@ -110,12 +103,33 @@ public class NewBehaviour implements Behaviour
     return new Point2D.Double(x, y);
   }
 
-  private Point2D firstTreasure(Game game)
+  private Point2D treasureLocation(Rectangle2D bounds, Game game)
   {
-    if (game.getTreasure().isEmpty())
-      return randomLocation(getBounds(fCreature, game), game);
+    for (Treasure treasure : game.getTreasure())
+    {
+      if (withinBounds(treasure, bounds))
+        return treasure.getLocation();
+    }
+    return randomLocation(bounds, game);
+  }
 
-    return game.getTreasure().firstElement().getLocation();
+  private Point2D achievableTreasureLocation(Creature fCreature, Rectangle2D bounds, Game game)
+  {
+    for (Treasure treasure : game.getTreasure()) {
+      if (inSameRoom(fCreature, treasure, game))
+        if (canCarryTreasure(fCreature, treasure, game))
+          return treasure.getLocation();
+    }
+    return randomLocation(getBounds(fCreature, game), game);
+  }
+
+
+  /* UTILITY */
+
+  private boolean takeRandomStep(Creature fCreature, Game game)
+  {
+    double theta = fRandom.nextDouble() * Math.PI * 2;
+    return fCreature.move(theta, game);
   }
 
   private Rectangle2D getBounds(Creature fCreature, Game game) {
@@ -125,20 +139,32 @@ public class NewBehaviour implements Behaviour
       return game.getMap().getBounds(0);
   }
 
-  private boolean tryRandomMovement(Creature fCreature, Game game)
+  private boolean withinBounds(Item item, Rectangle2D bounds)
   {
-    double theta = fRandom.nextDouble() * Math.PI * 2;
-    return fCreature.move(theta, game);
-  }
-
-
-  public boolean deathTick(Game game) {
-    // TODO Auto-generated method stub
+    if (bounds.contains(item.getLocation().getX(), item.getLocation().getY()))
+      return true;
     return false;
   }
 
-  public boolean gameOverTick(Game game) {
-    // TODO Auto-generated method stub
+  private boolean inSameRoom(Item item_1, Item item_2, Game game)
+  {
+    Tile item_one_tile = game.getMap().getTileAt(item_1.getLocation());
+    Tile item_two_tile = game.getMap().getTileAt(item_2.getLocation());
+
+    if (item_one_tile.getID() == item_two_tile.getID())
+      return true;
     return false;
   }
+
+  private boolean canCarryTreasure(Creature fCreature, Treasure treasure, Game game)
+  {
+    double t_weight = treasure.getWeight();
+    double encumbrance = fCreature.getEncumbrance();
+    int strength = fCreature.getStrength();
+
+    if (encumbrance + t_weight < strength)
+      return true;
+    return false;
+  }
+
 }
