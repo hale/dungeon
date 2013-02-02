@@ -90,18 +90,23 @@ public class NewBehaviour implements Behaviour
     {
       Rectangle2D bounds = getBounds(fCreature, game); // where to look for new goal
 
-      Point2D goal_pt = findGoal(bounds, game);
+      Point2D goal_pt = firstTreasureLocation(game);
 
       if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
         fCreature.setGoal(goal_pt, game);
     }
   }
 
-  private Point2D findGoal(Rectangle2D bounds, Game game)
+  private Point2D randomLocation(Rectangle2D bounds, Game game)
   {
     double x = bounds.getX() + (bounds.getWidth() * fRandom.nextDouble());
     double y = bounds.getY() + (bounds.getHeight() * fRandom.nextDouble());
     return new Point2D.Double(x, y);
+  }
+
+  private Point2D firstTreasureLocation(Game game)
+  {
+    return game.getTreasure().get(0).getLocation();
   }
 
   private Rectangle2D getBounds(Creature fCreature, Game game) {
