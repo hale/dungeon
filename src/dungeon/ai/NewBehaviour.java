@@ -87,7 +87,7 @@ public class NewBehaviour implements Behaviour
       return;
 
     Rectangle2D bounds = getBounds(fCreature, game);
-    Point2D goal_pt = randomLocation(bounds, game);
+    Point2D goal_pt = achievableTreasureLocation(bounds, game);
 
     if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
       fCreature.setGoal(goal_pt, game);
@@ -113,14 +113,14 @@ public class NewBehaviour implements Behaviour
     return randomLocation(bounds, game);
   }
 
-  private Point2D achievableTreasureLocation(Creature fCreature, Rectangle2D bounds, Game game)
+  private Point2D achievableTreasureLocation(Rectangle2D bounds, Game game)
   {
     for (Treasure treasure : game.getTreasure()) {
       if (inSameRoom(fCreature, treasure, game))
         if (canCarryTreasure(fCreature, treasure, game))
           return treasure.getLocation();
     }
-    return randomLocation(getBounds(fCreature, game), game);
+    return randomLocation(bounds, game);
   }
 
 
