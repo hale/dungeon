@@ -15,6 +15,8 @@ import dungeon.collections.TreasureList;
 import dungeon.model.items.treasure.Treasure;
 import dungeon.model.items.Item;
 
+import dungeon.App;
+
 
 /**
  * Class providing default behaviour for Creature mobs
@@ -87,12 +89,17 @@ public class NewBehaviour implements Behaviour
       return;
 
     Rectangle2D bounds = getBounds(fCreature, game);
-    Point2D goal_pt = achievableTreasureLocation(bounds, game);
+
+    Point2D goal_pt = achievableTreasureLocation(fCreature, bounds, game);
+
+    if (goal_pt == null)
+      goal_pt = nearestRoomLocation(fCreature, game);
 
     if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
       fCreature.setGoal(goal_pt, game);
-  }
 
+    return;
+  }
 
   /* GOAL DETERMINATION */
 
@@ -106,21 +113,28 @@ public class NewBehaviour implements Behaviour
   private Point2D treasureLocation(Rectangle2D bounds, Game game)
   {
     for (Treasure treasure : game.getTreasure())
-    {
       if (withinBounds(treasure, bounds))
         return treasure.getLocation();
-    }
     return randomLocation(bounds, game);
   }
 
-  private Point2D achievableTreasureLocation(Rectangle2D bounds, Game game)
+  private Point2D achievableTreasureLocation(Creature fCreature, Rectangle2D bounds, Game game)
   {
     for (Treasure treasure : game.getTreasure()) {
-      if (inSameRoom(fCreature, treasure, game))
-        if (canCarryTreasure(fCreature, treasure, game))
-          return treasure.getLocation();
+      if (isAchievable(treasure, fCreature, bounds, game))
+        return treasure.getLocation();
     }
-    return randomLocation(bounds, game);
+    return null;
+  }
+
+  private Point2D nearestRoomLocation(Creature fCreature, Game game)
+  {
+    Tile currentTile = game.getMap().getTileAt(fCreature.getLocation());
+    for (Tile tile : game.getMap().getTiles()) {
+      if (currentTile.touches(tile))
+        return currentTile.getTouchPoint(tile);
+    }
+    return null;
   }
 
 
@@ -166,5 +180,18 @@ public class NewBehaviour implements Behaviour
       return true;
     return false;
   }
+
+  private boolean isAchievable(Treasure treasure, Creature fCreature, Rectangle2D bounds, Game game)
+  {
+    if (withinBounds(treasure, bounds)) {
+      if (inSameRoom(fCreature, treasure, game)) {
+        if (canCarryTreasure(fCreature, treasure, game)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
 
 }
