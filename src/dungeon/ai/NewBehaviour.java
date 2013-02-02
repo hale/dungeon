@@ -11,6 +11,9 @@ import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
 import dungeon.model.structure.Tile;
 
+import dungeon.collections.TreasureList;
+
+
 /**
  * Class providing default behaviour for Creature mobs
  */
@@ -86,11 +89,18 @@ public class NewBehaviour implements Behaviour
     {
       Rectangle2D bounds = getBounds(fCreature, game); // where to look for new goal
 
-      Point2D goal_pt = firstTreasureLocation(game);
+      Point2D goal_pt = firstTreasure(game);
+
 
       if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
         fCreature.setGoal(goal_pt, game);
     }
+  }
+
+  private Point2D firstPossibleTreasure(Creature fCreature, Game game)
+  {
+    TreasureList tl = game.getTreasure();
+    return tl.get(0).getLocation();
   }
 
   private Point2D randomLocation(Rectangle2D bounds, Game game)
@@ -100,8 +110,11 @@ public class NewBehaviour implements Behaviour
     return new Point2D.Double(x, y);
   }
 
-  private Point2D firstTreasureLocation(Game game)
+  private Point2D firstTreasure(Game game)
   {
+    if (game.getTreasure().isEmpty())
+      return randomLocation(getBounds(fCreature, game), game);
+
     return game.getTreasure().firstElement().getLocation();
   }
 

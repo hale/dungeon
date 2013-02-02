@@ -10,7 +10,7 @@
     </Map>
   <Creatures>
     <Vector>
-      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="25" Y="25" Behaviour="dungeon.ai.NewBehaviourMC2">
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="25" Y="25" Behaviour="dungeon.ai.NewBehaviour">
         <Attacks><Vector><Smash/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Orc>
