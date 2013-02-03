@@ -3,6 +3,7 @@ package dungeon.ai;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
+import java.util.Stack;
 
 import dungeon.ai.actions.ActionAttack;
 import dungeon.ai.actions.ActionDoor;
@@ -88,12 +89,26 @@ public class NewBehaviour implements Behaviour
     if (fCreature.hasGoal())
       return;
 
-    Rectangle2D bounds = getBounds(fCreature, game);
 
-    Point2D goal_pt = achievableTreasureLocation(fCreature, bounds, game);
+    Rectangle2D bounds = getBounds(fCreature, game);
+    Point2D goal_pt = null;
+
+    if (fCreature.isBacktracking())
+      goal_pt = lastVisitedRoom(fCreature, game);
 
     if (goal_pt == null)
-      goal_pt = nextRoomLocation(fCreature, game);
+      goal_pt = achievableTreasureLocation(fCreature, bounds, game);
+
+    if (goal_pt == null)
+      goal_pt = nextUnvisitedRoomLocation(fCreature, game);
+
+    if (goal_pt == null) {
+      fCreature.setBacktracking(true);
+      goal_pt = lastVisitedRoom(fCreature, game);
+    }
+
+    if (goal_pt == null)
+      goal_pt = randomLocation(bounds, game);
 
     if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
       fCreature.setGoal(goal_pt, game);
@@ -139,8 +154,36 @@ public class NewBehaviour implements Behaviour
 
   private Point2D nextUnvisitedRoomLocation(Creature fCreature, Game game)
   {
-    // TODO: use a list of unvisited rooms
-    return nextRoomLocation(fCreature, game);
+    Tile currentTile = game.getMap().getTileAt(fCreature.getLocation());
+    for (Tile tile : fCreature.getUnvisitedTiles(game)) {
+      if (currentTile.touches(tile))
+      {
+        fCreature.addVisitedTile(currentTile);
+        return tile.getTouchPoint(currentTile);
+      }
+    }
+    fCreature.addVisitedTile(currentTile);
+    return null;
+  }
+
+  private Point2D lastVisitedRoom(Creature fCreature, Game game)
+  {
+    Stack<Tile> visitedTiles = fCreature.getVisitedTiles();
+
+    Tile currentTile = visitedTiles.pop();
+    if (visitedTiles.isEmpty())
+    {
+      fCreature.setBacktracking(false);
+      //fCreature.addVisitedTile(currentTile);
+      return null;
+    }
+
+    Tile previousTile = visitedTiles.pop();
+    if (visitedTiles.isEmpty())
+      fCreature.setBacktracking(false);
+    fCreature.addVisitedTile(currentTile);
+    return previousTile.getTouchPoint(currentTile);
+
   }
 
 
@@ -171,7 +214,7 @@ public class NewBehaviour implements Behaviour
     Tile item_one_tile = game.getMap().getTileAt(item_1.getLocation());
     Tile item_two_tile = game.getMap().getTileAt(item_2.getLocation());
 
-    if (item_one_tile.getID() == item_two_tile.getID())
+    if (item_one_tile.equals(item_two_tile))
       return true;
     return false;
   }
