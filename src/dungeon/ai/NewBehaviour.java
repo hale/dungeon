@@ -89,9 +89,11 @@ public class NewBehaviour implements Behaviour
     if (fCreature.hasGoal())
       return;
 
-
     Rectangle2D bounds = getBounds(fCreature, game);
     Point2D goal_pt = null;
+
+    if (game.getTreasure().isEmpty())
+      goal_pt = randomLocation(bounds, game);
 
     if (fCreature.isBacktracking())
       goal_pt = lastVisitedRoom(fCreature, game);
