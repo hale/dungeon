@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 import java.util.Vector;
+import java.util.Stack;
 
 import org.w3c.dom.Node;
 
@@ -546,6 +547,61 @@ public abstract class Mob extends Item implements Persistent
 
     return moved;//false means we are stuck, can't get to goal
   }
+
+  /**
+   * @return Returns an ordered set of tiles this mob has visited.
+   */
+  public Stack<Tile> getVisitedTiles()
+  {
+    return visitedTiles;
+  }
+  protected Stack<Tile> visitedTiles = new Stack<Tile>();
+
+  /**
+   * @return Returns a list of unvisited tiles.
+   */
+  public Stack<Tile> getUnvisitedTiles(Game game)
+  {
+    Stack<Tile> unvisitedTiles = new Stack<Tile>();
+    unvisitedTiles.addAll(game.getMap().getTiles());
+    unvisitedTiles.removeAll(visitedTiles);
+    return unvisitedTiles;
+  }
+
+  /**
+   * @param tile The tile to be added to the visited tiles list.
+   */
+  public void addVisitedTile(Tile tile)
+  {
+    visitedTiles.add(tile);
+  }
+
+  /**
+   * Reset the visited tiles list.
+   */
+  public void resetVisitedTiles()
+  {
+    visitedTiles.removeAllElements();
+  }
+
+  /**
+   * @return Returns true if the mob is backtracking, false otherwise.
+   */
+  public boolean isBacktracking()
+  {
+    return isBacktracking;
+  }
+  protected boolean isBacktracking = false;
+
+  /**
+   * @param bool Sets the mob to be or not to be backtracking.
+   */
+  public void setBacktracking(boolean bool)
+  {
+    isBacktracking = bool;
+    App.log("backracking: " + bool);
+  }
+
 
 
   /**
