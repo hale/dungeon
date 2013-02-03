@@ -132,4 +132,24 @@ public abstract class Item implements Persistent
     XMLHelper.setDblValue(node, "X", fLocation.getX());
     XMLHelper.setDblValue(node, "Y", fLocation.getY());
   }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    if (obj == this)
+      return true;
+
+    if (obj == null || obj.getClass() != this.getClass())
+      return false;
+
+    Item item = (Item) obj;
+    return fID.equals(item.getID());
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return fID.hashCode();
+  }
+
 }
