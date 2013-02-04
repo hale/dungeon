@@ -15,6 +15,7 @@ import dungeon.model.structure.Tile;
 import dungeon.collections.TreasureList;
 import dungeon.model.items.treasure.Treasure;
 import dungeon.model.items.Item;
+import dungeon.model.items.mobs.Hero;
 
 import dungeon.App;
 
@@ -93,8 +94,12 @@ public class AttackBehaviour implements Behaviour
     Point2D goal_pt = null;
 
     if (goal_pt == null)
+      goal_pt = heroLocation(fCreature, bounds, game);
+
+    if (goal_pt == null)
       goal_pt = randomLocation(bounds, game);
 
+    // TODO: write a public static Point2D CollisionDetection.nearestOccupiablePoint();
     if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
       fCreature.setGoal(goal_pt, game);
 
@@ -108,6 +113,15 @@ public class AttackBehaviour implements Behaviour
     double x = bounds.getX() + (bounds.getWidth() * fRandom.nextDouble());
     double y = bounds.getY() + (bounds.getHeight() * fRandom.nextDouble());
     return new Point2D.Double(x, y);
+  }
+
+  private Point2D heroLocation(Creature fCreature, Rectangle2D bounds, Game game)
+  {
+    Hero hero = game.getHero();
+    if (hero != null)
+      if (withinBounds(hero, bounds))
+        return hero.getLocation();
+    return null;
   }
 
   /* UTILITY */
