@@ -13,7 +13,7 @@
     </Map>
   <Creatures>
     <Vector>
-      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="100" Y="20" Behaviour="dungeon.ai.NewBehaviour">
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="100" Y="20" Behaviour="dungeon.ai.FindTreasureBehaviour">
         <Attacks><Vector><Smash/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Orc>
