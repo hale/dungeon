@@ -11,15 +11,15 @@
     </Map>
   <Creatures>
     <Vector>
-      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="20" X="25" Y="25" Behaviour="dungeon.ai.DefaultBehaviour">
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="20" X="25" Y="25" Behaviour="dungeon.ai.AttackBehaviour">
         <Attacks><Vector><Sword/> <Longbow/> </Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Ogre>
     </Vector>
   </Creatures>
-<Hero CurrentEnergy="100" CurrentHealth="100" Gold="0" X="100" Y="20"> 
-    <Attacks> <Vector> <Sword/>  </Vector> </Attacks> 
-   <Inventory> <Vector/> </Inventory> 
+<Hero CurrentEnergy="100" CurrentHealth="100" Gold="0" X="100" Y="20">
+    <Attacks> <Vector> <Sword/>  </Vector> </Attacks>
+   <Inventory> <Vector/> </Inventory>
 </Hero>
 
   <Treasure>
