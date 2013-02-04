@@ -9,43 +9,43 @@ import dungeon.utils.Persistent;
  */
 public class Longbow extends Attack implements Persistent
 {
-	public String getName()
-	{
-		return "Longbow";
-	}
-	
-	public int getEnergyCost()
-	{
-		return 50;
-	}
-	
-	public int getMinRange()
-	{
-		return 3;
-	}
-	
-	public int getMaxRange()
-	{
-		return 10;
-	}
-	
-	public int getToHit()
-	{
-		return 3;
-	}
-	
-	public int getDamage()
-	{
-		return 20;
-	}
+  public String getName()
+  {
+    return "Longbow";
+  }
 
-	public void load(Node node)
-	{
-		super.load(node);
-	}
+  public int getEnergyCost()
+  {
+    return 50;
+  }
 
-	public void save(Node node)
-	{
-		super.save(node);
-	}
+  public int getMinRange()
+  {
+    return 3;
+  }
+
+  public int getMaxRange()
+  {
+    return 10;
+  }
+
+  public int getToHit()
+  {
+    return 3;
+  }
+
+  public int getDamage()
+  {
+    return 20;
+  }
+
+  public void load(Node node)
+  {
+    super.load(node);
+  }
+
+  public void save(Node node)
+  {
+    super.save(node);
+  }
 }
