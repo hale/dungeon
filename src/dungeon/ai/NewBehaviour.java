@@ -132,7 +132,7 @@ public class NewBehaviour implements Behaviour
     for (Treasure treasure : game.getTreasure())
       if (withinBounds(treasure, bounds))
         return treasure.getLocation();
-    return randomLocation(bounds, game);
+    return null;
   }
 
   private Point2D achievableTreasureLocation(Creature fCreature, Rectangle2D bounds, Game game)
