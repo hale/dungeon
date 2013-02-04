@@ -93,6 +93,7 @@ public class AttackBehaviour implements Behaviour
     Rectangle2D bounds = getBounds(fCreature, game);
     Point2D goal_pt = null;
 
+    // TODO: what about 'next point in direction of hero' instead?
     if (goal_pt == null)
       goal_pt = heroLocation(fCreature, bounds, game);
 
