@@ -51,7 +51,7 @@
   </build>
 
   <reporting>
-    <outputDirectory>${basedir}/dist/</outputDirectory>
+    <!--<outputDirectory>${basedir}/dist/</outputDirectory>-->
   </reporting>
 
 
