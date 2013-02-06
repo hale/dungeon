@@ -11,7 +11,7 @@
   <url>http://maven.apache.org</url>
 
   <build>
-    <directory>${basedir}/dist/</directory> <!-- output directory for build -->
+    <!--<directory>${basedir}/dist/</directory> [> output directory for build <]-->
     <sourceDirectory>src</sourceDirectory>
 
     <plugins>
