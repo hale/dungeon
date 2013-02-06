@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 import java.util.Stack;
+import java.awt.Point;
 
 import dungeon.ai.actions.ActionAttack;
 import dungeon.ai.actions.ActionDoor;
@@ -93,14 +94,12 @@ public class AttackBehaviour implements Behaviour
     Rectangle2D bounds = getBounds(fCreature, game);
     Point2D goal_pt = null;
 
-    // TODO: what about 'next point in direction of hero' instead?
     if (goal_pt == null)
-      goal_pt = heroLocation(fCreature, bounds, game);
+      goal_pt = midpoint(fCreature, game.getHero(), bounds, game);
 
     if (goal_pt == null)
       goal_pt = randomLocation(bounds, game);
 
-    // TODO: write a public static Point2D CollisionDetection.nearestOccupiablePoint();
     if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
       fCreature.setGoal(goal_pt, game);
 
@@ -122,6 +121,19 @@ public class AttackBehaviour implements Behaviour
     if (hero != null)
       if (withinBounds(hero, bounds))
         return hero.getLocation();
+    return null;
+  }
+
+  private Point2D midpoint(Item item_1, Item item_2, Rectangle2D bounds, Game game)
+  {
+    Point2D firstLocation = item_1.getLocation();
+    Point2D secondLocation = item_2.getLocation();
+
+    double midpointX = (firstLocation.getX() + secondLocation.getX()) / 2.0;
+    double midpointY = (firstLocation.getY() + secondLocation.getY()) / 2.0;
+
+    if (bounds.contains(midpointX, midpointY))
+      return new Point2D.Double(midpointX, midpointY);
     return null;
   }
 
