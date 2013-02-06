@@ -3,8 +3,6 @@ package dungeon.ai;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
-import java.util.Stack;
-import java.awt.Point;
 
 import dungeon.ai.actions.ActionAttack;
 import dungeon.ai.actions.ActionDoor;
@@ -13,12 +11,9 @@ import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
 import dungeon.model.structure.Tile;
 
-import dungeon.collections.TreasureList;
 import dungeon.model.items.treasure.Treasure;
 import dungeon.model.items.Item;
 import dungeon.model.items.mobs.Hero;
-
-import dungeon.App;
 
 
 /**
@@ -46,9 +41,17 @@ public class AttackBehaviour implements Behaviour
   public boolean onTick(Game game)
   {
     boolean hasActed = tryActions(fCreature, game);
-    if (!hasActed)
+    if (hasActed)
+      return false;
+
+    if (fCreature.hasGoal())
       return move(game);
-    return false;
+
+    Point2D goal = getGoal(fCreature, game);
+    if (goal !=null && CollisionDetection.canOccupy(game, fCreature, goal))
+      fCreature.setGoal(goal, game);
+
+    return move(game);
   }
 
   public boolean deathTick(Game game) {
@@ -74,36 +77,33 @@ public class AttackBehaviour implements Behaviour
 
   /* MOVEMENT */
 
+  private Point2D getGoal(Creature fCreature, Game game)
+  {
+    Rectangle2D bounds = getBounds(fCreature, game);
+    Point2D goal_pt = null;
+
+    switch (fCreature.getState())
+    {
+      case Idle: goal_pt = fCreature.getLocation();
+        break;
+      case Offensive: goal_pt = midpoint(fCreature, game.getHero(), bounds, game);
+        break;
+      case Defensive: goal_pt = restingSpot(fCreature, bounds, game);
+        break;
+      default: goal_pt = randomLocation(bounds, game);
+    }
+
+    return goal_pt;
+  }
+
   boolean move(Game game)
   {
-    updateGoal(fCreature, game);
-
     boolean moved = false;
     if (fCreature.hasGoal())
       moved = fCreature.moveToGoal(game);
     if (!moved)
       moved = takeRandomStep(fCreature, game);
     return moved;
-  }
-
-  private void updateGoal(Creature fCreature, Game game)
-  {
-    if (fCreature.hasGoal())
-      return;
-
-    Rectangle2D bounds = getBounds(fCreature, game);
-    Point2D goal_pt = null;
-
-    if (goal_pt == null)
-      goal_pt = midpoint(fCreature, game.getHero(), bounds, game);
-
-    if (goal_pt == null)
-      goal_pt = randomLocation(bounds, game);
-
-    if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
-      fCreature.setGoal(goal_pt, game);
-
-    return;
   }
 
   /* GOAL DETERMINATION */

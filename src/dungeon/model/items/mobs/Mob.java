@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.Vector;
 import java.util.Stack;
 
+import com.googlecode.stateless4j.StateMachine;
 import org.w3c.dom.Node;
 
 import dungeon.App;
@@ -27,6 +28,8 @@ import dungeon.model.structure.Door;
 import dungeon.model.structure.Tile;
 import dungeon.utils.Persistent;
 import dungeon.utils.XMLHelper;
+import dungeon.utils.State;
+import dungeon.utils.Trigger;
 
 /**
  * Abstract class to represent any mobile item in the dungeon
@@ -35,6 +38,50 @@ import dungeon.utils.XMLHelper;
  */
 public abstract class Mob extends Item implements Persistent
 {
+
+  /**
+   * Default setup for a Mob's State Machine. Used to control behaviour.
+   */
+  public Mob()
+  {
+    try
+    {
+    fCreatureState.Configure(State.Idle)
+        .Permit(Trigger.EnemyEntersRoom, State.Offensive);
+
+    fCreatureState.Configure(State.Offensive)
+        .Permit(Trigger.EnemyLeavesRoom, State.Idle)
+        .Permit(Trigger.OutOfEnergy, State.Defensive);
+
+    fCreatureState.Configure(State.Defensive)
+        .Permit(Trigger.IsSafe, State.Idle);
+    }
+    catch( Exception e )
+    {
+      System.out.println("Exception raised when configuring mob state machine");
+      System.out.println(e.getMessage());
+      System.out.println(e.getStackTrace());
+    }
+  }
+
+  public State getState()
+  {
+    return fCreatureState.getState();
+  }
+
+  public void fire(Trigger t) throws Exception
+  {
+    fCreatureState.Fire(t);
+  }
+
+  /**
+   * @see StateMachine
+   */
+  public boolean isInState(State s)
+  {
+    return fCreatureState.IsInState(s);
+  }
+
   /**
    * Computer-controlled mobs will not attack other mobs if they are in the same faction
    * @return Returns the mob's faction name
@@ -602,7 +649,14 @@ public abstract class Mob extends Item implements Persistent
     App.log("backracking: " + bool);
   }
 
-
+  /**
+   * State machine for mobs, used to control behaviour.
+   */
+  public StateMachine<State, Trigger> getStateMachine()
+  {
+    return fCreatureState;
+  }
+  StateMachine<State, Trigger> fCreatureState = new StateMachine<State, Trigger>(State.Idle);
 
   /**
    * Draws the mob as a simple filled circle
