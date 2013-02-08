@@ -11,6 +11,10 @@
     </Map>
   <Creatures>
     <Vector>
+        <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="20" X="15" Y="15" Behaviour="dungeon.ai.AttackBehaviour">
+            <Attacks><Vector><Sword/> <Longbow/> </Vector></Attacks>
+            <Inventory><Vector/></Inventory>
+        </Ogre>
       <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="20" X="25" Y="25" Behaviour="dungeon.ai.AttackBehaviour">
         <Attacks><Vector><Sword/> <Longbow/> </Vector></Attacks>
         <Inventory><Vector/></Inventory>

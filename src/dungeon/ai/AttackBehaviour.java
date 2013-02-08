@@ -47,8 +47,8 @@ public class AttackBehaviour implements Behaviour
     boolean hasActed = tryActions(fCreature, game);
     if (hasActed)
       return false;
-    if (fCreature.hasGoal())
-      return move(game);
+//    if (fCreature.hasGoal())
+//      return move(game);
 
     updateState(fCreature, game);
 
