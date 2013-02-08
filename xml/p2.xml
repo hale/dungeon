@@ -17,7 +17,7 @@
       </Ogre>
     </Vector>
   </Creatures>
-<Hero CurrentEnergy="100" CurrentHealth="100" Gold="0" X="100" Y="20">
+<Hero CurrentEnergy="100" CurrentHealth="100000" Gold="0" X="100" Y="20">
     <Attacks> <Vector> <Sword/>  </Vector> </Attacks>
    <Inventory> <Vector/> </Inventory>
 </Hero>

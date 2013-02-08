@@ -46,21 +46,25 @@ public abstract class Mob extends Item implements Persistent
   {
     try
     {
-    fCreatureState.Configure(State.Idle)
+    fCreatureState.Configure(State.Safe)
         .Permit(Trigger.EnemyEntersRoom, State.Offensive);
 
+    fCreatureState.Configure(State.Threatened)
+        .Permit(Trigger.EnemyLeavesRoom, State.Safe);
+
     fCreatureState.Configure(State.Offensive)
-        .Permit(Trigger.EnemyLeavesRoom, State.Idle)
-        .Permit(Trigger.OutOfEnergy, State.Defensive);
+        .SubstateOf(State.Threatened)
+        .Permit(Trigger.InsufficientEnergy, State.Defensive);
 
     fCreatureState.Configure(State.Defensive)
-        .Permit(Trigger.IsSafe, State.Idle);
+        .SubstateOf(State.Threatened)
+        .Permit(Trigger.SufficientEnergy, State.Offensive);
     }
     catch( Exception e )
     {
       System.out.println("Exception raised when configuring mob state machine");
       System.out.println(e.getMessage());
-      System.out.println(e.getStackTrace());
+      System.out.println(e.getStackTrace().toString());
     }
   }
 
@@ -69,9 +73,18 @@ public abstract class Mob extends Item implements Persistent
     return fCreatureState.getState();
   }
 
-  public void fire(Trigger t) throws Exception
+  public void fire(Trigger t)
   {
-    fCreatureState.Fire(t);
+    try
+    {
+      fCreatureState.Fire(t);
+    }
+    catch (Exception e)
+    {
+      System.out.println("Cannot fire event " + t.toString() + " in state " + fCreatureState.getState());
+      System.out.println(e.getMessage());
+      System.out.println(e.getStackTrace().toString());
+    }
   }
 
   /**
@@ -656,7 +669,7 @@ public abstract class Mob extends Item implements Persistent
   {
     return fCreatureState;
   }
-  StateMachine<State, Trigger> fCreatureState = new StateMachine<State, Trigger>(State.Idle);
+  StateMachine<State, Trigger> fCreatureState = new StateMachine<State, Trigger>(State.Safe);
 
   /**
    * Draws the mob as a simple filled circle

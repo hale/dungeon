@@ -1,9 +1,11 @@
 package dungeon.ai;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
+import dungeon.App;
 import dungeon.ai.actions.ActionAttack;
 import dungeon.ai.actions.ActionDoor;
 import dungeon.ai.actions.ActionPickUp;
@@ -14,6 +16,8 @@ import dungeon.model.structure.Tile;
 import dungeon.model.items.treasure.Treasure;
 import dungeon.model.items.Item;
 import dungeon.model.items.mobs.Hero;
+import dungeon.utils.State;
+import dungeon.utils.Trigger;
 
 
 /**
@@ -43,15 +47,17 @@ public class AttackBehaviour implements Behaviour
     boolean hasActed = tryActions(fCreature, game);
     if (hasActed)
       return false;
-
     if (fCreature.hasGoal())
       return move(game);
+
+    updateState(fCreature, game);
 
     Point2D goal = getGoal(fCreature, game);
     if (goal !=null && CollisionDetection.canOccupy(game, fCreature, goal))
       fCreature.setGoal(goal, game);
 
     return move(game);
+
   }
 
   public boolean deathTick(Game game) {
@@ -77,6 +83,17 @@ public class AttackBehaviour implements Behaviour
 
   /* MOVEMENT */
 
+  private void updateState(Creature fCreature, Game game)
+  {
+    if (fCreature.isInState(State.Safe))
+      if (inSameRoom(game.getHero(), fCreature, game))
+        fCreature.fire(Trigger.EnemyEntersRoom);
+
+    if (fCreature.isInState(State.Threatened))
+      if (!inSameRoom(game.getHero(), fCreature, game))
+        fCreature.fire(Trigger.EnemyLeavesRoom);
+  }
+
   private Point2D getGoal(Creature fCreature, Game game)
   {
     Rectangle2D bounds = getBounds(fCreature, game);
@@ -84,11 +101,11 @@ public class AttackBehaviour implements Behaviour
 
     switch (fCreature.getState())
     {
-      case Idle: goal_pt = fCreature.getLocation();
+      case Safe:
         break;
       case Offensive: goal_pt = midpoint(fCreature, game.getHero(), bounds, game);
         break;
-      case Defensive: goal_pt = restingSpot(fCreature, bounds, game);
+      case Defensive: goal_pt = safePlace(bounds);
         break;
       default: goal_pt = randomLocation(bounds, game);
     }
@@ -101,8 +118,6 @@ public class AttackBehaviour implements Behaviour
     boolean moved = false;
     if (fCreature.hasGoal())
       moved = fCreature.moveToGoal(game);
-    if (!moved)
-      moved = takeRandomStep(fCreature, game);
     return moved;
   }
 
@@ -113,15 +128,6 @@ public class AttackBehaviour implements Behaviour
     double x = bounds.getX() + (bounds.getWidth() * fRandom.nextDouble());
     double y = bounds.getY() + (bounds.getHeight() * fRandom.nextDouble());
     return new Point2D.Double(x, y);
-  }
-
-  private Point2D heroLocation(Creature fCreature, Rectangle2D bounds, Game game)
-  {
-    Hero hero = game.getHero();
-    if (hero != null)
-      if (withinBounds(hero, bounds))
-        return hero.getLocation();
-    return null;
   }
 
   private Point2D midpoint(Item item_1, Item item_2, Rectangle2D bounds, Game game)
@@ -135,6 +141,11 @@ public class AttackBehaviour implements Behaviour
     if (bounds.contains(midpointX, midpointY))
       return new Point2D.Double(midpointX, midpointY);
     return null;
+  }
+
+  private Point2D safePlace(Rectangle2D bounds)
+  {
+    return new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
   }
 
   /* UTILITY */
@@ -189,6 +200,15 @@ public class AttackBehaviour implements Behaviour
         }
       }
     }
+    return false;
+  }
+
+  private boolean intEqual(Point2D p1, Point2D p2)
+  {
+    if (p1 == null || p2 == null) return false;
+    if ((int) p1.getX() == (int) p2.getX())
+      if ((int) p1.getY() == (int) p2.getY())
+        return true;
     return false;
   }
 
