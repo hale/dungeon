@@ -2,21 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec652bcb-9467-4c66-ab44-248d1ed79404" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/ai/actions/ActionAttack.java" afterPath="$PROJECT_DIR$/src/dungeon/ai/actions/ActionAttack.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/ai/AttackBehaviour.java" afterPath="$PROJECT_DIR$/src/dungeon/ai/AttackBehaviour.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/model/items/mobs/Mob.java" afterPath="$PROJECT_DIR$/src/dungeon/model/items/mobs/Mob.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/utils/State.java" afterPath="$PROJECT_DIR$/src/dungeon/utils/State.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/utils/Trigger.java" afterPath="$PROJECT_DIR$/src/dungeon/utils/Trigger.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xml/p2.xml" afterPath="$PROJECT_DIR$/xml/p2.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dungeon.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1360237543041" ignored="false" />
-    <file path="/a.java" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1360187304928" ignored="false" />
+    <file path="/Dummy.txt" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1360329496860" ignored="false" />
+    <file path="/a.java" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1360333103037" ignored="false" />
     <file path="/fragment.java" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1360185367179" ignored="false" />
-    <file path="/AttackBehaviour.java" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1360324931933" ignored="false" />
+    <file path="/AttackBehaviour.java" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1360332724216" ignored="false" />
     <file path="/Mob.java" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1360321726810" ignored="false" />
     <file path="/State.java" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1360244104173" ignored="false" />
     <file path="/Trigger.java" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1360244154634" ignored="false" />
@@ -83,16 +77,14 @@
     <favorites_list name="dungeon" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4231003">
+    <splitter split-orientation="horizontal" split-proportion="0.64365834">
       <split-first>
         <leaf>
           <file leaf-file-name="Mob.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/dungeon/model/items/mobs/Mob.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state line="60" column="0" selection-start="1701" selection-end="1701" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="e#15913#15929#0" expanded="true" />
-                  </folding>
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -109,7 +101,7 @@
           <file leaf-file-name="AttackBehaviour.java" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/dungeon/ai/AttackBehaviour.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="127" column="32" selection-start="2920" selection-end="2920" vertical-scroll-proportion="0.0">
+                <state line="105" column="69" selection-start="2429" selection-end="2429" vertical-scroll-proportion="0.5033557">
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="method#deathTick#0;class#AttackBehaviour#0" expanded="false" />
@@ -154,10 +146,8 @@
           <file leaf-file-name="Mob.java" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/dungeon/model/items/mobs/Mob.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="60" column="50" selection-start="1751" selection-end="1751" vertical-scroll-proportion="0.71428573">
-                  <folding>
-                    <element signature="e#15913#15929#0" expanded="true" />
-                  </folding>
+                <state line="60" column="49" selection-start="1750" selection-end="1750" vertical-scroll-proportion="0.4787234">
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -245,7 +235,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1920" />
+    <option name="width" value="1366" />
     <option name="height" value="742" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -669,9 +659,9 @@
     <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager" selected="Application.App">
     <configuration default="false" name="App" type="Application" factoryName="Application" temporary="true">
@@ -725,19 +715,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -763,6 +740,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -855,7 +845,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="742" extended-state="6" />
+    <frame x="0" y="22" width="1366" height="742" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -871,7 +861,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.67105263" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12219851" sideWeight="0.8215434" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1219697" sideWeight="0.8215434" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17845659" sideWeight="0.49076924" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -968,9 +958,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/dungeon/model/combat/Longbow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="2" selection-start="288" selection-end="288" vertical-scroll-proportion="0.42807627">
-          <folding />
-        </state>
+        <state line="19" column="2" selection-start="288" selection-end="288" vertical-scroll-proportion="0.42807627" />
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/googlecode/stateless4j/1.0/stateless4j-1.0-sources.jar!/com/googlecode/stateless4j/StateMachine.java">
@@ -989,23 +977,17 @@
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/googlecode/stateless4j/1.0/stateless4j-1.0-sources.jar!/com/googlecode/stateless4j/conversion/ParameterConversion.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="17" selection-start="119" selection-end="119" vertical-scroll-proportion="0.106132075">
-          <folding />
-        </state>
+        <state line="3" column="17" selection-start="119" selection-end="119" vertical-scroll-proportion="0.106132075" />
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/googlecode/stateless4j/1.0/stateless4j-1.0-sources.jar!/com/googlecode/stateless4j/triggers/TriggerBehaviour.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="22" selection-start="119" selection-end="119" vertical-scroll-proportion="0.13422818">
-          <folding />
-        </state>
+        <state line="4" column="22" selection-start="119" selection-end="119" vertical-scroll-proportion="0.13422818" />
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/googlecode/stateless4j/1.0/stateless4j-1.0-sources.jar!/com/googlecode/stateless4j/triggers/TriggerWithParameters.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="22" selection-start="189" selection-end="189" vertical-scroll-proportion="0.13422818">
-          <folding />
-        </state>
+        <state line="5" column="22" selection-start="189" selection-end="189" vertical-scroll-proportion="0.13422818" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/dungeon/model/combat/Attack.java">
@@ -1025,9 +1007,7 @@
     <entry file="file://$PROJECT_DIR$/src/dungeon/model/items/mobs/Mob.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="60" column="0" selection-start="1701" selection-end="1701" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#15913#15929#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1047,7 +1027,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/dungeon/ai/AttackBehaviour.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="127" column="32" selection-start="2920" selection-end="2920" vertical-scroll-proportion="0.0">
+        <state line="105" column="69" selection-start="2429" selection-end="2429" vertical-scroll-proportion="0.5033557">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#deathTick#0;class#AttackBehaviour#0" expanded="false" />

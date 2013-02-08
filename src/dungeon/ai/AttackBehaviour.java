@@ -53,8 +53,10 @@ public class AttackBehaviour implements Behaviour
     updateState(fCreature, game);
 
     Point2D goal = getGoal(fCreature, game);
+
     if (goal !=null && CollisionDetection.canOccupy(game, fCreature, goal))
-      fCreature.setGoal(goal, game);
+      if(!samePlace(goal, fCreature.getLocation()))
+        fCreature.setGoal(goal, game);
 
     return move(game);
 
@@ -203,11 +205,15 @@ public class AttackBehaviour implements Behaviour
     return false;
   }
 
-  private boolean intEqual(Point2D p1, Point2D p2)
+  private boolean samePlace(Point2D p1, Point2D p2)
   {
     if (p1 == null || p2 == null) return false;
-    if ((int) p1.getX() == (int) p2.getX())
-      if ((int) p1.getY() == (int) p2.getY())
+//    App.log("p1x: " + (int) p1.getX());
+//    App.log("p1y: " + (int) p1.getY());
+//    App.log("p2x: " + (int) p2.getX());
+//    App.log("p2y: " + (int) p2.getY());
+    if (Math.round(p1.getX()) == Math.round(p2.getX()))
+      if (Math.round(p1.getY()) == Math.round(p2.getY()))
         return true;
     return false;
   }
