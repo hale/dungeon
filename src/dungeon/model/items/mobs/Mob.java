@@ -229,6 +229,32 @@ public abstract class Mob extends Item implements Persistent
   Point2D fGoal = null;
 
   /**
+   * @return Returns the next step which the mob should take
+   */
+  public Point2D getNextStep()
+  {
+    // TODO: remove an element from a stack / queue rather than use a single point.
+    return fNextStep;
+  }
+  protected Point2D fNextStep;
+
+  /**
+   * @param step The next step (todo: make it a list, this will become unused)
+   */
+  public void setNextStep(Point2D step)
+  {
+    fNextStep = step;
+  }
+
+  /**
+   * @return Returns true if the mob has a next step, false otherwise
+   */
+  public boolean hasNextStep()
+  {
+    return (fNextStep == null) ? false : true;
+  }
+
+  /**
    * @return Returns the amount of gold carried by the mob
    */
   public int getGold()
@@ -576,33 +602,24 @@ public abstract class Mob extends Item implements Persistent
     return false;//false means we are stuck, can't get to goal
   }
 
-  /** Move towards the goal.  If goal is reached, set it to null.
+  /** Move towards the next step towards the goal.  If goal is reached, set it to null.
    * If no goal, do nothing
    * @param game
    * @return Returns true if the mob moved; false otherwise
    */
   public boolean moveToGoal(Game game) {
-    if (getGoal() == null)
+    if (fNextStep == null)
       return false;
-    // Are we there yet?
-    //this check in case we had just repositioned, and we are already on goal
-    double distance = getLocation().distance(getGoal());
-    //		if (distance < 1.5*getSpeed())
-    //		{		setGoal(null, null);
-    //		return false;
-    //	}
-    double dx = getGoal().getX() - getLocation().getX();
-    double dy = getGoal().getY() - getLocation().getY();
+
+    double dx = fNextStep.getX() - getLocation().getX();
+    double dy = fNextStep.getY() - getLocation().getY();
     double theta = Math.atan2(dx, dy);
 
     boolean moved = move(theta, game);
-    //		if (moved)
-    //		{
     // Are we there yet?
-    distance = getLocation().distance(getGoal());
+    double distance = getLocation().distance(fNextStep);
     if (distance < 1.5*getSpeed())
       setGoal(null, null);
-    //		}
 
 
     return moved;//false means we are stuck, can't get to goal

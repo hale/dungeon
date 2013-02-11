@@ -20,6 +20,7 @@ public class SimplePathFind extends PathFind {
 
   public List<Point2D> findPath(Game game, Point2D goal)
   {
+    printMap(game);
     return null;
   }
 

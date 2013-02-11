@@ -49,13 +49,7 @@ public class PathFindBehaviour implements Behaviour
     if (hasActed)
       return false;
 
-    Point2D goal = getGoal(fCreature, game);
-    Point2D step = nextStepToGoal(goal, fCreature, game);
-
-    if (step != null)
-      fCreature.setGoal(step, game);
-
-    return move(game);
+    return move(fCreature, game);
   }
 
   public boolean deathTick(Game game) {
@@ -81,13 +75,29 @@ public class PathFindBehaviour implements Behaviour
 
   /* MOVEMENT */
 
-  boolean move(Game game)
+  boolean move(Creature fCreature, Game game)
   {
+    if (!fCreature.hasGoal())
+      setNewGoal(fCreature, game);
 
-    boolean moved = false;
-    if (fCreature.hasGoal())
-      moved = fCreature.moveToGoal(game);
-    return moved;
+    if (!fCreature.hasNextStep())
+      setNextStep(fCreature.getGoal(), game);
+
+    return fCreature.moveToGoal(game);
+  }
+
+  private void setNewGoal(Creature fCreature, Game game)
+  {
+    Point2D newGoal = getGoal(fCreature, game);
+    // TODO: handle null goal.
+    if (newGoal != null)
+      fCreature.setGoal(newGoal, game);
+  }
+
+  private void setNextStep(Point2D step, Game game)
+  {
+    // TODO: intermediary steps using path finding
+    fCreature.setNextStep(fCreature.getGoal());
   }
 
   private Point2D getGoal(Creature fCreature, Game game)
@@ -119,12 +129,6 @@ public class PathFindBehaviour implements Behaviour
 
   /* PATH FINDING */
 
-  private Point2D nextStepToGoal(Point2D goal, Creature fCreature, Game game)
-  {
-    if (goal == null) return null;
-    // TODO: use path finding to calculate intermediaries.
-    return goal;
-  }
 
   /* UTILITY */
 
