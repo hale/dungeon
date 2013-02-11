@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Game Name="simple">
+    <Map>
+      <Tiles>
+        <Vector>
+          <Floor Height="50" Width="100" X="0.0" Y="0.0"/>
+          <Floor Height="5" Width="5" X="20.0" Y="50.0"/>
+          <Floor Height="5" Width="5" X="70.0" Y="50.0"/>
+          <Floor Height="50" Width="15" X="85.0" Y="50.0"/>
+          <Floor Height="45" Width="85" X="0.0" Y="55.0"/>
+          <Door KeyID="-1" State="2" Height="15" Width="5" X="5" Y="70"/>
+          <Door KeyID="-1" State="2" Height="5" Width="25" X="10" Y="70"/>
+          <Door KeyID="-1" State="2" Height="20" Width="5" X="35" Y="70"/>
+          <Door KeyID="-1" State="2" Height="5" Width="15" X="25" Y="90"/>
+          <Door KeyID="-1" State="2" Height="40" Width="5" X="50" Y="60"/>
+          <Door KeyID="-1" State="2" Height="40" Width="5" X="85" Y="50"/>
+          <Door KeyID="-1" State="2" Height="5" Width="25" X="15" Y="30"/>
+          <Door KeyID="-1" State="2" Height="20" Width="5" X="25" Y="0"/>
+          <Door KeyID="-1" State="2" Height="20" Width="10" X="40" Y="20"/>
+          <Door KeyID="-1" State="2" Height="40" Width="5" X="55" Y="0"/>
+          <Door KeyID="-1" State="2" Height="20" Width="5" X="70" Y="5"/>
+          <Door KeyID="-1" State="2" Height="5" Width="20" X="75" Y="20"/>
+          <Door KeyID="-1" State="2" Height="5" Width="25" X="75" Y="30"/>
+         </Vector>
+      </Tiles>
+    </Map>
+  <Creatures>
+    <Vector>
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.NewDefaultBehaviour">
+        <Attacks><Vector><Smash/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Orc>
+    </Vector>
+  </Creatures>
+  <Treasure>
+    <Vector>
+      <Gold Worth="10" X="23" Y="17"/>
+      <Gold Worth="20" X="5" Y="37"/>
+      <Gold Worth="30" X="42" Y="11"/>
+      <Potion Type="0" X="3" Y="5"/>
+    </Vector>
+  </Treasure>
+  <Hero CurrentEnergy="100" CurrentHealth="100" Gold="0" X="25" Y="85">
+    <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
+    <Inventory><Vector/></Inventory>
+  </Hero>
+  </Game>
