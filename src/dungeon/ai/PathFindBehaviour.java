@@ -97,6 +97,9 @@ public class PathFindBehaviour implements Behaviour
   private void setNextStep(Point2D step, Game game)
   {
     // TODO: intermediary steps using path finding
+    SimplePathFind spf = new SimplePathFind(fCreature);
+    spf.recalcMap(game);
+    spf.printMap(game);
     fCreature.setNextStep(fCreature.getGoal());
   }
 
