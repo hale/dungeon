@@ -50,10 +50,10 @@ public class PathFindBehaviour implements Behaviour
       return false;
 
     Point2D goal = getGoal(fCreature, game);
+    Point2D step = nextStepToGoal(goal, fCreature, game);
 
-    if (goal !=null && CollisionDetection.canOccupy(game, fCreature, goal))
-      if (!samePlace(goal, fCreature.getLocation()))
-        fCreature.setGoal(goal, game);
+    if (step != null)
+      fCreature.setGoal(step, game);
 
     return move(game);
   }
@@ -101,7 +101,11 @@ public class PathFindBehaviour implements Behaviour
     if (goal_pt == null)
       goal_pt = randomLocation(bounds, game);
 
-    return goal_pt;
+    if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
+      if (!samePlace(goal_pt, fCreature.getLocation()))
+        return goal_pt;
+
+    return null;
   }
 
   /* GOAL DETERMINATION */
@@ -111,6 +115,15 @@ public class PathFindBehaviour implements Behaviour
     double x = bounds.getX() + (bounds.getWidth() * fRandom.nextDouble());
     double y = bounds.getY() + (bounds.getHeight() * fRandom.nextDouble());
     return new Point2D.Double(x, y);
+  }
+
+  /* PATH FINDING */
+
+  private Point2D nextStepToGoal(Point2D goal, Creature fCreature, Game game)
+  {
+    if (goal == null) return null;
+    // TODO: use path finding to calculate intermediaries.
+    return goal;
   }
 
   /* UTILITY */
