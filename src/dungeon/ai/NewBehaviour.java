@@ -44,9 +44,16 @@ public class NewBehaviour implements Behaviour
   public boolean onTick(Game game)
   {
     boolean hasActed = tryActions(fCreature, game);
-    if (!hasActed)
-      return move(game);
-    return false;
+    if (hasActed)
+      return false;
+
+    Point2D goal = getGoal(fCreature, game);
+
+    if (goal !=null && CollisionDetection.canOccupy(game, fCreature, goal))
+      if (!samePlace(goal, fCreature.getLocation()))
+        fCreature.setGoal(goal, game);
+
+    return move(game);
   }
 
   public boolean deathTick(Game game) {
@@ -74,31 +81,22 @@ public class NewBehaviour implements Behaviour
 
   boolean move(Game game)
   {
-    updateGoal(fCreature, game);
 
     boolean moved = false;
     if (fCreature.hasGoal())
       moved = fCreature.moveToGoal(game);
-    if (!moved)
-      moved = takeRandomStep(fCreature, game);
     return moved;
   }
 
-  private void updateGoal(Creature fCreature, Game game)
+  private Point2D getGoal(Creature fCreature, Game game)
   {
-    if (fCreature.hasGoal())
-      return;
-
     Rectangle2D bounds = getBounds(fCreature, game);
     Point2D goal_pt = null;
 
     if (goal_pt == null)
       goal_pt = randomLocation(bounds, game);
 
-    if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
-      fCreature.setGoal(goal_pt, game);
-
-    return;
+    return goal_pt;
   }
 
   /* GOAL DETERMINATION */
@@ -162,6 +160,15 @@ public class NewBehaviour implements Behaviour
         }
       }
     }
+    return false;
+  }
+
+  private boolean samePlace(Point2D p1, Point2D p2)
+  {
+    if (p1 == null || p2 == null) return false;
+    if (Math.round(p1.getX()) == Math.round(p2.getX()))
+      if (Math.round(p1.getY()) == Math.round(p2.getY()))
+        return true;
     return false;
   }
 
