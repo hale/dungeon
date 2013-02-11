@@ -47,8 +47,6 @@ public class AttackBehaviour implements Behaviour
     boolean hasActed = tryActions(fCreature, game);
     if (hasActed)
       return false;
-//    if (fCreature.hasGoal())
-//      return move(game);
 
     updateState(fCreature, game);
 
@@ -208,10 +206,6 @@ public class AttackBehaviour implements Behaviour
   private boolean samePlace(Point2D p1, Point2D p2)
   {
     if (p1 == null || p2 == null) return false;
-//    App.log("p1x: " + (int) p1.getX());
-//    App.log("p1y: " + (int) p1.getY());
-//    App.log("p2x: " + (int) p2.getX());
-//    App.log("p2y: " + (int) p2.getY());
     if (Math.round(p1.getX()) == Math.round(p2.getX()))
       if (Math.round(p1.getY()) == Math.round(p2.getY()))
         return true;
