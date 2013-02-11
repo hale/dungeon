@@ -15,6 +15,7 @@ public class SimplePathFind extends PathFind {
   public SimplePathFind(Creature creature)
   {
     super(creature);
+    //super.printMap(game);
   }
 
   public List<Point2D> findPath(Game game, Point2D goal)
