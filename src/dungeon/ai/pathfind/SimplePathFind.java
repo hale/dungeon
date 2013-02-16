@@ -2,6 +2,7 @@ package dungeon.ai.pathfind;
 
 import java.awt.geom.Point2D;
 import java.util.List;
+import java.util.ArrayList;
 
 import dungeon.App;
 import dungeon.ai.*;
@@ -15,13 +16,28 @@ public class SimplePathFind extends PathFind {
   public SimplePathFind(Creature creature)
   {
     super(creature);
-    //super.printMap(game);
   }
 
+  @Override
   public List<Point2D> findPath(Game game, Point2D goal)
   {
+    // TODO: intermediary steps using path finding
+    List<Point2D> pathList = new ArrayList<Point2D>();
+    pathList.add(goal);
+    return pathList;
+  }
+
+  public Point2D nextPoint(Point2D currentLocation, Point2D goal_pt, Game game)
+  {
+    List<Point2D> path = findPath(game, goal_pt);
+    if (path.isEmpty()) return null;
+    return path.get(0);
+  }
+
+  public void print(Game game)
+  {
+    recalcMap(game);
     printMap(game);
-    return null;
   }
 
 

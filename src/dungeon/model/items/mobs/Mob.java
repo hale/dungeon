@@ -618,8 +618,13 @@ public abstract class Mob extends Item implements Persistent
     boolean moved = move(theta, game);
     // Are we there yet?
     double distance = getLocation().distance(fNextStep);
+
     if (distance < 1.5*getSpeed())
+    {
+      setNextStep(null);
       setGoal(null, null);
+      App.log("Goal set to null.");
+    }
 
 
     return moved;//false means we are stuck, can't get to goal
