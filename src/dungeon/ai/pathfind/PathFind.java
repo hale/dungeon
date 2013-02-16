@@ -29,7 +29,7 @@ public abstract class PathFind {
     map     = new boolean[xArraySize][yArraySize];
   }
 
-  abstract public List<Point2D> findPath(Game game, Point2D goal);
+  abstract protected List<Point2D> findPath(Game game, Point2D goal);
 
   //print the data from both map arrays
   public void printMap(Game game) {

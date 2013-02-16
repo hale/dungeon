@@ -18,20 +18,19 @@ public class SimplePathFind extends PathFind {
     super(creature);
   }
 
-  @Override
-  public List<Point2D> findPath(Game game, Point2D goal)
-  {
-    // TODO: intermediary steps using path finding
-    List<Point2D> pathList = new ArrayList<Point2D>();
-    pathList.add(goal);
-    return pathList;
-  }
-
   public Point2D nextPoint(Point2D currentLocation, Point2D goal_pt, Game game)
   {
     List<Point2D> path = findPath(game, goal_pt);
     if (path.isEmpty()) return null;
     return path.get(0);
+  }
+
+  @Override
+  protected List<Point2D> findPath(Game game, Point2D goal)
+  {
+    List<Point2D> pathList = new ArrayList<Point2D>();
+    pathList.add(goal);
+    return pathList;
   }
 
   public void print(Game game)

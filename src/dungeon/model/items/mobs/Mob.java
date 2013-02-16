@@ -602,7 +602,7 @@ public abstract class Mob extends Item implements Persistent
     return false;//false means we are stuck, can't get to goal
   }
 
-  /** Move towards the next step towards the goal.  If goal is reached, set it to null.
+  /** Make the next step towards the goal.  If goal is reached, set it to null.
    * If no goal, do nothing
    * @param game
    * @return Returns true if the mob moved; false otherwise
@@ -623,7 +623,6 @@ public abstract class Mob extends Item implements Persistent
     {
       setNextStep(null);
       setGoal(null, null);
-      App.log("Goal set to null.");
     }
 
 

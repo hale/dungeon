@@ -82,8 +82,6 @@ public class PathFindBehaviour implements Behaviour
     if (!fCreature.hasNextStep())
       setNextStep(fCreature.getGoal(), game);
 
-    //App.log("C: " + fCreature.getLocation());
-    //App.log("G: " + fCreature.getNextStep());
     return fCreature.moveToGoal(game);
   }
 
@@ -106,28 +104,13 @@ public class PathFindBehaviour implements Behaviour
 
   private Point2D getGoal(Creature fCreature, Game game)
   {
-    //TODO: maybe not needed
-    if (fCreature.hasGoal())
-      return fCreature.getGoal();
-
     Rectangle2D bounds = getBounds(fCreature, game);
-    Point2D goal_pt = null;
 
-    if (goal_pt == null)
-    {
-      goal_pt = randomLocation(bounds, game);
-      App.log("goal_pt: " + goal_pt);
-    }
+    Point2D goal_pt = randomLocation(bounds, game);
 
     if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
-    {
-      App.log("collision check passed");
       if (!samePlace(goal_pt, fCreature.getLocation()))
-      {
-        App.log("sameplace check passed");
         return goal_pt;
-      }
-    }
 
     App.log("Returning null goal.");
     return null;
