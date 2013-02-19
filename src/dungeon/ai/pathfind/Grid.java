@@ -27,7 +27,8 @@ public class Grid {
   }
 
   /**
-   * Takes Creature paramater because occupiable is specific to an individual creature
+   * Takes Creature paramater because whether a tile is occupiable
+   * depends on the individual creature
    */
   public Grid(Creature fCreature, Game game)
   {
