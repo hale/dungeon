@@ -95,10 +95,9 @@ public class PathFindBehaviour implements Behaviour
 
   private void setNextStep(Point2D step, Game game)
   {
-    SimplePathFind pathFind = new SimplePathFind(fCreature);
+    SimplePathFind pathFind = new SimplePathFind(fCreature, game);
 
-    pathFind.printMap(game);
-    Point2D nextPoint = pathFind.nextPoint(fCreature.getLocation(), fCreature.getGoal(), game);
+    Point2D nextPoint = pathFind.nextPoint(fCreature.getLocation(), fCreature.getGoal());
     fCreature.setNextStep(nextPoint);
   }
 
