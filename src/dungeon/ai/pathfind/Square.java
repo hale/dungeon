@@ -41,8 +41,7 @@ public class Square {
   public void setGridPointY(int index) { this.gridPointY = index; }
 
   private int fCost;
-  public int getFCost() { return fCost; }
-  public void setFCost(int fCost) { this.fCost = fCost; }
+  public int getFCost() { return gScore + hScore; }
 
   private int gScore;
   public int getGScore() { return gScore; }
@@ -51,6 +50,10 @@ public class Square {
   private int hScore;
   public int getHScore() { return hScore; }
   public void setHScore(int hScore) { this.hScore = hScore; }
+
+  private Square parent;
+  public Square getParent() { return parent; }
+  public void setParent(Square parent) { this.parent = parent; }
 
 
 }

@@ -20,11 +20,15 @@ public class Grid {
   double tileSize = 5;              // Tiles are assumed to have a fixed size
   double halfTileSize = tileSize/2;
 
+  Square[][] sqGrid = null;
+
   public Grid()
   {
     tilegrid = new boolean[xArraySize][yArraySize];
     grid     = new boolean[xArraySize][yArraySize];
+    sqGrid   = new Square[xArraySize][yArraySize];
   }
+
 
   /**
    * Takes Creature paramater because whether a tile is occupiable
@@ -34,6 +38,16 @@ public class Grid {
   {
     this();
     recalcGrid(fCreature, game);
+    constructGrid();
+  }
+
+  private void constructGrid()
+  {
+    for (int y = 0; y < yArraySize; y++) {
+      for (int x = 0; x < xArraySize; x++) {
+        sqGrid[x][y] = new Square();
+      }
+    }
   }
 
   //print the data from both grid arrays
