@@ -50,6 +50,7 @@ public class SimplePathFind extends PathFind {
 
   private LinkedList<Square> findPath(Square originSquare, Square goalSquare)
   {
+    System.out.println("\033[3J");
     ArrayList<Square> closedList = new ArrayList<Square>();
 
     // 1. add the starting square to the open list
@@ -61,11 +62,11 @@ public class SimplePathFind extends PathFind {
     // 2. Repeat the following until the open list is empty.
     while (!openList.isEmpty() && !pathFound)
     {
-      System.out.println("open list contains " + openList.size() + "squares...");
+      System.out.println("\033[32m open list contains " + openList.size() + " squares...\033[0m");
       // a) Set current square as lowest-fScore square from the open list
       Square currentSquare = openList.pollFirst();
       // b) Move current square to the closed list
-      System.out.println("Adding square " + currentSquare + " with fCost " + currentSquare.getFCost() + " to the closed list.");
+      System.out.println("\033[31m Adding square " + currentSquare + " with fCost " + currentSquare.getFCost() + " to the closed list.\033[0m");
       closedList.add(currentSquare);
       // (i)   If goalSquare is in closed list, path has been found.
       if (closedList.contains(goalSquare))
