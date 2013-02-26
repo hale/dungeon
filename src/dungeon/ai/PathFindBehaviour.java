@@ -76,40 +76,34 @@ public class PathFindBehaviour implements Behaviour
 
   boolean move(Creature fCreature, Game game)
   {
-    if (!fCreature.hasGoal())
+    if (fCreature.getGoal() != null)
       setNewGoal(fCreature, game);
-
-    if (!fCreature.hasNextStep() && fCreature.hasGoal())
-      setNextStep(fCreature.getGoal(), game);
 
     return fCreature.moveToGoal(game);
   }
 
   private void setNewGoal(Creature fCreature, Game game)
   {
-    Point2D newGoal = getGoal(fCreature, game);
-    // TODO: handle null goal.
-    if (newGoal != null)
-      fCreature.setGoal(newGoal, game);
-  }
-
-  private void setNextStep(Point2D step, Game game)
-  {
     SimplePathFind pathFind = new SimplePathFind(fCreature, game);
 
-    LinkedList<Point2D> path = (LinkedList<Point2D>) pathFind.findPath(fCreature.getLocation(), fCreature.getGoal());
+    Point2D destination = getDestination(fCreature, game);
+
+    LinkedList<Point2D> path = (LinkedList<Point2D>) pathFind.findPath(
+        fCreature.getLocation(), destination);
     if (path.isEmpty())
       return;
 
     Point2D nextPoint = path.pop();
-    fCreature.setNextStep(nextPoint);
+    fCreature.setGoal(nextPoint, game);
   }
 
-  private Point2D getGoal(Creature fCreature, Game game)
+  private Point2D getDestination(Creature fCreature, Game game)
   {
     Rectangle2D bounds = getBounds(fCreature, game);
 
-    Point2D goal_pt = randomLocation(bounds, game);
+    //Point2D goal_pt = randomLocation(bounds, game);
+    Rectangle2D heroArea = game.getMap().getTileAt(fCreature.getLocation()).getArea();
+    Point2D goal_pt = new Point2D.Double(heroArea.getX() / 2, heroArea.getY() / 2);
 
     if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
       if (!samePlace(goal_pt, fCreature.getLocation()))

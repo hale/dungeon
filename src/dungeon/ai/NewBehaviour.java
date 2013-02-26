@@ -83,7 +83,7 @@ public class NewBehaviour implements Behaviour
   {
 
     boolean moved = false;
-    if (fCreature.hasGoal())
+    if (fCreature.getGoal() == null)
       moved = fCreature.moveToGoal(game);
     return moved;
   }
