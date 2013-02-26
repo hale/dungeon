@@ -113,7 +113,7 @@ public class Grid {
     System.out.println("=== GRID OF SQUARES ===");
     for (int y = 0; y < yArraySize ; y++) {
       for (int x = 0; x < xArraySize ; x++) {
-        int occupiable = 1;
+        int occupiable = 0;
         if (sqGrid[x][y].isOccupiable())
           occupiable = 1;
         System.out.print(occupiable);
