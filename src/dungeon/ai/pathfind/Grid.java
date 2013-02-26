@@ -12,108 +12,114 @@ import java.awt.geom.Point2D;
  */
 public class Grid {
 
-  boolean[][] grid = null;
-  boolean[][] tilegrid = null;// Array of game tiles, and whether they can be occupied (true), or not (false)
-  boolean gridInitialised =false;     // flag set true after first grid calculation
-  int xArraySize = 20;              // limits fixed for the two arrays above
-  int yArraySize = 20;              // by xArraySize and yArraySize
-  double tileSize = 5;              // Tiles are assumed to have a fixed size
+  boolean gridInitialised =false;
+  int xArraySize = 20;
+  int yArraySize = 20;
+  double tileSize = 5;
   double halfTileSize = tileSize/2;
 
-  Square[][] sqGrid = null;
+  Square[][] sqGrid = new Square[xArraySize][yArraySize];
 
-  public Grid()
-  {
-    tilegrid = new boolean[xArraySize][yArraySize];
-    grid     = new boolean[xArraySize][yArraySize];
-    sqGrid   = new Square[xArraySize][yArraySize];
-  }
-
-
-  /**
-   * Takes Creature paramater because whether a tile is occupiable
-   * depends on the individual creature
-   */
   public Grid(Creature fCreature, Game game)
   {
-    this();
-    recalcGrid(fCreature, game);
-    constructGrid();
+    constructGrid(fCreature, game);
   }
 
-  private void constructGrid()
+  private void constructGrid(Creature fCreature, Game game)
   {
-    for (int y = 0; y < yArraySize; y++) {
-      for (int x = 0; x < xArraySize; x++) {
-        sqGrid[x][y] = new Square();
-      }
-    }
-  }
-
-  //print the data from both grid arrays
-  public void print(Game game) {
-
-    System.out.println("grid");
-    // populate array by query
-    for (int y = 0; y < yArraySize; y++) {
-      for (int x = 0; x < xArraySize; x++) {
-        int printnum = 0;
-        if (grid[x][y])
-          printnum = 1;
-        System.out.print(printnum);
-      }
-      System.out.println("");
-    }
-    System.out.println("\n");
-    System.out.println("tilegrid");
-    // populate array by query
-    for (int y = 0; y < yArraySize; y++) {
-      for (int x = 0; x < xArraySize; x++) {
-        int printnum = 0;
-        if (tilegrid[x][y])
-          printnum = 1;
-        System.out.print(printnum);
-      }
-      System.out.println("");
-    }
-    System.out.println("\n");
-  }
-
-  // Figure-out which tiles can be occupied by creature
-  // Populate tilegrid with that data
-  public void recalcGrid(Creature fCreature, Game game) {
     if (!gridInitialised) {
       gridInitialised=true;
 
-      // populate array by query
-          System.out.println("Location\t\t\tX\tY\tOccupiable? ");
       for (int y = 0; y < yArraySize; y++) {
         for (int x = 0; x < xArraySize; x++) {
+          sqGrid[x][y] = new Square();
+          sqGrid[x][y].setX(x);
+          sqGrid[x][y].setY(y);
+
           Point2D.Double location = new Point2D.Double(halfTileSize
               + x * tileSize, halfTileSize + y * tileSize);
+
           Tile tile = App.getGame().getMap().getTileAt(location);
           if (tile != null) {
-            tilegrid[x][y] = tile.canOccupy(fCreature);
+            sqGrid[x][y].setOccupiable( tile.canOccupy(fCreature) );
           } else {
-            tilegrid[x][y] = false;
+            sqGrid[x][y].setOccupiable( false );
           }
-          System.out.print(location + "\t");
-          System.out.print(x + "\t");
-          System.out.print(y + "\t");
-          System.out.print(tilegrid[x][y]);
-          System.out.println();
         }
       }
-      copyarray(); // copy from tilegrid into grid
+    }
+  }
+  // there can be up to 8 adjacent squares; there may be less.
+  public Square[] getAdjacentSquares(Square square)
+  {
+    System.out.print("Getting adjacent squares for: [");
+    System.out.println(square.getX() + "," + square.getY() + "]");
+
+    Square[] adjSquares = new Square[8];
+
+    int sqX = square.getX();
+    int sqY = square.getY();
+
+    int maxX = xArraySize -1;
+    int maxY = yArraySize -1;
+
+    boolean up,right,down,left;
+    up = right = down = left = true;
+
+    // above blocked
+    if (sqY == maxY) up = false;
+    // below blocked
+    if (sqY == 0) down = false;
+    // right blocked
+    if (sqX == maxX) right = false;
+    // left blocked
+    if (sqX == 0) left = false;
+
+    /* UPPER ROW */
+    if (up && left)
+      adjSquares[0] = sqGrid[ sqX - 1 ][ sqY + 1];
+    if (up)
+      adjSquares[1] = sqGrid[ sqX     ][ sqY + 1];
+    if (up && right)
+      adjSquares[2] = sqGrid[ sqX + 1 ][ sqY + 1];
+
+    /* CENTER ROW */
+    if (left)
+      adjSquares[3] = sqGrid[ sqX - 1 ][ sqY    ];
+    if (right)
+      adjSquares[4] = sqGrid[ sqX + 1 ][ sqY    ];
+
+    /* LOWER ROW */
+    if (down && left)
+      adjSquares[5] = sqGrid[ sqX - 1 ][ sqY - 1];
+    if (down)
+      adjSquares[6] = sqGrid[ sqX     ][ sqY - 1];
+    if (down && right)
+      adjSquares[7] = sqGrid[ sqX + 1 ][ sqY - 1];
+
+    return adjSquares;
+  }
+
+  public int manhattan(Square sq1, Square sq2)
+  {
+    int xDist = Math.abs(sq1.getX() - sq2.getX());
+    int yDist = Math.abs(sq1.getY() - sq2.getY());
+    return 10*(xDist + yDist);
+  }
+
+
+  public void printSqGrid()
+  {
+    System.out.println("=== GRID OF SQUARES ===");
+    for (int y = 0; y < yArraySize ; y++) {
+      for (int x = 0; x < xArraySize ; x++) {
+        int occupiable = 1;
+        if (sqGrid[x][y].isOccupiable())
+          occupiable = 1;
+        System.out.print(occupiable);
+      }
+      System.out.println();
     }
   }
 
-  // this method copies the tilegrid array into the grid array
-  public void copyarray(){
-
-    for (int y = 0; y < yArraySize; y++) {
-      for (int x = 0; x < xArraySize; x++) {
-        grid[x][y]=tilegrid[x][y];}}
-
-  }
 }

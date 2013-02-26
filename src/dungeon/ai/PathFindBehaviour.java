@@ -3,7 +3,7 @@ package dungeon.ai;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
-import java.util.Stack;
+import java.util.LinkedList;
 
 import dungeon.ai.actions.ActionAttack;
 import dungeon.ai.actions.ActionDoor;
@@ -79,7 +79,7 @@ public class PathFindBehaviour implements Behaviour
     if (!fCreature.hasGoal())
       setNewGoal(fCreature, game);
 
-    if (!fCreature.hasNextStep())
+    if (!fCreature.hasNextStep() && fCreature.hasGoal())
       setNextStep(fCreature.getGoal(), game);
 
     return fCreature.moveToGoal(game);
@@ -97,7 +97,11 @@ public class PathFindBehaviour implements Behaviour
   {
     SimplePathFind pathFind = new SimplePathFind(fCreature, game);
 
-    Point2D nextPoint = pathFind.nextPoint(fCreature.getLocation(), fCreature.getGoal());
+    LinkedList<Point2D> path = (LinkedList<Point2D>) pathFind.findPath(fCreature.getLocation(), fCreature.getGoal());
+    if (path.isEmpty())
+      return;
+
+    Point2D nextPoint = path.pop();
     fCreature.setNextStep(nextPoint);
   }
 
