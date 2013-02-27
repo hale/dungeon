@@ -6,6 +6,7 @@ import dungeon.model.items.mobs.Creature;
 import dungeon.model.structure.Tile;
 
 import java.awt.geom.Point2D;
+import java.util.List;
 
 /**
  * Grid representation of the map, for use in pathfinding.
@@ -55,6 +56,14 @@ public class Grid {
     //System.out.print("Getting adjacent squares for: [");
     //System.out.println(square.getX() + "," + square.getY() + "]");
 
+    // TODO: Rewrite this method to only return adjacent squares
+    // which are valid.  A valid adjacent square:
+    // 1) is truly adjacent (ie not the same square)
+    // 2) is not out of bounds of the grid
+    // 3) is occupiable (not a wall)
+    // 4) can be reached (does not intersect a wall)
+    // TODO: remove isOccupiable() check in adjSquares loop
+
     Square[] adjSquares = new Square[8];
 
     int sqX = square.getX();
@@ -77,6 +86,7 @@ public class Grid {
 
     /* UPPER ROW */
     if (up && left)
+      // if square above occupiable and square left occupiable
       adjSquares[0] = sqGrid[ sqX - 1 ][ sqY + 1];
     if (up)
       adjSquares[1] = sqGrid[ sqX     ][ sqY + 1];
@@ -117,6 +127,26 @@ public class Grid {
         if (sqGrid[x][y].isOccupiable())
           occupiable = 1;
         System.out.print(occupiable);
+      }
+      System.out.println();
+    }
+  }
+
+  public void printSquares(List<Square> list, Square origin, Square goal)
+  {
+    System.out.println("=== GRID OF SQUARES ===");
+    for (int y = 0; y < yArraySize ; y++) {
+      for (int x = 0; x < xArraySize ; x++) {
+        String printChar = "\033[31m0\033[0m";
+        if (sqGrid[x][y].isOccupiable())
+          printChar = "1";
+        if (list.contains(sqGrid[x][y]))
+          printChar = "\033[32mX\033[0m";
+        if (sqGrid[x][y].equals(origin))
+          printChar = "\033[34mS\033[0m";
+        if (sqGrid[x][y].equals(goal))
+          printChar = "\033[34mF\033[0m";
+        System.out.print(printChar);
       }
       System.out.println();
     }

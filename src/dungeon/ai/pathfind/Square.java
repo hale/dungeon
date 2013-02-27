@@ -7,26 +7,33 @@ public class Square {
 
   public Square(Point2D location)
   {
-    //System.out.println("Making square from: " + location);
+    System.out.println("Making square from: " + location);
     this.x = planeToGrid(location.getX());
-    this.x = planeToGrid(location.getY());
+    this.y = planeToGrid(location.getY());
+    System.out.println("Square: [" + x + "," + y + "]");
   }
 
   public int getMoveCost(Square adjSquare)
   {
-    // look at the gridpointX of this and the other square.
-    // if either of them are equal, the square is in the same
-    // row or column and therefore directly above or below.
-    // otherwise, it's diagonal.
+    return (isDiagonal(adjSquare)) ? 14 : 10;
+  }
+
+  /* look at the gridpointX of this and the other square.
+   * if either of them are equal, the square is in the same
+   * row or column and therefore directly above or below.
+   * otherwise, it's diagonal.
+   */
+  public boolean isDiagonal(Square adjSquare)
+  {
     if (this.x != adjSquare.getX())
       if (this.y != adjSquare.getY())
-          return 14;
-    return 10;
+        return true;
+    return false;
   }
 
   private int planeToGrid(double point)
   {
-    return (int) Math.floor(point / 5.0);
+    return (int) (point / 5.0);
   }
 
   private boolean occupiable = false;
@@ -56,6 +63,26 @@ public class Square {
   public Square getParent() { return parent; }
   public void setParent(Square parent) { this.parent = parent; }
   public boolean hasParent() { return (parent != null) ? true : false; }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Square square = (Square) o;
+
+    if (x != square.x) return false;
+    if (y != square.y) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = x;
+    result = 31 * result + y;
+    return result;
+  }
 
   public Point2D getCenter()
   {

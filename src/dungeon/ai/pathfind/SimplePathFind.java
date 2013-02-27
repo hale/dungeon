@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.TreeSet;
 import java.util.Comparator;
+import java.util.Collections;
 
 import dungeon.App;
 import dungeon.ai.*;
@@ -13,23 +14,18 @@ import dungeon.ai.pathfind.*;
 import dungeon.model.*;
 import dungeon.model.items.mobs.Creature;
 import dungeon.utils.*;
+import dungeon.ui.MapPanel;
 
 public class SimplePathFind extends PathFind {
 
   Grid grid;
-  TreeSet<Square> openList = new TreeSet<Square>(
-    new Comparator<Square>() {
-      public int compare(Square a, Square b) {
-        return b.getFCost() - a.getFCost();
-      }
-    }
-  );
+  LinkedList<Square> openList = new LinkedList<Square>();
+
 
   public SimplePathFind(Creature creature, Game game)
   {
     super(creature, game);
     this.grid = new Grid(fCreature, game);
-    //grid.printSqGrid();
   }
 
   @Override
@@ -51,7 +47,7 @@ public class SimplePathFind extends PathFind {
   private LinkedList<Square> findPath(Square originSquare, Square goalSquare)
   {
     long startTime = System.nanoTime();
-    ArrayList<Square> closedList = new ArrayList<Square>();
+    LinkedList<Square> closedList = new LinkedList<Square>();
 
     // 1. add the starting square to the open list
     openList.add(originSquare);
@@ -62,15 +58,27 @@ public class SimplePathFind extends PathFind {
     // 2. Repeat the following until the open list is empty.
     while (!openList.isEmpty() && !pathFound)
     {
-      //System.out.println("\033[46m open list contains " + openList.size() + " squares...\033[0m");
+      grid.printSquares(closedList, originSquare, goalSquare);
+      System.out.println(" open list contains " + openList.size() + " squares...");
       // a) Set current square as lowest-fScore square from the open list
+      Collections.sort(openList,
+        new Comparator<Square>() {
+          public int compare(Square a, Square b) {
+            return a.getFCost() - b.getFCost();
+          }
+        }
+      );
       Square currentSquare = openList.pollFirst();
+      assert(currentSquare != null);
       // b) Move current square to the closed list
-      //System.out.println("\033[31m Adding square " + currentSquare + " with fCost " + currentSquare.getFCost() + " to the closed list.\033[0m");
+      System.out.println("\033[31m Adding square " + currentSquare + " with fCost " + currentSquare.getFCost() + " to the closed list.\033[0m");
       closedList.add(currentSquare);
       // (i)   If goalSquare is in closed list, path has been found.
       if (closedList.contains(goalSquare))
+      {
+        System.out.println("Goal square added to closed list");
         pathFound = true;
+      }
       // c) For each adjacent square to current square...
       for (Square adjSquare : grid.getAdjacentSquares(currentSquare))
       {
@@ -83,7 +91,7 @@ public class SimplePathFind extends PathFind {
         {
           // * Add it to the open list.
           openList.add(adjSquare);
-          //System.out.println("Adding " + adjSquare + " to the open list.");
+          System.out.println("Adding " + adjSquare + " to the open list.");
           // * Calculate F, G, H score.
           if (adjSquare.hasParent())
             gScore = currentSquare.getMoveCost(adjSquare) + adjSquare.getParent().getGScore();
@@ -109,6 +117,7 @@ public class SimplePathFind extends PathFind {
             adjSquare.setHScore(grid.manhattan(currentSquare, goalSquare));
           }
         }
+        assert(adjSquare.hasParent());
       }
     }
     // 3. If path has been found, calculate the path
@@ -118,18 +127,22 @@ public class SimplePathFind extends PathFind {
     if (pathFound)
     {
       System.out.println("\033[42m Path found! \033[0m");
-      System.out.println("Path is " + pathList.size() + " steps long.");
-      System.out.println("Path took " + (System.nanoTime() - startTime) + " seconds to calculate.");
-      pathList.push(goalSquare);
-      Square nextSquare = goalSquare.getParent();
+      Square nextSquare = closedList.getLast();
       while (nextSquare != originSquare)
       {
+      assert(nextSquare != null);
         pathList.push(nextSquare);
+        System.out.println("Added " + nextSquare + " to the pathList.");
         nextSquare = nextSquare.getParent();
       }
+      long ms = (System.nanoTime() - startTime) / 1000000;
+      System.out.println("Path is " + pathList.size() + " steps long.");
+      System.out.println("Path took " + ms + " milliseconds to calculate.");
     }
     else
       System.out.println("\033[31m No path found! \033[0m");
     return pathList;
   }
+
+
 }

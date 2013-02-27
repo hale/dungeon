@@ -90,10 +90,18 @@ public class PathFindBehaviour implements Behaviour
 
     LinkedList<Point2D> path = (LinkedList<Point2D>) pathFind.findPath(
         fCreature.getLocation(), destination);
-    if (path.isEmpty())
-      return;
 
-    Point2D nextPoint = path.pop();
+    Point2D nextPoint;
+    if (path.isEmpty())
+    {
+      Rectangle2D bounds = getBounds(fCreature, game);
+      nextPoint = randomLocation(bounds, game);
+    }
+    else
+    {
+      nextPoint = path.pop();
+    }
+
     fCreature.setGoal(nextPoint, game);
   }
 
@@ -102,8 +110,10 @@ public class PathFindBehaviour implements Behaviour
     Rectangle2D bounds = getBounds(fCreature, game);
 
     //Point2D goal_pt = randomLocation(bounds, game);
-    Rectangle2D heroArea = game.getMap().getTileAt(game.getHero().getLocation()).getArea();
-    Point2D goal_pt = new Point2D.Double(heroArea.getX() / 2, heroArea.getY() / 2);
+    //Rectangle2D heroArea = game.getMap().getTileAt(game.getHero().getLocation()).getArea();
+    //Point2D goal_pt = new Point2D.Double(heroArea.getX() / 2, heroArea.getY() / 2);
+
+    Point2D goal_pt = treasureLocation(game);
 
     //if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
       //if (!samePlace(goal_pt, fCreature.getLocation()))
@@ -120,6 +130,11 @@ public class PathFindBehaviour implements Behaviour
     double x = bounds.getX() + (bounds.getWidth() * fRandom.nextDouble());
     double y = bounds.getY() + (bounds.getHeight() * fRandom.nextDouble());
     return new Point2D.Double(x, y);
+  }
+
+  private Point2D treasureLocation(Game game)
+  {
+    return game.getTreasure().get(0).getLocation();
   }
 
   /* PATH FINDING */
