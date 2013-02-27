@@ -20,7 +20,7 @@ public class SimplePathFind extends PathFind {
   TreeSet<Square> openList = new TreeSet<Square>(
     new Comparator<Square>() {
       public int compare(Square a, Square b) {
-        return a.getFCost() - b.getFCost();
+        return b.getFCost() - a.getFCost();
       }
     }
   );
@@ -29,7 +29,7 @@ public class SimplePathFind extends PathFind {
   {
     super(creature, game);
     this.grid = new Grid(fCreature, game);
-    grid.printSqGrid();
+    //grid.printSqGrid();
   }
 
   @Override
@@ -50,6 +50,7 @@ public class SimplePathFind extends PathFind {
 
   private LinkedList<Square> findPath(Square originSquare, Square goalSquare)
   {
+    long startTime = System.nanoTime();
     ArrayList<Square> closedList = new ArrayList<Square>();
 
     // 1. add the starting square to the open list
@@ -61,11 +62,11 @@ public class SimplePathFind extends PathFind {
     // 2. Repeat the following until the open list is empty.
     while (!openList.isEmpty() && !pathFound)
     {
-      System.out.println("open list contains " + openList.size() + "squares...");
+      //System.out.println("\033[46m open list contains " + openList.size() + " squares...\033[0m");
       // a) Set current square as lowest-fScore square from the open list
       Square currentSquare = openList.pollFirst();
       // b) Move current square to the closed list
-      System.out.println("Adding square " + currentSquare + " with fCost " + currentSquare.getFCost() + " to the closed list.");
+      //System.out.println("\033[31m Adding square " + currentSquare + " with fCost " + currentSquare.getFCost() + " to the closed list.\033[0m");
       closedList.add(currentSquare);
       // (i)   If goalSquare is in closed list, path has been found.
       if (closedList.contains(goalSquare))
@@ -82,7 +83,7 @@ public class SimplePathFind extends PathFind {
         {
           // * Add it to the open list.
           openList.add(adjSquare);
-          System.out.println("Adding " + adjSquare + " to the open list.");
+          //System.out.println("Adding " + adjSquare + " to the open list.");
           // * Calculate F, G, H score.
           if (adjSquare.hasParent())
             gScore = currentSquare.getMoveCost(adjSquare) + adjSquare.getParent().getGScore();
@@ -116,6 +117,9 @@ public class SimplePathFind extends PathFind {
     LinkedList<Square> pathList = new LinkedList<Square>();
     if (pathFound)
     {
+      System.out.println("\033[42m Path found! \033[0m");
+      System.out.println("Path is " + pathList.size() + " steps long.");
+      System.out.println("Path took " + (System.nanoTime() - startTime) + " seconds to calculate.");
       pathList.push(goalSquare);
       Square nextSquare = goalSquare.getParent();
       while (nextSquare != originSquare)
@@ -124,6 +128,8 @@ public class SimplePathFind extends PathFind {
         nextSquare = nextSquare.getParent();
       }
     }
+    else
+      System.out.println("\033[31m No path found! \033[0m");
     return pathList;
   }
 }

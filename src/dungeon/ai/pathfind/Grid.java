@@ -52,8 +52,8 @@ public class Grid {
   // there can be up to 8 adjacent squares; there may be less.
   public Square[] getAdjacentSquares(Square square)
   {
-    System.out.print("Getting adjacent squares for: [");
-    System.out.println(square.getX() + "," + square.getY() + "]");
+    //System.out.print("Getting adjacent squares for: [");
+    //System.out.println(square.getX() + "," + square.getY() + "]");
 
     Square[] adjSquares = new Square[8];
 
@@ -113,7 +113,7 @@ public class Grid {
     System.out.println("=== GRID OF SQUARES ===");
     for (int y = 0; y < yArraySize ; y++) {
       for (int x = 0; x < xArraySize ; x++) {
-        int occupiable = 1;
+        int occupiable = 0;
         if (sqGrid[x][y].isOccupiable())
           occupiable = 1;
         System.out.print(occupiable);

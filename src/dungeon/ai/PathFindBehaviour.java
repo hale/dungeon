@@ -76,7 +76,7 @@ public class PathFindBehaviour implements Behaviour
 
   boolean move(Creature fCreature, Game game)
   {
-    if (fCreature.getGoal() != null)
+    if (fCreature.getGoal() == null)
       setNewGoal(fCreature, game);
 
     return fCreature.moveToGoal(game);
@@ -102,15 +102,15 @@ public class PathFindBehaviour implements Behaviour
     Rectangle2D bounds = getBounds(fCreature, game);
 
     //Point2D goal_pt = randomLocation(bounds, game);
-    Rectangle2D heroArea = game.getMap().getTileAt(fCreature.getLocation()).getArea();
+    Rectangle2D heroArea = game.getMap().getTileAt(game.getHero().getLocation()).getArea();
     Point2D goal_pt = new Point2D.Double(heroArea.getX() / 2, heroArea.getY() / 2);
 
-    if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
-      if (!samePlace(goal_pt, fCreature.getLocation()))
+    //if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
+      //if (!samePlace(goal_pt, fCreature.getLocation()))
         return goal_pt;
 
-    App.log("Returning null goal.");
-    return null;
+    //App.log("Returning null goal.");
+    //return null;
   }
 
   /* GOAL DETERMINATION */

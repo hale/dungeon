@@ -7,7 +7,7 @@ public class Square {
 
   public Square(Point2D location)
   {
-    System.out.println("Making square from: " + location);
+    //System.out.println("Making square from: " + location);
     this.x = planeToGrid(location.getX());
     this.x = planeToGrid(location.getY());
   }
