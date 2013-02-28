@@ -134,7 +134,7 @@ public class SimplePathFind extends PathFind {
         nextSquare = nextSquare.getParent();
       }
       long ms = (System.nanoTime() - startTime) / 1000000;
-      System.out.println("\033[42m Path found! \033[0m");
+      System.out.println("\033[32m Path found! \033[0m");
       System.out.println("Path is " + pathList.size() + " steps long.");
       System.out.println("Path took " + ms + " milliseconds to calculate.");
       grid.printSquares(pathList, originSquare, goalSquare);
