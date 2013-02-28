@@ -7,6 +7,7 @@ import dungeon.model.structure.Tile;
 
 import java.awt.geom.Point2D;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Grid representation of the map, for use in pathfinding.
@@ -51,20 +52,20 @@ public class Grid {
     }
   }
   // there can be up to 8 adjacent squares; there may be less.
-  public Square[] getAdjacentSquares(Square square)
+  public List<Square> getAdjacentSquares(Square square)
   {
     //System.out.print("Getting adjacent squares for: [");
     //System.out.println(square.getX() + "," + square.getY() + "]");
 
     // TODO: Rewrite this method to only return adjacent squares
     // which are valid.  A valid adjacent square:
-    // 1) is truly adjacent (ie not the same square)
-    // 2) is not out of bounds of the grid
-    // 3) is occupiable (not a wall)
+    // 1) is truly adjacent (ie not the same square) @done
+    // 2) is not out of bounds of the grid @done
+    // 3) is occupiable (not a wall) @done
     // 4) can be reached (does not intersect a wall)
     // TODO: remove isOccupiable() check in adjSquares loop
 
-    Square[] adjSquares = new Square[8];
+    List<Square> adjSquares = new ArrayList<Square>();
 
     int sqX = square.getX();
     int sqY = square.getY();
@@ -86,29 +87,44 @@ public class Grid {
 
     /* UPPER ROW */
     if (up && left)
-      // if square above occupiable and square left occupiable
-      adjSquares[0] = sqGrid[ sqX - 1 ][ sqY + 1];
+      if (sqGrid[ sqX ][ sqY + 1].isOccupiable())
+        if (sqGrid[ sqX-1 ][ sqY ].isOccupiable())
+          addSquare( sqGrid[ sqX - 1 ][ sqY + 1], adjSquares);
     if (up)
-      adjSquares[1] = sqGrid[ sqX     ][ sqY + 1];
+      addSquare( sqGrid[ sqX     ][ sqY + 1], adjSquares);
     if (up && right)
-      adjSquares[2] = sqGrid[ sqX + 1 ][ sqY + 1];
+      if (sqGrid[ sqX ][ sqY + 1].isOccupiable())
+        if (sqGrid[ sqX+1 ][ sqY ].isOccupiable())
+          addSquare( sqGrid[ sqX + 1 ][ sqY + 1], adjSquares);
 
     /* CENTER ROW */
     if (left)
-      adjSquares[3] = sqGrid[ sqX - 1 ][ sqY    ];
+      addSquare( sqGrid[ sqX - 1 ][ sqY    ], adjSquares);
     if (right)
-      adjSquares[4] = sqGrid[ sqX + 1 ][ sqY    ];
+      addSquare( sqGrid[ sqX + 1 ][ sqY    ], adjSquares);
 
     /* LOWER ROW */
     if (down && left)
-      adjSquares[5] = sqGrid[ sqX - 1 ][ sqY - 1];
+      if( sqGrid[ sqX ][ sqY-1 ].isOccupiable() )
+        if( sqGrid[ sqX-1 ][ sqY-1 ].isOccupiable() )
+          addSquare( sqGrid[ sqX - 1 ][ sqY    ], adjSquares);
     if (down)
-      adjSquares[6] = sqGrid[ sqX     ][ sqY - 1];
+      addSquare( sqGrid[ sqX     ][ sqY - 1], adjSquares);
     if (down && right)
-      adjSquares[7] = sqGrid[ sqX + 1 ][ sqY - 1];
+      if( sqGrid[ sqX     ][ sqY - 1].isOccupiable() )
+        if( sqGrid[ sqX + 1 ][ sqY    ].isOccupiable() )
+          addSquare( sqGrid[ sqX + 1 ][ sqY - 1], adjSquares);
+
 
     return adjSquares;
   }
+
+  private void addSquare(Square square, List<Square> list)
+  {
+    if (square.isOccupiable())
+      list.add(square);
+  }
+
 
   public int manhattan(Square sq1, Square sq2)
   {
@@ -137,15 +153,15 @@ public class Grid {
     System.out.println("=== GRID OF SQUARES ===");
     for (int y = 0; y < yArraySize ; y++) {
       for (int x = 0; x < xArraySize ; x++) {
-        String printChar = "\033[31m0\033[0m";
+        String printChar = "\033[31m" + "0" + "\033[0m";
         if (sqGrid[x][y].isOccupiable())
           printChar = "1";
         if (list.contains(sqGrid[x][y]))
-          printChar = "\033[32mX\033[0m";
+          printChar = "\033[32m" + "X" + "\033[0m";
         if (sqGrid[x][y].equals(origin))
-          printChar = "\033[34mS\033[0m";
+          printChar = "\033[34m" + "O" + "\033[0m";
         if (sqGrid[x][y].equals(goal))
-          printChar = "\033[34mF\033[0m";
+          printChar = "\033[34m" + "G" + "\033[0m";
         System.out.print(printChar);
       }
       System.out.println();

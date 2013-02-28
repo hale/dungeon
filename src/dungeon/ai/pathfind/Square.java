@@ -7,10 +7,10 @@ public class Square {
 
   public Square(Point2D location)
   {
-    System.out.println("Making square from: " + location);
+    //System.out.println("Making square from: " + location);
     this.x = planeToGrid(location.getX());
     this.y = planeToGrid(location.getY());
-    System.out.println("Square: [" + x + "," + y + "]");
+    //System.out.println("Square: [" + x + "," + y + "]");
   }
 
   public int getMoveCost(Square adjSquare)

@@ -92,17 +92,11 @@ public class PathFindBehaviour implements Behaviour
         fCreature.getLocation(), destination);
 
     Point2D nextPoint;
-    if (path.isEmpty())
-    {
-      Rectangle2D bounds = getBounds(fCreature, game);
-      nextPoint = randomLocation(bounds, game);
-    }
-    else
+    if (!path.isEmpty())
     {
       nextPoint = path.pop();
+      fCreature.setGoal(nextPoint, game);
     }
-
-    fCreature.setGoal(nextPoint, game);
   }
 
   private Point2D getDestination(Creature fCreature, Game game)
@@ -113,7 +107,8 @@ public class PathFindBehaviour implements Behaviour
     //Rectangle2D heroArea = game.getMap().getTileAt(game.getHero().getLocation()).getArea();
     //Point2D goal_pt = new Point2D.Double(heroArea.getX() / 2, heroArea.getY() / 2);
 
-    Point2D goal_pt = treasureLocation(game);
+    //Point2D goal_pt = treasureLocation(game);
+    Point2D goal_pt = game.getHero().getLocation();
 
     //if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
       //if (!samePlace(goal_pt, fCreature.getLocation()))
