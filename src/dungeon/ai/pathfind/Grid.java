@@ -162,8 +162,9 @@ public class Grid {
     System.out.println("=== GRID OF SQUARES ===");
     for (int y = 0; y < yArraySize ; y++) {
       for (int x = 0; x < xArraySize ; x++) {
-        String printChar = "\033[31m" + "0" + "\033[0m";
+        String printChar = "\033[31m" + "#" + "\033[0m";
         if (sqGrid[x][y].isOccupiable())
+          // TODO: printchar = sqGrid[x][y].getCost();
           printChar = "1";
         if (list.contains(sqGrid[x][y]))
           printChar = "\033[32m" + "X" + "\033[0m";
