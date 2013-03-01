@@ -98,7 +98,7 @@ public class SimplePathFind extends PathFind {
           else
             gScore = currentSquare.getMoveCost(adjSquare);
           adjSquare.setGScore(gScore);
-          adjSquare.setHScore(grid.manhattan(currentSquare, goalSquare));
+          adjSquare.setHScore(grid.chebyshevDist(currentSquare, goalSquare));
           // * Set its parent square to the current square.
           adjSquare.setParent(currentSquare);
         // (iii) If it is already in the open list:
@@ -114,7 +114,7 @@ public class SimplePathFind extends PathFind {
             adjSquare.setParent(currentSquare);
             gScore = currentSquare.getMoveCost(adjSquare) + adjSquare.getParent().getGScore();
             adjSquare.setGScore(gScore);
-            adjSquare.setHScore(grid.manhattan(currentSquare, goalSquare));
+            adjSquare.setHScore(grid.chebyshevDist(currentSquare, goalSquare));
           }
         }
         assert(adjSquare.hasParent());

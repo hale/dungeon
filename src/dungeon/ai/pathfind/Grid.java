@@ -126,13 +126,22 @@ public class Grid {
   }
 
 
-  public int manhattan(Square sq1, Square sq2)
+  public int manhattanDist(Square sq1, Square sq2)
   {
     int xDist = Math.abs(sq1.getX() - sq2.getX());
     int yDist = Math.abs(sq1.getY() - sq2.getY());
     return 10*(xDist + yDist);
   }
 
+  public int chebyshevDist(Square sq1, Square sq2)
+  {
+    int xDist = Math.abs(sq1.getX() - sq2.getX());
+    int yDist = Math.abs(sq1.getY() - sq2.getY());
+    if (xDist > yDist)
+      return (14 * yDist) + (10 * (xDist - yDist));
+    else
+      return (14 * xDist) + (10 * (yDist = xDist));
+  }
 
   public void printSqGrid()
   {
