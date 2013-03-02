@@ -41,16 +41,34 @@ public class Square {
 
   public void setOccupiable(Tile tile, Creature fCreature)
   {
-    if (tile == null)
+    if (tile == null || isPit(tile))
       setOccupiable( false );
     else
     {
       setOccupiable( tile.canOccupy(fCreature) );
-      try{
-        FlameTrap trap = (FlameTrap) tile;
+      if (isTrap(tile))
         setTerrainCost(200);
-      } catch(ClassCastException e) { }
     }
+  }
+
+  private boolean isTrap(Tile tile)
+  {
+    try{
+      FlameTrap trap = (FlameTrap) tile;
+    } catch(ClassCastException e) {
+      return false;
+    }
+    return true;
+  }
+
+  private boolean isPit(Tile tile)
+  {
+    try{
+      Pit pit = (Pit) tile;
+    } catch(ClassCastException e) {
+      return false;
+    }
+    return true;
   }
 
   private boolean occupiable = false;
