@@ -12,7 +12,13 @@
         <FlameTrap Height="20" Width="5" X="40" Y="100"/>
         <Floor Height="5" Width="20" X="45" Y="115"/>
         <Floor Height="20" Width="5" X="50" Y="120"/>
-        <Floor Height="5" Width="110" X="0" Y="105"/>
+
+        <Floor Height="5" Width="40" X="0" Y="105"/>
+        <Floor Height="5" Width="45" X="45" Y="105"/>
+        <Floor Height="5" Width="25" X="90" Y="105"/>
+        <Pit Height="5" Width="5" X="110" Y="105"/>
+        <Floor Height="30" Width="5" X="110" Y="110"/>
+
         <Floor Height="40" Width="5" X="105" Y="65"/>
 
         <Floor Height="30" Width="30" X="40" Y="140"/>
