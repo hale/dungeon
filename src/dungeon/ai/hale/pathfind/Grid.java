@@ -6,6 +6,7 @@ import dungeon.model.items.mobs.Creature;
 import dungeon.model.structure.Tile;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,15 +16,20 @@ import java.util.ArrayList;
 public class Grid {
 
   boolean gridInitialised =false;
-  int xArraySize = 20;
-  int yArraySize = 20;
-  double tileSize = 5;
-  double halfTileSize = tileSize/2;
+  final double TILE_SIZE = 5;
+  int xArraySize;
+  int yArraySize;
+  double halfTileSize = TILE_SIZE/2;
 
-  Square[][] sqGrid = new Square[xArraySize][yArraySize];
+  Square[][] sqGrid;
 
   public Grid(Creature fCreature, Game game)
   {
+    Rectangle2D bounds = game.getMap().getBounds(0);
+    this.xArraySize = (int) (bounds.getWidth() / TILE_SIZE);
+    this.yArraySize = (int) (bounds.getHeight() / TILE_SIZE);
+    sqGrid =  new Square[xArraySize][yArraySize];
+    System.out.println("MAP SIZE: " + bounds.getWidth() + "x" + bounds.getHeight() + ".");
     constructGrid(fCreature, game);
   }
 
@@ -39,7 +45,7 @@ public class Grid {
           sqGrid[x][y].setY(y);
 
           Point2D.Double location = new Point2D.Double(halfTileSize
-              + x * tileSize, halfTileSize + y * tileSize);
+              + x * TILE_SIZE, halfTileSize + y * TILE_SIZE);
 
           Tile tile = App.getGame().getMap().getTileAt(location);
           if (tile != null) {
