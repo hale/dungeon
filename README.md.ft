@@ -1,0 +1,62 @@
+# AI for Games assessment - Requirements
+
+## FAQ
+1. Will the faction mobs always spawn next to each other?
+2. Will the dungeon be 20x20 for all 3 games?
+3. Is it enough to do the same kind of context-sensitive behaviour for all three games, or does 'context sensitive' in game three mean making use of potions, etc.
+
+## Behaviour.todo
+* (40+) Find optimal paths using A* search:
+	* * `2013_1_1.xml` @done
+	* Map with narrow corridors. @done
+	* Map with locked doors, potions, flame traps and pits. @done
+	* All the above with more than one mob in a faction.
+* "Exhibit sensible context-sensitive behaviour":
+	* (50+) In `2013_1_1.xml`
+	* (60+) Map with narrow corridors
+	* (70+) Map with locked doors, potions, flame traps and pits.
+
+## Report.todo
+* (10) List files, installation and usage instructions.
+* (40) Describe your strategy for the faction and its creatures. Describe techniques and algorithms used in to implement it.
+* (30) Implementation details and performance trade-offs.
+* (20) Description of how you tested your code, and recommendations of how to test "this type of game". 
+
+---
+# Plan of Action .todo
+* Faction behaviour to pathfind as a group to another room.
+	* leader move to touchpoint
+	* followers follow leader
+	* when faction 'together', leader move to center of other room.
+* Faction behaviour to collect treasure in a room.
+	* when all members in room, colect treasure
+		* one member per treasure.  remaining go to center.
+* Switch state: 
+	* when room has treasure, collect treasure.
+	* When room has no treausure, move to room with treasure.
+	* When no room with treasure, 
+
+# Report
+
+## Faction strategy.
+
+My faction acts defensively.  By default it aims to collect as much treasure as possible.  When a faction member is under threat, it makes a fight-or-flight check.  If it fights, the whole faction attacks.  If it flees, the faction groups together and then attacks.
+
+*To do the above, what diferent behaviours would we need?*
+
+* Find treasure.
+	* Leader pathfinds to room with treasure, followers follow leader.
+* Collect treasure.
+	* Faction splits and pathfinds to treasure in room.
+* Fight behaviour
+	* Creatures attack enemy.
+* Defend.
+	* Creatures move closer to each other.
+	
+
+If an enemy enters the same room as the faction, the faction is considered under threat.  At this point, faction members move towards each other and fight the approaching enemy.
+
+--
+
+An influence map is used to make the pathfinding more intelligent.  When treasure-hunting, areas of the map that are dangerous (because of the proximity of enemy creatures) are given a higher movement cost.
+
