@@ -1,6 +1,8 @@
 package dungeon.ai.hale.pathfind;
-//import dungoen.model.structure.FlameTrap;
 import java.awt.geom.Point2D;
+
+import dungeon.model.structure.*;
+import dungeon.model.items.mobs.Creature;
 
 public class Square {
 
@@ -11,8 +13,6 @@ public class Square {
     //System.out.println("Making square from: " + location);
     this.x = planeToGrid(location.getX());
     this.y = planeToGrid(location.getY());
-    //if (game.getMap().getTileAt(location) instanceof FlamePit)
-      //this.terrainCost = 10;
     //System.out.println("Square: [" + x + "," + y + "]");
   }
 
@@ -39,6 +39,20 @@ public class Square {
     return (int) (point / 5.0);
   }
 
+  public void setOccupiable(Tile tile, Creature fCreature)
+  {
+    if (tile == null)
+      setOccupiable( false );
+    else
+    {
+      setOccupiable( tile.canOccupy(fCreature) );
+      try{
+        FlameTrap trap = (FlameTrap) tile;
+        setTerrainCost(200);
+      } catch(ClassCastException e) { }
+    }
+  }
+
   private boolean occupiable = false;
   public boolean isOccupiable() { return this.occupiable; }
   public void setOccupiable(boolean occupiable) { this.occupiable = occupiable; }
@@ -53,6 +67,8 @@ public class Square {
 
   /* The cost of moving on this square.  E.g. for flame traps */
   private int terrainCost = 0;
+  public int getTerrainCost() { return terrainCost; }
+  public void setTerrainCost(int cost) { this.terrainCost = cost; }
 
   private int fCost;
   public int getFCost() { return gScore + hScore; }
