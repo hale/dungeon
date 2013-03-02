@@ -1,4 +1,5 @@
 package dungeon.ai.hale.pathfind;
+//import dungoen.model.structure.FlameTrap;
 import java.awt.geom.Point2D;
 
 public class Square {
@@ -10,12 +11,14 @@ public class Square {
     //System.out.println("Making square from: " + location);
     this.x = planeToGrid(location.getX());
     this.y = planeToGrid(location.getY());
+    //if (game.getMap().getTileAt(location) instanceof FlamePit)
+      //this.terrainCost = 10;
     //System.out.println("Square: [" + x + "," + y + "]");
   }
 
   public int getMoveCost(Square adjSquare)
   {
-    return (isDiagonal(adjSquare)) ? 14 : 10;
+    return terrainCost + ((isDiagonal(adjSquare)) ? 14 : 10);
   }
 
   /* look at the gridpointX of this and the other square.
@@ -47,6 +50,9 @@ public class Square {
   private int y;
   public int getY() { return y; }
   public void setY(int y) { this.y = y; }
+
+  /* The cost of moving on this square.  E.g. for flame traps */
+  private int terrainCost = 0;
 
   private int fCost;
   public int getFCost() { return gScore + hScore; }

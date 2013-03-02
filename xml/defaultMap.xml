@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Game Level="0" Name="Test Dungeon">
+  <Map>
+    <Tiles>
+      <Vector>
+        <Floor Height="23.0" Width="27.0" X="0.0" Y="0.0"/>
+        <Door Height="5.0" KeyID="-1" State="2" Width="2.0" X="-17.0" Y="8.0"/>
+        <Floor Height="5.0" Width="15.0" X="-15.0" Y="8.0"/>
+        <Floor Height="17.0" Width="21.0" X="-38.0" Y="-2.0"/>
+        <Door Height="2.0" KeyID="-1" State="1" Width="5.0" X="3.0" Y="-14.0"/>
+        <FlameTrap Height="12.0" Width="5.0" X="3.0" Y="-12.0"/>
+        <Floor Height="15.0" Width="17.0" X="-9.0" Y="-29.0"/>
+        <Door Height="5.0" KeyID="-1" State="2" Width="2.0" X="22.0" Y="-29.0"/>
+        <Floor Height="5.0" Width="14.0" X="8.0" Y="-29.0"/>
+        <Floor Height="22.0" Width="27.0" X="24.0" Y="-37.0"/>
+        <FlameTrap Height="17.0" Width="5.0" X="-36.0" Y="15.0"/>
+        <Floor Height="20.0" Width="27.0" X="-44.0" Y="32.0"/>
+        <Floor Height="5.0" Width="13.0" X="27.0" Y="15.0"/>
+        <Floor Height="20.0" Width="18.0" X="40.0" Y="5.0"/>
+        <Floor Height="17.0" Width="5.0" X="1.0" Y="-46.0"/>
+        <Floor Height="25.0" Width="19.0" X="0.0" Y="-71.0"/>
+        <Finish Height="5.0" Width="5.0" X="-42.0" Y="52.0"/>
+      </Vector>
+    </Tiles>
+  </Map>
+  <Factions>
+    <Vector/>
+  </Factions>
+  <Creatures>
+    <Vector>
+      <Orc Behaviour="dungeon.ai.DefaultBehaviour" CurrentEnergy="10" CurrentHealth="10" Gold="20" X="-36.0" Y="14.0">
+        <Attacks>
+          <Vector>
+            <Smash/>
+            <Dagger/>
+          </Vector>
+        </Attacks>
+        <Inventory>
+          <Vector/>
+        </Inventory>
+      </Orc>
+      <Orc Behaviour="dungeon.ai.DefaultBehaviour" CurrentEnergy="10" CurrentHealth="10" Gold="20" X="-36.0" Y="8.0">
+        <Attacks>
+          <Vector>
+            <Smash/>
+            <Dagger/>
+          </Vector>
+        </Attacks>
+        <Inventory>
+          <Vector/>
+        </Inventory>
+      </Orc>
+      <Orc Behaviour="dungeon.ai.DefaultBehaviour" CurrentEnergy="10" CurrentHealth="10" Gold="20" X="8.0" Y="16.0">
+        <Attacks>
+          <Vector>
+            <Smash/>
+            <Dagger/>
+          </Vector>
+        </Attacks>
+        <Inventory>
+          <Vector/>
+        </Inventory>
+      </Orc>
+      <Orc Behaviour="dungeon.ai.DefaultBehaviour" CurrentEnergy="10" CurrentHealth="10" Gold="20" X="45.0" Y="9.0">
+        <Attacks>
+          <Vector>
+            <Smash/>
+            <Dagger/>
+          </Vector>
+        </Attacks>
+        <Inventory>
+          <Vector/>
+        </Inventory>
+      </Orc>
+      <Orc Behaviour="dungeon.ai.DefaultBehaviour" CurrentEnergy="10" CurrentHealth="10" Gold="20" X="11.0" Y="8.0">
+        <Attacks>
+          <Vector>
+            <Smash/>
+            <Dagger/>
+          </Vector>
+        </Attacks>
+        <Inventory>
+          <Vector/>
+        </Inventory>
+      </Orc>
+      <Orc Behaviour="dungeon.ai.DefaultBehaviour" CurrentEnergy="10" CurrentHealth="10" Gold="20" X="-39.0" Y="43.0">
+        <Attacks>
+          <Vector>
+            <Smash/>
+            <Dagger/>
+          </Vector>
+        </Attacks>
+        <Inventory>
+          <Vector/>
+        </Inventory>
+      </Orc>
+      <Orc Behaviour="dungeon.ai.DefaultBehaviour" CurrentEnergy="10" CurrentHealth="10" Gold="20" X="29.0" Y="16.0">
+        <Attacks>
+          <Vector>
+            <Smash/>
+            <Dagger/>
+          </Vector>
+        </Attacks>
+        <Inventory>
+          <Vector/>
+        </Inventory>
+      </Orc>
+    </Vector>
+  </Creatures>
+  <Treasure>
+    <Vector>
+      <Key DoorID="-1" X="-5.0" Y="12.0"/>
+      <Key DoorID="-1" X="-1.0" Y="9.0"/>
+      <Gold Worth="150" X="-32.0" Y="2.0"/>
+      <Potion Type="0" X="25.0" Y="-31.0"/>
+      <Potion Type="1" X="28.0" Y="-20.0"/>
+      <Potion Type="1" X="-28.0" Y="8.0"/>
+      <Potion Type="1" X="31.0" Y="16.0"/>
+      <Potion Type="0" X="-34.0" Y="48.0"/>
+      <Potion Type="0" X="45.0" Y="13.0"/>
+      <Potion Type="0" X="3.0" Y="-51.0"/>
+      <Potion Type="1" X="34.0" Y="-19.0"/>
+      <Potion Type="0" X="-35.0" Y="39.0"/>
+      <Potion Type="0" X="10.0" Y="1.0"/>
+    </Vector>
+  </Treasure>
+  <Hero CurrentEnergy="100" CurrentHealth="100" Gold="0" X="24.0" Y="8.0">
+    <Attacks>
+      <Vector>
+        <Sword/>
+        <Longbow/>
+      </Vector>
+    </Attacks>
+    <Inventory>
+      <Vector/>
+    </Inventory>
+  </Hero>
+</Game>
+

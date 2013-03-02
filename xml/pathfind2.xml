@@ -9,7 +9,7 @@
         <Floor Height="50" Width="15" X="85.0" Y="50.0"/>
         <Floor Height="45" Width="85" X="0.0" Y="55.0"/>
 
-        <Floor Height="20" Width="5" X="40" Y="100"/>
+        <FlameTrap Height="20" Width="5" X="40" Y="100"/>
         <Floor Height="5" Width="20" X="45" Y="115"/>
         <Floor Height="20" Width="5" X="50" Y="120"/>
         <Floor Height="5" Width="110" X="0" Y="105"/>
