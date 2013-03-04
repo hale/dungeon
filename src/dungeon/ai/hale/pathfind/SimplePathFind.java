@@ -48,20 +48,17 @@ public class SimplePathFind extends PathFind {
 
   private LinkedList<Square> findPath(Square originSquare, Square goalSquare)
   {
+    openList.clear();
     long startTime = System.nanoTime();
     LinkedList<Square> closedList = new LinkedList<Square>();
 
-    // 1. add the starting square to the open list
     openList.add(originSquare);
 
     boolean pathFound = false;
     int gScore;
     int hScore;
-    // 2. Repeat the following until the open list is empty.
     while (!openList.isEmpty() && !pathFound)
     {
-      //System.out.println(" open list contains " + openList.size() + " squares...");
-      // a) Set current square as lowest-fScore square from the open list
       Collections.sort(openList,
         new Comparator<Square>() {
           public int compare(Square a, Square b) {
@@ -71,46 +68,28 @@ public class SimplePathFind extends PathFind {
       );
       Square currentSquare = openList.pollFirst();
       assert(currentSquare != null);
-      // b) Move current square to the closed list
-      //System.out.println("\033[31m Adding square " + currentSquare + " with fCost " + currentSquare.getFCost() + " to the closed list.\033[0m");
       closedList.add(currentSquare);
-      // (i)   If goalSquare is in closed list, path has been found.
       if (closedList.contains(goalSquare))
       {
-        //System.out.println("Goal square added to closed list");
         pathFound = true;
       }
-      // c) For each adjacent square to current square...
-        // only possible adjSquares are returned
       for (Square adjSquare : grid.getAdjacentSquares(currentSquare))
       {
         assert(adjSquare != null);
-        // (i)   Ignore if unreachable or in closed list
         if ( closedList.contains(adjSquare) )
           continue;
-        // (ii)  If it isn't on the open list,
         if (!openList.contains(adjSquare))
         {
-          // * Add it to the open list.
           openList.add(adjSquare);
-          //System.out.println("Adding " + adjSquare + " to the open list.");
-          // * Calculate F, G, H score.
           if (adjSquare.hasParent())
-            gScore = currentSquare.getMoveCost(adjSquare) + adjSquare.getParent().getGScore();
+            gScore = currentSquare.getMoveCost(adjSquare) + currentSquare.getGScore();
           else
             gScore = currentSquare.getMoveCost(adjSquare);
           adjSquare.setGScore(gScore);
           adjSquare.setHScore(grid.chebyshevDist(currentSquare, goalSquare));
-          // * Set its parent square to the current square.
           adjSquare.setParent(currentSquare);
-        // (iii) If it is already in the open list:
         } else
         {
-          //  * Check to see if this path to that square is better, using G cost as the measure.
-          //    A lower G cost means that this is a better path. If so, change the parent of the
-          //    square to the current square, and recalculate the G and F scores of the square.
-          //    If you are keeping your open list sorted by F score, you may need to resort the
-          //    list to account for the change.
           if (currentSquare.getGScore() + currentSquare.getMoveCost(adjSquare) < adjSquare.getGScore())
           {
             adjSquare.setParent(currentSquare);
@@ -122,19 +101,12 @@ public class SimplePathFind extends PathFind {
         assert(adjSquare.hasParent());
       }
     }
-    // 3. If path has been found, calculate the path
-    //   (i)   Working backwards from the target square, go from each square to its
-    //         parent square until you reach the starting square.
+    originSquare.setParent(null);
     LinkedList<Square> pathList = new LinkedList<Square>();
     if (pathFound)
     {
-      Square nextSquare = closedList.getLast();
-      while (nextSquare != originSquare)
-      {
-        assert(nextSquare != null);
-        pathList.push(nextSquare);
-        nextSquare = nextSquare.getParent();
-      }
+      for (Square sq = closedList.getLast(); !sq.equals(originSquare); sq = sq.getParent())
+        pathList.push(sq);
       long ms = (System.nanoTime() - startTime) / 1000000;
       System.out.println("\033[32m Path found! \033[0m");
       System.out.println("Path is " + pathList.size() + " steps long.");

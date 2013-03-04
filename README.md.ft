@@ -25,6 +25,12 @@
 * (20) Description of how you tested your code, and recommendations of how to test "this type of game". 
 
 ---
+# Faction Pathfinding
+Having a follower and a leader results in difficulties when fetching treasure from the end of narrow corridors.  The leader becomes blocked by the follower, and telling the follower to move out of the way is nontrivial.
+
+Therefore, return to the basic solution of independent pathfinding between creatures in a faction.  In order to ensure they move as a group, only pathfind when the mob is far away from another.
+
+
 # Plan of Action .todo
 * Faction behaviour to pathfind as a group to another room.
 	* leader move to touchpoint
