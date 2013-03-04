@@ -38,80 +38,74 @@ public class PathFindBehaviour implements Behaviour
   }
   Creature fCreature = null;
   Random fRandom = new Random();
+  SimplePathFind fPathFind;
+  Game fGame;
 
   static final boolean KEEP_TO_ROOMS = true;
 
+
   /* TICKS */
 
-  public boolean onTick(Game game)
-  {
-    boolean hasActed = tryActions(fCreature, game);
-    if (hasActed)
+  @Override
+    public boolean onTick(Game game)
+    {
+      if (fGame == null) fGame = game;
+      if (fPathFind == null) fPathFind = new SimplePathFind(fCreature, fGame);
+
+      boolean hasActed = tryActions();
+      if (hasActed)
+        return false;
+
+      return move();
+    }
+
+  @Override
+    public boolean deathTick(Game game) {
       return false;
+    }
 
-    return move(fCreature, game);
-  }
-
-  public boolean deathTick(Game game) {
-    return false;
-  }
-
-  public boolean gameOverTick(Game game) {
-    return false;
-  }
+  @Override
+    public boolean gameOverTick(Game game) {
+      return false;
+    }
 
   /* ACTIONS */
 
-  private boolean tryActions(Creature fCreature, Game game)
+  private boolean tryActions()
   {
-    if (ActionAttack.performAction(fCreature, game))
+    if (ActionAttack.performAction(fCreature, fGame))
       return true;
-    if (ActionPickUp.performAction(fCreature, game))
+    if (ActionPickUp.performAction(fCreature, fGame))
       return true;
-    if (ActionDoor.performAction(fCreature, game))
+    if (ActionDoor.performAction(fCreature, fGame))
       return true;
     return false;
   }
 
   /* MOVEMENT */
 
-  boolean move(Creature fCreature, Game game)
+  private boolean move()
   {
     if (fCreature.getGoal() == null)
-      setNewGoal(fCreature, game);
+      setNewGoal();
 
-    return fCreature.moveToGoal(game);
+    return fCreature.moveToGoal(fGame);
   }
 
-  private void setNewGoal(Creature fCreature, Game game)
+  private void setNewGoal()
   {
-    SimplePathFind pathFind = new SimplePathFind(fCreature, game);
-
-    Point2D destination = getDestination(fCreature, game);
-
-    LinkedList<Point2D> path = (LinkedList<Point2D>) pathFind.findPath(
-        fCreature.getLocation(), destination);
-
-    Point2D nextPoint;
-    if (!path.isEmpty())
-    {
-      nextPoint = path.pop();
-      fCreature.setGoal(nextPoint, game);
-    }
+    Point2D destination = getDestination();
+    pathfindTo(destination);
   }
 
-  private Point2D getDestination(Creature fCreature, Game game)
+  private Point2D getDestination()
   {
-    Rectangle2D bounds = getBounds(fCreature, game);
 
-    //Point2D goal_pt = randomLocation(bounds, game);
-    //Rectangle2D heroArea = game.getMap().getTileAt(game.getHero().getLocation()).getArea();
-    //Point2D goal_pt = new Point2D.Double(heroArea.getX() / 2, heroArea.getY() / 2);
+    //Point2D goal_pt = randomLocation();
 
-    //Point2D goal_pt = treasureLocation(game);
-    Point2D goal_pt = game.getHero().getLocation();
+    Point2D goal_pt = fGame.getHero().getLocation();
 
-    //if (CollisionDetection.canOccupy(game, fCreature, goal_pt))
+    //if (CollisionDetection.canOccupy(fGame, fCreature, goal_pt))
       //if (!samePlace(goal_pt, fCreature.getLocation()))
         return goal_pt;
 
@@ -121,54 +115,63 @@ public class PathFindBehaviour implements Behaviour
 
   /* GOAL DETERMINATION */
 
-  private Point2D randomLocation(Rectangle2D bounds, Game game)
+  private Point2D randomLocation()
   {
+    Rectangle2D bounds = getBounds();
     double x = bounds.getX() + (bounds.getWidth() * fRandom.nextDouble());
     double y = bounds.getY() + (bounds.getHeight() * fRandom.nextDouble());
     return new Point2D.Double(x, y);
   }
 
-  private Point2D treasureLocation(Game game)
-  {
-    return game.getTreasure().get(0).getLocation();
-  }
-
   /* PATH FINDING */
 
+  private void pathfindTo(Point2D destination)
+  {
+    LinkedList<Point2D> path = (LinkedList<Point2D>) fPathFind.findPath(
+        fCreature.getLocation(), destination);
+
+    Point2D nextPoint;
+    if (!path.isEmpty())
+    {
+      nextPoint = path.pop();
+      fCreature.setGoal(nextPoint, fGame);
+    }
+  }
 
   /* UTILITY */
 
-  private boolean takeRandomStep(Creature fCreature, Game game)
+  private boolean takeRandomStep()
   {
     double theta = fRandom.nextDouble() * Math.PI * 2;
-    return fCreature.move(theta, game);
+    return fCreature.move(theta, fGame);
   }
 
-  private Rectangle2D getBounds(Creature fCreature, Game game) {
+  private Rectangle2D getBounds() {
     if (this.KEEP_TO_ROOMS)
-      return game.getMap().getTileAt(fCreature.getLocation()).getArea();
+      return fGame.getMap().getTileAt(fCreature.getLocation()).getArea();
     else
-      return game.getMap().getBounds(0);
+      return fGame.getMap().getBounds(0);
   }
 
-  private boolean withinBounds(Item item, Rectangle2D bounds)
+  private boolean withinBounds(Item item)
   {
+    Rectangle2D bounds = getBounds();
     if (bounds.contains(item.getLocation().getX(), item.getLocation().getY()))
       return true;
     return false;
   }
 
-  private boolean inSameRoom(Item item_1, Item item_2, Game game)
+  private boolean inSameRoom(Item item_1, Item item_2)
   {
-    Tile item_one_tile = game.getMap().getTileAt(item_1.getLocation());
-    Tile item_two_tile = game.getMap().getTileAt(item_2.getLocation());
+    Tile item_one_tile = fGame.getMap().getTileAt(item_1.getLocation());
+    Tile item_two_tile = fGame.getMap().getTileAt(item_2.getLocation());
 
     if (item_one_tile.equals(item_two_tile))
       return true;
     return false;
   }
 
-  private boolean canCarryTreasure(Creature fCreature, Treasure treasure, Game game)
+  private boolean canCarryTreasure(Treasure treasure)
   {
     double t_weight = treasure.getWeight();
     double encumbrance = fCreature.getEncumbrance();
@@ -179,11 +182,11 @@ public class PathFindBehaviour implements Behaviour
     return false;
   }
 
-  private boolean isAchievable(Treasure treasure, Creature fCreature, Rectangle2D bounds, Game game)
+  private boolean isAchievable(Treasure treasure, Rectangle2D bounds)
   {
-    if (withinBounds(treasure, bounds)) {
-      if (inSameRoom(fCreature, treasure, game)) {
-        if (canCarryTreasure(fCreature, treasure, game)) {
+    if (withinBounds(treasure)) {
+      if (inSameRoom(fCreature, treasure)) {
+        if (canCarryTreasure(treasure)) {
           return true;
         }
       }

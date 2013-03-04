@@ -1,5 +1,6 @@
 package dungeon.ai.hale.pathfind;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import dungeon.model.structure.*;
 import dungeon.model.items.mobs.Creature;
@@ -39,39 +40,17 @@ public class Square {
     return (int) (point / 5.0);
   }
 
-  public void setOccupiable(Tile tile, Creature fCreature)
+  protected Rectangle2D getRectangle()
   {
-    if (tile == null || isPit(tile))
-      setOccupiable( false );
-    else
-    {
-      setOccupiable( tile.canOccupy(fCreature) );
-      if (isTrap(tile))
-        setTerrainCost(200);
-    }
+    double height = Grid.TILE_SIZE;
+    double width =  Grid.TILE_SIZE;
+    double x =  ((this.x) * 5) ;
+    double y =  ((this.y) * 5) ;
+
+    return new Rectangle2D.Double(x, y, width, height);
   }
 
-  private boolean isTrap(Tile tile)
-  {
-    try{
-      FlameTrap trap = (FlameTrap) tile;
-    } catch(ClassCastException e) {
-      return false;
-    }
-    return true;
-  }
-
-  private boolean isPit(Tile tile)
-  {
-    try{
-      Pit pit = (Pit) tile;
-    } catch(ClassCastException e) {
-      return false;
-    }
-    return true;
-  }
-
-  private boolean occupiable = false;
+  private boolean occupiable = true;
   public boolean isOccupiable() { return this.occupiable; }
   public void setOccupiable(boolean occupiable) { this.occupiable = occupiable; }
 

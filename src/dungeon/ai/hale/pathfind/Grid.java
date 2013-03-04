@@ -4,6 +4,7 @@ import dungeon.App;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
 import dungeon.model.structure.Tile;
+import dungeon.model.structure.Pit;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -17,7 +18,7 @@ import dungeon.model.structure.FlameTrap;
 public class Grid {
 
   boolean gridInitialised =false;
-  final double TILE_SIZE = 5;
+  protected static final double TILE_SIZE = 5;
   int xArraySize;
   int yArraySize;
   double halfTileSize = TILE_SIZE/2;
@@ -30,8 +31,12 @@ public class Grid {
     this.xArraySize = (int) (bounds.getWidth() / TILE_SIZE);
     this.yArraySize = (int) (bounds.getHeight() / TILE_SIZE);
     sqGrid =  new Square[xArraySize][yArraySize];
-    System.out.println("MAP SIZE: " + bounds.getWidth() + "x" + bounds.getHeight() + ".");
     constructGrid(fCreature, game);
+  }
+
+  protected Square squareAt(int x, int y)
+  {
+    return sqGrid[x][y];
   }
 
   private void constructGrid(Creature fCreature, Game game)
@@ -42,20 +47,50 @@ public class Grid {
       for (int y = 0; y < yArraySize; y++) {
         for (int x = 0; x < xArraySize; x++) {
           Square square = new Square();
+          Tile tile = getTileAtGrid(x, y);
+
           square.setX(x);
           square.setY(y);
 
-          Tile tile = getTileAtGrid(x, y);
-          square.setOccupiable(tile, fCreature);
+          if (tile == null || isPit(tile) || !tile.canOccupy(fCreature))
+            square.setOccupiable( false );
+
+          for (Creature creature : game.getCreatures())
+            if (creature.getShape().intersects(square.getRectangle()))
+              square.setOccupiable( false );
+
+          if (tile !=null && isTrap(tile))
+            square.setTerrainCost(200);
 
           sqGrid[x][y] = square;
         }
       }
     }
   }
-   private Tile getTileAtGrid(int x, int y)
-   {
-     Point2D.Double location = new Point2D.Double(halfTileSize
+
+  private boolean isTrap(Tile tile)
+  {
+    try{
+      FlameTrap trap = (FlameTrap) tile;
+    } catch(ClassCastException e) {
+      return false;
+    }
+    return true;
+  }
+
+  private boolean isPit(Tile tile)
+  {
+    try{
+      Pit pit = (Pit) tile;
+    } catch(ClassCastException e) {
+      return false;
+    }
+    return true;
+  }
+
+  private Tile getTileAtGrid(int x, int y)
+  {
+    Point2D.Double location = new Point2D.Double(halfTileSize
          + x * TILE_SIZE, halfTileSize + y * TILE_SIZE);
 
      return App.getGame().getMap().getTileAt(location);
@@ -67,12 +102,12 @@ public class Grid {
     //System.out.print("Getting adjacent squares for: [");
     //System.out.println(square.getX() + "," + square.getY() + "]");
 
-    // TODO: Rewrite this method to only return adjacent squares
+    // This method only returns adjacent squares
     // which are valid.  A valid adjacent square:
     // 1) is truly adjacent (ie not the same square) @done
     // 2) is not out of bounds of the grid @done
     // 3) is occupiable (not a wall) @done
-    // 4) can be reached (does not intersect a wall)
+    // 4) can be reached (does not intersect a wall) @done
     // TODO: remove isOccupiable() check in adjSquares loop
 
     List<Square> adjSquares = new ArrayList<Square>();
@@ -125,7 +160,6 @@ public class Grid {
         if( sqGrid[ sqX + 1 ][ sqY    ].isOccupiable() )
           addSquareIfOccupiable( sqGrid[ sqX + 1 ][ sqY - 1], adjSquares);
 
-
     return adjSquares;
   }
 
@@ -136,31 +170,27 @@ public class Grid {
   }
 
 
-  public int manhattan(Square sq1, Square sq2)
+  public int manhattanDist(Square sq1, Square sq2)
   {
     int xDist = Math.abs(sq1.getX() - sq2.getX());
     int yDist = Math.abs(sq1.getY() - sq2.getY());
     return 10*(xDist + yDist);
   }
 
-
-  public void printSqGrid()
+  public int chebyshevDist(Square sq1, Square sq2)
   {
-    System.out.println("=== GRID OF SQUARES ===");
-    for (int y = 0; y < yArraySize ; y++) {
-      for (int x = 0; x < xArraySize ; x++) {
-        int occupiable = 0;
-        if (sqGrid[x][y].isOccupiable())
-          occupiable = 1;
-        System.out.print(occupiable);
-      }
-      System.out.println();
-    }
+    int xDist = Math.abs(sq1.getX() - sq2.getX());
+    int yDist = Math.abs(sq1.getY() - sq2.getY());
+    if (xDist > yDist)
+      return (14 * yDist) + (10 * (xDist - yDist));
+    else
+      return (14 * xDist) + (10 * (yDist = xDist));
   }
 
   public void printSquares(List<Square> list, Square origin, Square goal)
   {
-    System.out.println("=== GRID OF SQUARES ===");
+    System.out.println(" == MAP SIZE: "
+        + (xArraySize*TILE_SIZE) + "x" + (yArraySize*TILE_SIZE) + " == ");
     for (int y = 0; y < yArraySize ; y++) {
       for (int x = 0; x < xArraySize ; x++) {
         String printChar = "\033[31m" + "0" + "\033[0m";

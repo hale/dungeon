@@ -33,6 +33,8 @@ public class SimplePathFind extends PathFind {
   {
     Square originSquare = new Square(pointA);
     Square goalSquare = new Square(pointB);
+    grid.squareAt(originSquare.getX(), originSquare.getY()).setOccupiable( true );
+    grid.squareAt(goalSquare.getX(), goalSquare.getY()).setOccupiable( true );
     return squaresToPoints(findPath(originSquare, goalSquare));
   }
 
@@ -98,7 +100,7 @@ public class SimplePathFind extends PathFind {
           else
             gScore = currentSquare.getMoveCost(adjSquare);
           adjSquare.setGScore(gScore);
-          adjSquare.setHScore(grid.manhattan(currentSquare, goalSquare));
+          adjSquare.setHScore(grid.chebyshevDist(currentSquare, goalSquare));
           // * Set its parent square to the current square.
           adjSquare.setParent(currentSquare);
         // (iii) If it is already in the open list:
@@ -114,7 +116,7 @@ public class SimplePathFind extends PathFind {
             adjSquare.setParent(currentSquare);
             gScore = currentSquare.getMoveCost(adjSquare) + adjSquare.getParent().getGScore();
             adjSquare.setGScore(gScore);
-            adjSquare.setHScore(grid.manhattan(currentSquare, goalSquare));
+            adjSquare.setHScore(grid.chebyshevDist(currentSquare, goalSquare));
           }
         }
         assert(adjSquare.hasParent());
@@ -137,10 +139,10 @@ public class SimplePathFind extends PathFind {
       System.out.println("\033[32m Path found! \033[0m");
       System.out.println("Path is " + pathList.size() + " steps long.");
       System.out.println("Path took " + ms + " milliseconds to calculate.");
-      grid.printSquares(pathList, originSquare, goalSquare);
     }
     else
       System.out.println("\033[31m No path found! \033[0m");
+    grid.printSquares(pathList, originSquare, goalSquare);
     return pathList;
   }
 
