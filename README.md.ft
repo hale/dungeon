@@ -2,7 +2,9 @@
 
 ## FAQ
 1. Will the faction mobs always spawn next to each other?
+	1. No.
 2. Will the dungeon be 20x20 for all 3 games?
+	1. No
 3. Can we use deathTick() for "code that gets executed when a creature dies"?
 
 ## Behaviour.todo

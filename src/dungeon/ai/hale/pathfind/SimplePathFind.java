@@ -33,8 +33,8 @@ public class SimplePathFind extends PathFind {
   {
     Square originSquare = new Square(pointA);
     Square goalSquare = new Square(pointB);
-    grid.squareAt(originSquare.getX(), originSquare.getY()).setOccupiable( true );
-    grid.squareAt(goalSquare.getX(), goalSquare.getY()).setOccupiable( true );
+    //grid.squareAt(originSquare.getX(), originSquare.getY()).setOccupiable( true );
+    //grid.squareAt(goalSquare.getX(), goalSquare.getY()).setOccupiable( true );
     return squaresToPoints(findPath(originSquare, goalSquare));
   }
 

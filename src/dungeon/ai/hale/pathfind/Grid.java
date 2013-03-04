@@ -55,9 +55,9 @@ public class Grid {
           if (tile == null || isPit(tile) || !tile.canOccupy(fCreature))
             square.setOccupiable( false );
 
-          for (Creature creature : game.getCreatures())
-            if (creature.getShape().intersects(square.getRectangle()))
-              square.setOccupiable( false );
+          //for (Creature creature : game.getCreatures())
+            //if (creature.getShape().intersects(square.getRectangle()))
+              //square.setOccupiable( false );
 
           if (tile !=null && isTrap(tile))
             square.setTerrainCost(200);
