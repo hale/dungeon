@@ -95,6 +95,6 @@ public class PatientPathFindBehaviour implements Behaviour
     LinkedList<Point2D> path = (LinkedList<Point2D>) fPathFind.findPath(
         fCreature.getLocation(), destination);
 
-    return path.pop();
+    return path.pollFirst();
   }
 }

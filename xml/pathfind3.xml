@@ -56,11 +56,15 @@
   </Factions>
   <Creatures>
     <Vector>
-      <!--<Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="95" Y="15" Behaviour="dungeon.ai.hale.SlaveBehaviour" Faction="red">-->
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="95" Y="10" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">
+        <Attacks><Vector></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Orc>
+      <!--<Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="95" Y="15" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">-->
         <!--<Attacks><Vector></Vector></Attacks>-->
         <!--<Inventory><Vector/></Inventory>-->
       <!--</Orc>-->
-      <!--<Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.hale.SlaveBehaviour" Faction="red">-->
+      <!--<Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">-->
         <!--<Attacks><Vector></Vector></Attacks>-->
         <!--<Inventory><Vector/></Inventory>-->
       <!--</Ogre>-->
