@@ -17,59 +17,95 @@ import java.util.List;
 
 public class FactionGroupMoveBehaviour implements Behaviour {
 
+  SimplePathFind fPathFind;
   Faction faction;
-  CreatureList factionCreatures;
+  CreatureList fCreatures;
   Creature leader;
   Game fGame;
   Random fRandom = new Random();
+  Point2D fGoal = null;
 
   public FactionGroupMoveBehaviour(Faction faction)
   {
     this.faction = faction;
-    factionCreatures = new CreatureList();
+    fCreatures = new CreatureList();
   }
 
   @Override
   public boolean onTick(Game game)
   {
-    if (fGame == null) fGame = game;
+    if (fGame == null) this.fGame = game;
 
-    updateFactionCreatures();
-    Point2D goal = getGoalPoint();
-    groupMove(goal);
+    this.fCreatures = getFactionCreatures();
+
+    // TODO: only get new goal when the faction goal has been reached
+    this.fGoal = newGoal();
+
+    groupMove();
 
     return true;
   }
 
-  private void groupMove(Point2D goal)
+  // TODO: recursively set each creature to follow previous creature.
+  private void groupMove()
   {
-    for (Creature creature : factionCreatures)
+    // generate path for all of the creatures to this.fGoal
+    // find the creature with the shortest path, set it as the leader.
+    // generate path for all other creatures to creature's location
+    PatientPathFindBehaviour behaviour;
+    for (Creature creature : fCreatures)
     {
-      PatientPathFindBehaviour behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
-      behaviour.setGoal(goal);
+      fPathFind = new SimplePathFind(creature, fGame);
+      behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
+      behaviour.setPath(fPathFind.findPath(creature.getLocation(), fGoal));
     }
+    Creature leader = closestCreatureToGoal();
+    for (Creature creature : fCreatures)
+      if (!creature.equals(leader))
+      {
+        fPathFind = new SimplePathFind(creature, fGame);
+        behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
+        behaviour.setPath(fPathFind.findPath(creature.getLocation(), leader.getLocation()));
+      }
   }
 
-  private void updateFactionCreatures()
+  private Creature closestCreatureToGoal()
   {
-    factionCreatures = new CreatureList();
+    PatientPathFindBehaviour behaviour;
+    Creature closestCreature = fCreatures.get(0);
+    PatientPathFindBehaviour closestCreatureBehaviour = (PatientPathFindBehaviour) closestCreature.getBehaviour();
+    for (Creature creature : fCreatures)
+    {
+      behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
+      if (behaviour.getPathSize() > closestCreatureBehaviour.getPathSize())
+        closestCreature = creature;
+    }
+    return closestCreature;
+  }
+
+  private CreatureList getFactionCreatures()
+  {
+    CreatureList creatures = new CreatureList();
+    creatures.clear();
     for (Creature creature : fGame.getCreatures())
       if (creature.getFaction().equals(faction.getName()))
-          factionCreatures.addElement(creature);
+        creatures.addElement(creature);
+    return creatures;
   }
 
-  private Point2D getGoalPoint()
+  private Point2D newGoal()
   {
-    Point2D goal_pt = null;
-    if (!fGame.getTreasure().isEmpty())
-      goal_pt = fGame.getTreasure().get(0).getLocation();;
+    Point2D goal_pt = null;;
 
     if (goal_pt == null)
-      goal_pt = randomLocation();
+      goal_pt = treasureLocation();
 
-    goal_pt = fGame.getHero().getLocation();
+    if (goal_pt  == null)
+      goal_pt = heroLocation();
 
-    assert(goal_pt != null);
+    if (goal_pt  == null)
+      goal_pt  = randomLocation();
+
     return goal_pt;
   }
 
@@ -81,6 +117,19 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     double y = bounds.getY() + (bounds.getHeight() * fRandom.nextDouble());
     return new Point2D.Double(x, y);
   }
+
+  private Point2D treasureLocation()
+  {
+    if (fGame.getTreasure().isEmpty()) { return null; }
+    return fGame.getTreasure().get(0).getLocation();
+  }
+
+  private Point2D heroLocation()
+  {
+    if (fGame.getHero() == null) { return null; }
+    return fGame.getHero().getLocation();
+  }
+
 
   @Override
     public boolean deathTick(Game game) {

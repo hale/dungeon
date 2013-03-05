@@ -13,15 +13,15 @@ public interface Behaviour
 {
 	/**
 	 * This method is called on every game tick to prompt the mob to act.
-	 * 
+	 *
 	 * @param game The current game object
 	 * @return Returns true if the mob has acted; false otherwise.
 	 */
 	public boolean onTick(Game game);
 	/**
-	 * This method is called (only for the winning team) on gameOver 
+	 * This method is called (only for the winning team) on gameOver
 	 * to give the winner a chance to update learning tables.
-	 * 
+	 *
 	 * @param game The current game object
 	 * @return Returns true if the mob has acted; false otherwise.
 	 */
@@ -30,7 +30,7 @@ public interface Behaviour
 	 * Bummer.
 	 * You just died:(
 	 * Any final words or last thoughts?
-	 * 
+	 *
 	 * @param game The current game object
 	 * @return Returns true if the mob has acted; false otherwise.
 	 */

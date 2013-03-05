@@ -1,22 +1,15 @@
 package dungeon.ai.hale;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.Random;
 import java.util.LinkedList;
+import java.util.List;
 
 import dungeon.ai.actions.ActionAttack;
 import dungeon.ai.actions.ActionDoor;
 import dungeon.ai.actions.ActionPickUp;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
-import dungeon.model.structure.Tile;
-
-import dungeon.collections.TreasureList;
-import dungeon.model.items.treasure.Treasure;
-import dungeon.model.items.Item;
-
-import dungeon.App;
 
 import dungeon.ai.hale.pathfind.*;
 import dungeon.ai.Behaviour;
@@ -28,14 +21,20 @@ public class PatientPathFindBehaviour implements Behaviour
   Creature fCreature;
   Game fGame;
   SimplePathFind fPathFind;
-  Point2D fGoal;
+  LinkedList<Point2D> fPath;
+  protected void setPath(List<Point2D> path)
+  {
+    fPath = (LinkedList<Point2D>) path;
+  }
+  protected int getPathSize() { return fPath.size(); }
+  Point2D fGoal = null;;
+  public void setGoal(Point2D goal) { this.fGoal = goal; }
+
 
   public PatientPathFindBehaviour(Creature creature)
   {
     fCreature = creature;
   }
-
-  public void setGoal(Point2D goal) { this.fGoal = goal; }
 
   /* TICKS */
 
@@ -45,11 +44,7 @@ public class PatientPathFindBehaviour implements Behaviour
       if (fGame == null) fGame = game;
       if (fPathFind == null) fPathFind = new SimplePathFind(fCreature, fGame);
 
-      boolean hasActed = tryActions();
-      if (hasActed)
-        return false;
-
-      return move();
+      return (tryActions() || tryMovement());
     }
 
   @Override
@@ -77,24 +72,29 @@ public class PatientPathFindBehaviour implements Behaviour
 
   /* MOVEMENT */
 
-  private boolean move()
+  private boolean tryMovement()
   {
-    if (fGoal == null) { return false; }
-    if (fCreature.getGoal() == null) {
-      Point2D nextStep = pathfindTo(fGoal);
-      if (nextStep != null)
-        fCreature.setGoal(nextStep, fGame);
+    if (fCreature.getGoal() != null)
+      return fCreature.moveToGoal(fGame);
+
+    if (fGoal == null)
+      return false;
+
+    updatePath();
+    if (fPath.size() > 2)
+    {
+      fCreature.setGoal(fPath.pollFirst(), fGame);
+      return fCreature.moveToGoal(fGame);
     }
-    return fCreature.moveToGoal(fGame);
+      return false;
   }
 
   /* PATH FINDING */
 
-  private Point2D pathfindTo(Point2D destination)
+  private void updatePath()
   {
-    LinkedList<Point2D> path = (LinkedList<Point2D>) fPathFind.findPath(
-        fCreature.getLocation(), destination);
-
-    return path.pollFirst();
+    assert(fGoal != null);
+    fPath = (LinkedList<Point2D>) fPathFind.findPath(
+        fCreature.getLocation(), fGoal);
   }
 }
