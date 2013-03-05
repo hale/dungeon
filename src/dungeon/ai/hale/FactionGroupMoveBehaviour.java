@@ -53,32 +53,33 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     // find the creature with the shortest path, set it as the leader.
     // generate path for all other creatures to creature's location
     PatientPathFindBehaviour behaviour;
-    for (Creature creature : fCreatures)
-    {
-      fPathFind = new SimplePathFind(creature, fGame);
-      behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
-      behaviour.setPath(fPathFind.findPath(creature.getLocation(), fGoal));
-    }
+
     Creature leader = closestCreatureToGoal();
     for (Creature creature : fCreatures)
-      if (!creature.equals(leader))
-      {
-        fPathFind = new SimplePathFind(creature, fGame);
-        behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
-        behaviour.setPath(fPathFind.findPath(creature.getLocation(), leader.getLocation()));
-      }
+    {
+      behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
+      if (creature.equals(leader))
+        behaviour.setGoal(fGoal);
+      else
+        behaviour.setGoal(leader.getLocation());
+    }
   }
 
   private Creature closestCreatureToGoal()
   {
-    PatientPathFindBehaviour behaviour;
+    // FIXME: don't do this.
+    int lowestPathSize = 999999;
+    assert(!fCreatures.isEmpty());
     Creature closestCreature = fCreatures.get(0);
-    PatientPathFindBehaviour closestCreatureBehaviour = (PatientPathFindBehaviour) closestCreature.getBehaviour();
     for (Creature creature : fCreatures)
     {
-      behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
-      if (behaviour.getPathSize() > closestCreatureBehaviour.getPathSize())
+      fPathFind = new SimplePathFind(creature, fGame);
+      int pathSize = (fPathFind.findPath(creature.getLocation(), fGoal)).size();
+      if (pathSize < lowestPathSize)
+      {
         closestCreature = creature;
+        lowestPathSize = pathSize;
+      }
     }
     return closestCreature;
   }
