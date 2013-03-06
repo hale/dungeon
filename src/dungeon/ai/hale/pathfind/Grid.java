@@ -105,7 +105,7 @@ public class Grid {
     } catch(ClassCastException e) {
       return false;
     }
-    if (door.getState() == Door.CLOSED)
+    if (door.getState() == Door.CLOSED || door.getState() == Door.LOCKED)
       return true;
     return false;
   }

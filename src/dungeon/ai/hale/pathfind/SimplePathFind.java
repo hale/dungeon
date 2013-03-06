@@ -112,7 +112,7 @@ public class SimplePathFind {
     }
     else
       System.out.println("\033[31m No path found! \033[0m");
-    //fGrid.printSquares(pathList, originSquare, goalSquare);
+    fGrid.printSquares(pathList, originSquare, goalSquare);
     return pathList;
   }
 
