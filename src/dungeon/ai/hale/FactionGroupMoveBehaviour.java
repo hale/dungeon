@@ -41,6 +41,8 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     if (fGrid == null) this.fGrid = new Grid(fGame);
     if (fPathFind == null) this.fPathFind = new SimplePathFind(fGame, fGrid);
 
+    fGrid.updateGrid(fGame);
+
     this.fCreatures = getFactionCreatures();
 
     // TODO: only get new goal when the faction goal has been reached
@@ -48,6 +50,8 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     //this.fGoal = newGoal();
 
     groupMove();
+
+    //if (collisionDetected())
 
     return true;
   }
@@ -97,6 +101,7 @@ public class FactionGroupMoveBehaviour implements Behaviour {
       {
         PatientPathFindBehaviour behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
         behaviour.setGrid(fGrid);
+        behaviour.setPathFind(fPathFind);
         creatures.addElement(creature);
       }
     return creatures;
@@ -112,8 +117,8 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     if (goal_pt  == null)
       goal_pt = heroLocation();
 
-    if (goal_pt  == null)
-      goal_pt  = randomLocation();
+    //if (goal_pt  == null)
+      //goal_pt  = randomLocation();
 
     return goal_pt;
   }

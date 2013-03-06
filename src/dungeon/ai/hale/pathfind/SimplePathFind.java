@@ -18,6 +18,9 @@ import dungeon.ui.MapPanel;
 
 public class SimplePathFind {
 
+  // hash map from [sq1, sq2] to list<square>
+
+
   Grid fGrid;
   LinkedList<Square> openList = new LinkedList<Square>();
   LinkedList<Square> closedList = new LinkedList<Square>();
@@ -112,7 +115,6 @@ public class SimplePathFind {
     }
     else
       System.out.println("\033[31m No path found! \033[0m");
-    fGrid.printSquares(pathList, originSquare, goalSquare);
     return pathList;
   }
 

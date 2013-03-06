@@ -15,6 +15,7 @@ import dungeon.App;
 
 import dungeon.ai.hale.pathfind.*;
 import dungeon.ai.Behaviour;
+import dungeon.ai.CollisionDetection;
 
 
 public class PatientPathFindBehaviour implements Behaviour
@@ -23,8 +24,12 @@ public class PatientPathFindBehaviour implements Behaviour
   Creature fCreature;
   Game fGame;
   SimplePathFind fPathFind;
+  protected void setPathFind(SimplePathFind pathFind) { this.fPathFind = pathFind; }
+
   Grid fGrid;
   protected void setGrid(Grid grid) { this.fGrid = grid; }
+
+
   LinkedList<Point2D> fPath;
   protected void setPath(List<Point2D> path)
   {
@@ -47,9 +52,16 @@ public class PatientPathFindBehaviour implements Behaviour
     {
       if (fGame == null) fGame = game;
       if (fGrid == null) { App.log("fGrid null"); return false; }
-      if (fPathFind == null) fPathFind = new SimplePathFind(fGame, fGrid);
+      if (fPathFind == null) { App.log("fPathFind null"); return false; }
 
-      return (tryActions() || tryMovement());
+      boolean acted = tryActions();
+      if (acted) return true;
+
+      boolean moved = tryMovement();
+      if (moved) return true;
+
+      setNewGoal();
+      return tryMovement();
     }
 
   @Override
@@ -79,29 +91,29 @@ public class PatientPathFindBehaviour implements Behaviour
 
   private boolean tryMovement()
   {
-    if (fCreature.getGoal() != null)
+    if (fCreature.getGoal() != null && CollisionDetection.canOccupy(fGame, fCreature, fCreature.getGoal()))
       return fCreature.moveToGoal(fGame);
+    fCreature.setGoal(null, fGame);
+    return false;
+  }
 
-    if (fGoal == null)
-      return false;
 
-    // if treasure in adjacent square, move to treasure.
+  private void setNewGoal()
+  {
+    // FIXME: if treasure in adjacent square, move to treasure.
     Square currentSquare = new Square(fCreature.getLocation());
-    List<Square> adjSquares = fGrid.getAdjacentSquares(currentSquare);
-    for (Square square : adjSquares)
-      if (square.containsTreasure())
+    for (Square square : fGrid.getTreasureSquares(fGame))
+    {
+      if (square.equals(currentSquare))
       {
         fCreature.setGoal(square.getCenter(), fGame);
-        return fCreature.moveToGoal(fGame);
+        return;
       }
-
-    updatePath();
-    if (fPath.size() > 2)
-    {
-      fCreature.setGoal(fPath.pollFirst(), fGame);
-      return fCreature.moveToGoal(fGame);
     }
-      return false;
+    updatePath();
+    if (fPath.size() > 1)
+      fCreature.setGoal(fPath.pollFirst(), fGame);
+    fGrid.printSquares(fPath, fCreature.getLocation(), fGoal, fGame);
   }
 
   /* PATH FINDING */

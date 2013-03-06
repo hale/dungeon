@@ -50,22 +50,23 @@ public class Grid {
     return squareAt(x, y);
   }
 
-  protected void updateGrid(Game game)
+  public ArrayList<Square> getTreasureSquares(Game game)
   {
-    List<Square> treasureSquares = new ArrayList<Square>();
+    ArrayList<Square> treasureSquares = new ArrayList<Square>();
     for (Treasure treasure : game.getTreasure())
        treasureSquares.add(new Square(treasure.getLocation()));
+    return treasureSquares;
+  }
 
-    for (int y = 0; y < yArraySize; y++)
-    {
-      for (int x = 0; x < xArraySize; x++)
-      {
+  public void updateGrid(Game game)
+  {
+    for (int y = 0; y < yArraySize; y++) {
+      for (int x = 0; x < xArraySize; x++) {
         Square sq = squareAt(x, y);
-        if (treasureSquares.contains(sq))
+        if (getTreasureSquares(game).contains(sq))
           sq.setContainsTreasure( true );
       }
     }
-
   }
 
   private void constructGrid(Game game)
@@ -227,8 +228,11 @@ public class Grid {
       return (14 * xDist) + (10 * (yDist = xDist));
   }
 
-  public void printSquares(List<Square> list, Square origin, Square goal)
+  public void printSquares(List<Point2D> list, Point2D p1, Point2D p2, Game game)
   {
+    Square origin = squareAt(p1);
+    Square goal = squareAt(p2);
+
     System.out.println(" == MAP SIZE: "
         + (xArraySize*TILE_SIZE) + "x" + (yArraySize*TILE_SIZE) + " == ");
     for (int y = 0; y < yArraySize ; y++) {
@@ -236,14 +240,16 @@ public class Grid {
         String printChar = "\033[31m" + "0" + "\033[0m";
         if (sqGrid[x][y].isOccupiable())
           printChar = "1";
-        if (list.contains(sqGrid[x][y]))
+        if (sqGrid[x][y].getTerrainCost() > 0)
+          printChar = "\033[35m" + "1" + "\033[0m";
+        if (getTreasureSquares(game).contains(sqGrid[x][y]))
+          printChar = "\033[33m" + "T" + "\033[0m";
+        if (list.contains(sqGrid[x][y].getCenter()))
           printChar = "\033[32m" + "X" + "\033[0m";
         if (sqGrid[x][y].equals(origin))
           printChar = "\033[34m" + "O" + "\033[0m";
         if (sqGrid[x][y].equals(goal))
           printChar = "\033[34m" + "G" + "\033[0m";
-        if (sqGrid[x][y].getTerrainCost() > 0)
-          printChar = "\033[33m" + "F" + "\033[0m";
         System.out.print(printChar);
       }
       System.out.println();
