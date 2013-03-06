@@ -3,14 +3,17 @@ package dungeon.ai.hale.pathfind;
 import dungeon.App;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
+import dungeon.model.items.mobs.Orc;
 import dungeon.model.structure.Tile;
+import dungeon.model.structure.Door;
 import dungeon.model.structure.Pit;
-
+import dungeon.collections.TreasureList;
+import dungeon.model.structure.FlameTrap;
+import dungeon.model.items.treasure.Treasure;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.ArrayList;
-import dungeon.model.structure.FlameTrap;
 
 /**
  * Grid representation of the map, for use in pathfinding.
@@ -25,13 +28,14 @@ public class Grid {
 
   Square[][] sqGrid;
 
-  public Grid(Creature fCreature, Game game)
+  public Grid(Game game)
   {
     Rectangle2D bounds = game.getMap().getBounds(0);
     this.xArraySize = (int) (bounds.getWidth() / TILE_SIZE);
     this.yArraySize = (int) (bounds.getHeight() / TILE_SIZE);
     sqGrid =  new Square[xArraySize][yArraySize];
-    constructGrid(fCreature, game);
+    constructGrid(game);
+    updateGrid(game);
   }
 
   protected Square squareAt(int x, int y)
@@ -39,7 +43,32 @@ public class Grid {
     return sqGrid[x][y];
   }
 
-  private void constructGrid(Creature fCreature, Game game)
+  protected Square squareAt(Point2D point)
+  {
+    int x = (int) (point.getX() / 5.0);
+    int y = (int) (point.getY() / 5.0);
+    return squareAt(x, y);
+  }
+
+  protected void updateGrid(Game game)
+  {
+    List<Square> treasureSquares = new ArrayList<Square>();
+    for (Treasure treasure : game.getTreasure())
+       treasureSquares.add(new Square(treasure.getLocation()));
+
+    for (int y = 0; y < yArraySize; y++)
+    {
+      for (int x = 0; x < xArraySize; x++)
+      {
+        Square sq = squareAt(x, y);
+        if (treasureSquares.contains(sq))
+          sq.setContainsTreasure( true );
+      }
+    }
+
+  }
+
+  private void constructGrid(Game game)
   {
     if (!gridInitialised) {
       gridInitialised=true;
@@ -52,7 +81,7 @@ public class Grid {
           square.setX(x);
           square.setY(y);
 
-          if (tile == null || isPit(tile) || !tile.canOccupy(fCreature))
+          if (tile == null || isPit(tile) || isClosedDoor(tile) )
             square.setOccupiable( false );
 
           //for (Creature creature : game.getCreatures())
@@ -68,6 +97,18 @@ public class Grid {
     }
   }
 
+  private boolean isClosedDoor(Tile tile)
+  {
+    Door door;
+    try{
+      door = (Door) tile;
+    } catch(ClassCastException e) {
+      return false;
+    }
+    if (door.getState() == Door.CLOSED)
+      return true;
+    return false;
+  }
   private boolean isTrap(Tile tile)
   {
     try{
@@ -77,7 +118,6 @@ public class Grid {
     }
     return true;
   }
-
   private boolean isPit(Tile tile)
   {
     try{

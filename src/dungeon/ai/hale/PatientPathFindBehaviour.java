@@ -4,12 +4,14 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
 import dungeon.ai.actions.ActionAttack;
 import dungeon.ai.actions.ActionDoor;
 import dungeon.ai.actions.ActionPickUp;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
+import dungeon.App;
 
 import dungeon.ai.hale.pathfind.*;
 import dungeon.ai.Behaviour;
@@ -21,6 +23,8 @@ public class PatientPathFindBehaviour implements Behaviour
   Creature fCreature;
   Game fGame;
   SimplePathFind fPathFind;
+  Grid fGrid;
+  protected void setGrid(Grid grid) { this.fGrid = grid; }
   LinkedList<Point2D> fPath;
   protected void setPath(List<Point2D> path)
   {
@@ -42,7 +46,8 @@ public class PatientPathFindBehaviour implements Behaviour
     public boolean onTick(Game game)
     {
       if (fGame == null) fGame = game;
-      if (fPathFind == null) fPathFind = new SimplePathFind(fCreature, fGame);
+      if (fGrid == null) { App.log("fGrid null"); return false; }
+      if (fPathFind == null) fPathFind = new SimplePathFind(fGame, fGrid);
 
       return (tryActions() || tryMovement());
     }
@@ -80,7 +85,15 @@ public class PatientPathFindBehaviour implements Behaviour
     if (fGoal == null)
       return false;
 
-    //TODO: if treausure in adjacent square, move to treasure.
+    // if treasure in adjacent square, move to treasure.
+    Square currentSquare = new Square(fCreature.getLocation());
+    List<Square> adjSquares = fGrid.getAdjacentSquares(currentSquare);
+    for (Square square : adjSquares)
+      if (square.containsTreasure())
+      {
+        fCreature.setGoal(square.getCenter(), fGame);
+        return fCreature.moveToGoal(fGame);
+      }
 
     updatePath();
     if (fPath.size() > 2)

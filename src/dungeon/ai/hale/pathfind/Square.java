@@ -83,6 +83,10 @@ public class Square {
   public void setParent(Square parent) { this.parent = parent; }
   public boolean hasParent() { return (parent != null) ? true : false; }
 
+  private boolean containsTreasure = false;
+  public boolean containsTreasure() { return containsTreasure; }
+  protected void setContainsTreasure(boolean containsTreasure) { this.containsTreasure = containsTreasure; }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

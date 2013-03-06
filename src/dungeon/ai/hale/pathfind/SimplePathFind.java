@@ -16,25 +16,22 @@ import dungeon.model.items.mobs.Creature;
 import dungeon.utils.*;
 import dungeon.ui.MapPanel;
 
-public class SimplePathFind extends PathFind {
+public class SimplePathFind {
 
-  Grid grid;
+  Grid fGrid;
   LinkedList<Square> openList = new LinkedList<Square>();
+  LinkedList<Square> closedList = new LinkedList<Square>();
 
 
-  public SimplePathFind(Creature creature, Game game)
+  public SimplePathFind(Game game, Grid grid)
   {
-    super(creature, game);
-    this.grid = new Grid(fCreature, game);
+    this.fGrid = grid;
   }
 
-  @Override
   public List<Point2D> findPath(Point2D pointA, Point2D pointB)
   {
     Square originSquare = new Square(pointA);
     Square goalSquare = new Square(pointB);
-    //grid.squareAt(originSquare.getX(), originSquare.getY()).setOccupiable( true );
-    //grid.squareAt(goalSquare.getX(), goalSquare.getY()).setOccupiable( true );
     return squaresToPoints(findPath(originSquare, goalSquare));
   }
 
@@ -49,16 +46,17 @@ public class SimplePathFind extends PathFind {
   private LinkedList<Square> findPath(Square originSquare, Square goalSquare)
   {
     openList.clear();
-    long startTime = System.nanoTime();
-    LinkedList<Square> closedList = new LinkedList<Square>();
-
-    openList.add(originSquare);
-
+    closedList.clear();
     boolean pathFound = false;
     int gScore;
     int hScore;
+
+    long startTime = System.nanoTime();
+
+    openList.add(originSquare);
     while (!openList.isEmpty() && !pathFound)
     {
+      //Square currentSquare = bestSquare()
       Collections.sort(openList,
         new Comparator<Square>() {
           public int compare(Square a, Square b) {
@@ -73,7 +71,7 @@ public class SimplePathFind extends PathFind {
       {
         pathFound = true;
       }
-      for (Square adjSquare : grid.getAdjacentSquares(currentSquare))
+      for (Square adjSquare : fGrid.getAdjacentSquares(currentSquare))
       {
         assert(adjSquare != null);
         if ( closedList.contains(adjSquare) )
@@ -86,7 +84,7 @@ public class SimplePathFind extends PathFind {
           else
             gScore = currentSquare.getMoveCost(adjSquare);
           adjSquare.setGScore(gScore);
-          adjSquare.setHScore(grid.chebyshevDist(currentSquare, goalSquare));
+          adjSquare.setHScore(fGrid.chebyshevDist(currentSquare, goalSquare));
           adjSquare.setParent(currentSquare);
         } else
         {
@@ -95,7 +93,7 @@ public class SimplePathFind extends PathFind {
             adjSquare.setParent(currentSquare);
             gScore = currentSquare.getMoveCost(adjSquare) + adjSquare.getParent().getGScore();
             adjSquare.setGScore(gScore);
-            adjSquare.setHScore(grid.chebyshevDist(currentSquare, goalSquare));
+            adjSquare.setHScore(fGrid.chebyshevDist(currentSquare, goalSquare));
           }
         }
         assert(adjSquare.hasParent());
@@ -114,7 +112,7 @@ public class SimplePathFind extends PathFind {
     }
     else
       System.out.println("\033[31m No path found! \033[0m");
-    //grid.printSquares(pathList, originSquare, goalSquare);
+    //fGrid.printSquares(pathList, originSquare, goalSquare);
     return pathList;
   }
 

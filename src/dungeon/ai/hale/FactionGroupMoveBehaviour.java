@@ -6,6 +6,7 @@ import dungeon.model.items.mobs.Creature;
 import dungeon.collections.CreatureList;
 import dungeon.ai.Behaviour;
 import dungeon.ai.hale.pathfind.SimplePathFind;
+import dungeon.ai.hale.pathfind.Grid;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class FactionGroupMoveBehaviour implements Behaviour {
 
   SimplePathFind fPathFind;
+  Grid fGrid;
   Faction faction;
   CreatureList fCreatures;
   Creature leader;
@@ -36,12 +38,14 @@ public class FactionGroupMoveBehaviour implements Behaviour {
   public boolean onTick(Game game)
   {
     if (fGame == null) this.fGame = game;
+    if (fGrid == null) this.fGrid = new Grid(fGame);
+    if (fPathFind == null) this.fPathFind = new SimplePathFind(fGame, fGrid);
 
     this.fCreatures = getFactionCreatures();
 
     // TODO: only get new goal when the faction goal has been reached
-    //if (fGoal == null) { this.fGoal = newGoal(); }
-    this.fGoal = newGoal();
+    if (fGoal == null) { this.fGoal = newGoal(); }
+    //this.fGoal = newGoal();
 
     groupMove();
 
@@ -74,7 +78,6 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     Creature closestCreature = fCreatures.get(0);
     for (Creature creature : fCreatures)
     {
-      fPathFind = new SimplePathFind(creature, fGame);
       int pathSize = (fPathFind.findPath(creature.getLocation(), fGoal)).size();
       if (pathSize < lowestPathSize)
       {
@@ -91,7 +94,11 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     creatures.clear();
     for (Creature creature : fGame.getCreatures())
       if (creature.getFaction().equals(faction.getName()))
+      {
+        PatientPathFindBehaviour behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
+        behaviour.setGrid(fGrid);
         creatures.addElement(creature);
+      }
     return creatures;
   }
 
