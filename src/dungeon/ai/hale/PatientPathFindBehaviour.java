@@ -102,14 +102,12 @@ public class PatientPathFindBehaviour implements Behaviour
   {
     // FIXME: if treasure in adjacent square, move to treasure.
     Square currentSquare = new Square(fCreature.getLocation());
-    for (Square square : fGrid.getTreasureSquares(fGame))
-    {
-      if (square.equals(currentSquare))
+    for (Square square : fGrid.getAdjacentSquares(currentSquare))
+      if (square.containsTreasure())
       {
         fCreature.setGoal(square.getCenter(), fGame);
-        return;
+          return;
       }
-    }
     updatePath();
     if (fPath.size() > 1)
       fCreature.setGoal(fPath.pollFirst(), fGame);
