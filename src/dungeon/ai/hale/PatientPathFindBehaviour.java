@@ -27,7 +27,7 @@ public class PatientPathFindBehaviour implements Behaviour
     fPath = (LinkedList<Point2D>) path;
   }
   protected int getPathSize() { return fPath.size(); }
-  Point2D fGoal = null;;
+  Point2D fGoal = null;
   public void setGoal(Point2D goal) { this.fGoal = goal; }
 
 
@@ -79,6 +79,8 @@ public class PatientPathFindBehaviour implements Behaviour
 
     if (fGoal == null)
       return false;
+
+    //TODO: if treausure in adjacent square, move to treasure.
 
     updatePath();
     if (fPath.size() > 2)

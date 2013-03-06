@@ -13,6 +13,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class FactionGroupMoveBehaviour implements Behaviour {
@@ -39,6 +40,7 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     this.fCreatures = getFactionCreatures();
 
     // TODO: only get new goal when the faction goal has been reached
+    //if (fGoal == null) { this.fGoal = newGoal(); }
     this.fGoal = newGoal();
 
     groupMove();
@@ -53,10 +55,10 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     // find the creature with the shortest path, set it as the leader.
     // generate path for all other creatures to creature's location
     PatientPathFindBehaviour behaviour;
-
     Creature leader = closestCreatureToGoal();
     for (Creature creature : fCreatures)
     {
+      if (creature.getGoal() !=null) continue;
       behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
       if (creature.equals(leader))
         behaviour.setGoal(fGoal);
@@ -67,8 +69,7 @@ public class FactionGroupMoveBehaviour implements Behaviour {
 
   private Creature closestCreatureToGoal()
   {
-    // FIXME: don't do this.
-    int lowestPathSize = 999999;
+    int lowestPathSize = Integer.MAX_VALUE;
     assert(!fCreatures.isEmpty());
     Creature closestCreature = fCreatures.get(0);
     for (Creature creature : fCreatures)
@@ -96,7 +97,7 @@ public class FactionGroupMoveBehaviour implements Behaviour {
 
   private Point2D newGoal()
   {
-    Point2D goal_pt = null;;
+    Point2D goal_pt = null;
 
     if (goal_pt == null)
       goal_pt = treasureLocation();
@@ -122,6 +123,7 @@ public class FactionGroupMoveBehaviour implements Behaviour {
   private Point2D treasureLocation()
   {
     if (fGame.getTreasure().isEmpty()) { return null; }
+    Collections.shuffle(fGame.getTreasure());
     return fGame.getTreasure().get(0).getLocation();
   }
 

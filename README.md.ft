@@ -1,18 +1,52 @@
-# AI for Games assessment - Requirements
+# AI for Games assessment
+
+
+## Pathfinding .todo
+* When goal point of leader has been reached, tell leader to move directly to treasure (no pathfinding).
+* Set up a chain of creatures: Follower -> Follower -> Leader
+
+## Goal determination .todo
+* Design a simple state machine for mob behaviour. The state machine should pick the goal for the faction.
+* Make the goal determination at the faction-level a state machine.
+* Consider making the goal determination at the creature-level a simple state machine.
+
+## Attack .todo
+* Ensure your faction can appropriately attack an enemy faction.
+
+## Refactor .todo
+* Rename SimplePathFind to AStarPathFind
+* Check that classes:
+	* Have only a single responsibility
+	* Are open for extension but closed for modification.
+	* Convey behaviour at a glance.
+	* Are decoupled.
+* Clean up every file in `dungeon.ai.hale`
+
+## Documentation .todo
+* Write javadoc for public methods.
+* Write the report explaining strategy and implementation details of each.
+
+## Testing .todo
+* Test your behaviour files on a  slower computer
+* Create a map where mobs attack each other
+
+---
+
+
 
 ## FAQ
 1. Will the faction mobs always spawn next to each other?
 	1. No.
 2. Will the dungeon be 20x20 for all 3 games?
 	1. No
-3. Can we use deathTick() for "code that gets executed when a creature dies"?
 
 ## Behaviour.todo
 * (40+) Find optimal paths using A* search:
 	* * `2013_1_1.xml` @done
 	* Map with narrow corridors. @done
 	* Map with locked doors, potions, flame traps and pits. @done
-	* All the above with more than one mob in a faction.
+	* All the above with two mobs in a faction . @done
+	* All the above with more than two mobs in a faction. @done
 * "Exhibit sensible context-sensitive behaviour":
 	* (50+) In `2013_1_1.xml`
 	* (60+) Map with narrow corridors

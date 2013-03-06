@@ -105,7 +105,7 @@ public class SimplePathFind extends PathFind {
     LinkedList<Square> pathList = new LinkedList<Square>();
     if (pathFound)
     {
-      for (Square sq = closedList.getLast(); !sq.equals(originSquare); sq = sq.getParent())
+      for (Square sq = closedList.removeLast(); !sq.equals(originSquare); sq = sq.getParent())
         pathList.push(sq);
       long ms = (System.nanoTime() - startTime) / 1000000;
       System.out.println("\033[32m Path found! \033[0m");
@@ -114,7 +114,7 @@ public class SimplePathFind extends PathFind {
     }
     else
       System.out.println("\033[31m No path found! \033[0m");
-    grid.printSquares(pathList, originSquare, goalSquare);
+    //grid.printSquares(pathList, originSquare, goalSquare);
     return pathList;
   }
 

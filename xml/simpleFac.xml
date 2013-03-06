@@ -9,16 +9,16 @@
     </Map>
   <Factions>
     <Vector>
-      <Faction Name="red" Behaviour="dungeon.ai.hale.FactionBehaviour"/>
+      <Faction Name="red" Behaviour="dungeon.ai.hale.FactionGroupMoveBehaviour"/>
     </Vector>
   </Factions>
   <Creatures>
     <Vector>
-      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="7.5" Y="12.5" Behaviour="dungeon.ai.hale.SlaveBehaviour" Faction="red">
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="7.5" Y="12.5" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">
         <Attacks><Vector></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Orc>
-      <Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="12.5" Y="7.5" Behaviour="dungeon.ai.hale.SlaveBehaviour" Faction="red">
+      <Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="12.5" Y="7.5" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">
         <Attacks><Vector></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Ogre>
