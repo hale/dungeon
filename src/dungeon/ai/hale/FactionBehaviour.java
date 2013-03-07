@@ -16,7 +16,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 
-public class FactionGroupMoveBehaviour implements Behaviour {
+public class FactionBehaviour implements Behaviour {
 
   AStar fPathFind;
   Grid fGrid;
@@ -27,7 +27,7 @@ public class FactionGroupMoveBehaviour implements Behaviour {
   Random fRandom = new Random();
   Point2D fGoal = null;
 
-  public FactionGroupMoveBehaviour(Faction faction)
+  public FactionBehaviour(Faction faction)
   {
     this.faction = faction;
     fCreatures = new CreatureList();
