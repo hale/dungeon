@@ -107,14 +107,15 @@ public class CreatureBehaviour implements Behaviour
 
   private void updatePath()
   {
-    assert(fDest != null);
     fPath = fPathFind.findPath(fCreature.getLocation(), fDest);
 
     // add treasure to path if treasure in adjacent square.
     Square currentSquare = new Square(fCreature.getLocation());
     for (Square square : fGrid.getAdjacentSquares(currentSquare))
       if (square.containsTreasure())
+        try { // sometimes when the game ends, this causes a null pointer exception
         fPath.push(fGrid.getTreasureIn(square, fGame).getLocation());
+        } catch(Exception e) { }
 
     //MapPanel.setPath(fPath);
     //fGrid.printSquares(fPath, fCreature.getLocation(), fDest, fGame);

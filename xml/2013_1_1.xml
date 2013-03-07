@@ -19,7 +19,7 @@
   <Factions>
     <Vector>
      <Faction Name="blue" Behaviour="dungeon.ai.collinson.STFBehaviour"/>
-     <Faction Name="red"   Behaviour="dungeon.ai.collinson.STFBehaviour"/>
+     <Faction Name="red"   Behaviour="dungeon.ai.hale.FactionBehaviour"/>
     </Vector>
    </Factions>
 
@@ -35,12 +35,12 @@
         <Inventory><Vector/></Inventory>
       </Ogre>
 
-      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="0" X="25" Y="100" Behaviour="dungeon.ai.collinson.STFBehaviour" Faction="blue">
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="0" X="25" Y="100" Behaviour="dungeon.ai.hale.CreatureBehaviour" Faction="blue">
         <Attacks><Vector><Smash/><Dagger/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Orc>
 
-      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="35" Y="110" Behaviour="dungeon.ai.collinson.STFBehaviour" Faction="blue">
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="35" Y="110" Behaviour="dungeon.ai.hale.CreatureBehaviour" Faction="blue">
         <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Ogre>

@@ -41,11 +41,12 @@ public class FactionBehaviour implements Behaviour {
       fGame = game;
       fGrid = new Grid(fGame);
       fPathFind = new AStar(fGame, fGrid);
+      setupCreatures();
     }
 
     fGrid.updateGrid(fGame);
 
-    updateFactionCreatures();
+    this.fCreatures = getFactionCreatures();
 
     if (fGoal == null || goalReached())
       fGoal = newGoal();
@@ -88,17 +89,26 @@ public class FactionBehaviour implements Behaviour {
     return closestCreature;
   }
 
-  private void updateFactionCreatures()
+  private CreatureList getFactionCreatures()
   {
-    fCreatures.clear();
+    CreatureList creatures = new CreatureList();
     for (Creature creature : fGame.getCreatures())
       if (creature.getFaction().equals(faction.getName()))
-      {
-        CreatureBehaviour behaviour = (CreatureBehaviour) creature.getBehaviour();
-        behaviour.setGrid(fGrid);
-        behaviour.setPathFind(fPathFind);
-        fCreatures.addElement(creature);
-      }
+        creatures.addElement(creature);
+    return creatures;
+  }
+
+  private void setupCreatures()
+  {
+    this.fCreatures = getFactionCreatures();
+    for (Creature creature : fCreatures)
+    {
+      CreatureBehaviour behaviour = new CreatureBehaviour(creature);
+      behaviour.setGrid(fGrid);
+      behaviour.setPathFind(fPathFind);
+      creature.setBehaviour(behaviour);
+    }
+
   }
 
   private Point2D newGoal()
