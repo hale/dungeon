@@ -18,9 +18,9 @@
 * **Refactor**
 	* Rename SimplePathFind to AStarPathFind
 	* Clean up and lightly refactor classes in `dungeon.ai.hale`
-* **Improve performance** - speed up A*
-	* use a heap for open list
-	* replace LinkedLists with ArrayDeques.
+* **Improve performance** - speed up A* @done
+	* use a heap for open list @done
+	* replace LinkedLists with ArrayDeques. @done
 * **Documentation**
 	* Write javadoc for public methods.
 	* Write the report explaining strategy and implementation details of each.

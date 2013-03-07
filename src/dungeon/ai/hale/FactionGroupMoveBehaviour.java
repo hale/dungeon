@@ -118,8 +118,8 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     Point2D goal_pt = null;
     if (goal_pt == null)
       goal_pt = treasureLocation();
-    //if (goal_pt  == null)
-      //goal_pt = heroLocation();
+    if (goal_pt  == null)
+      goal_pt = heroLocation();
     //if (goal_pt  == null)
       //goal_pt  = randomLocation();
     return goal_pt;
