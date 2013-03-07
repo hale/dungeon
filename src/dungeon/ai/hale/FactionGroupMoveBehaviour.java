@@ -7,6 +7,7 @@ import dungeon.collections.CreatureList;
 import dungeon.ai.Behaviour;
 import dungeon.ai.hale.pathfind.SimplePathFind;
 import dungeon.ai.hale.pathfind.Grid;
+import dungeon.ai.hale.pathfind.Square;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -37,46 +38,55 @@ public class FactionGroupMoveBehaviour implements Behaviour {
   @Override
   public boolean onTick(Game game)
   {
-    if (fGame == null) this.fGame = game;
-    if (fGrid == null) this.fGrid = new Grid(fGame);
-    if (fPathFind == null) this.fPathFind = new SimplePathFind(fGame, fGrid);
+    if (fGame == null)
+    {
+      fGame = game;
+      fGrid = new Grid(fGame);
+      fPathFind = new SimplePathFind(fGame, fGrid);
+    }
 
     fGrid.updateGrid(fGame);
 
-    this.fCreatures = getFactionCreatures();
+    updateFactionCreatures();
 
-    // TODO: only get new goal when the faction goal has been reached
-    if (fGoal == null) { this.fGoal = newGoal(); }
-    //this.fGoal = newGoal();
+    if (fGoal == null || goalReached())
+    {
+      // set new goal
+      fGoal = newGoal();
+      // todo: set the leader for this goal
+    }
 
-    groupMove();
+    // can we do this
+    if (fGoal != null)
+      setCreatureGoals();
 
-    //if (collisionDetected())
 
     return true;
   }
 
-  // TODO: recursively set each creature to follow previous creature.
-  private void groupMove()
+  private void setLeader()
   {
-    // generate path for all of the creatures to this.fGoal
-    // find the creature with the shortest path, set it as the leader.
-    // generate path for all other creatures to creature's location
-    PatientPathFindBehaviour behaviour;
+
+  }
+
+  private void setCreatureGoals()
+  {
     Creature leader = closestCreatureToGoal();
+    PatientPathFindBehaviour behaviour;
     for (Creature creature : fCreatures)
     {
-      if (creature.getGoal() !=null) continue;
+      //if (creature.getGoal() !=null) continue;
       behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
       if (creature.equals(leader))
-        behaviour.setGoal(fGoal);
+        behaviour.setDest(fGoal);
       else
-        behaviour.setGoal(leader.getLocation());
+        behaviour.setDest(leader.getLocation());
     }
   }
 
   private Creature closestCreatureToGoal()
   {
+    System.out.println("finding closest creature");
     int lowestPathSize = Integer.MAX_VALUE;
     assert(!fCreatures.isEmpty());
     Creature closestCreature = fCreatures.get(0);
@@ -92,35 +102,41 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     return closestCreature;
   }
 
-  private CreatureList getFactionCreatures()
+  private void updateFactionCreatures()
   {
-    CreatureList creatures = new CreatureList();
-    creatures.clear();
+    fCreatures.clear();
     for (Creature creature : fGame.getCreatures())
       if (creature.getFaction().equals(faction.getName()))
       {
         PatientPathFindBehaviour behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
         behaviour.setGrid(fGrid);
         behaviour.setPathFind(fPathFind);
-        creatures.addElement(creature);
+        fCreatures.addElement(creature);
       }
-    return creatures;
   }
 
   private Point2D newGoal()
   {
     Point2D goal_pt = null;
-
     if (goal_pt == null)
       goal_pt = treasureLocation();
-
-    if (goal_pt  == null)
-      goal_pt = heroLocation();
-
+    //if (goal_pt  == null)
+      //goal_pt = heroLocation();
     //if (goal_pt  == null)
       //goal_pt  = randomLocation();
-
     return goal_pt;
+  }
+
+  private boolean goalReached()
+  {
+    Square goalSquare = fGrid.squareAt(fGoal);
+    for (Creature creature : fCreatures)
+    {
+      Square square = fGrid.squareAt(creature.getLocation());
+      if (square.equals(goalSquare))
+        return true;
+    }
+    return false;
   }
 
   private Point2D randomLocation()
@@ -135,6 +151,7 @@ public class FactionGroupMoveBehaviour implements Behaviour {
   private Point2D treasureLocation()
   {
     if (fGame.getTreasure().isEmpty()) { return null; }
+    // FIXME: maybe this is bad....
     Collections.shuffle(fGame.getTreasure());
     return fGame.getTreasure().get(0).getLocation();
   }

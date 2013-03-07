@@ -14,6 +14,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Grid representation of the map, for use in pathfinding.
@@ -43,19 +44,28 @@ public class Grid {
     return sqGrid[x][y];
   }
 
-  protected Square squareAt(Point2D point)
+  public Square squareAt(Point2D point)
   {
     int x = (int) (point.getX() / 5.0);
     int y = (int) (point.getY() / 5.0);
     return squareAt(x, y);
   }
 
-  public ArrayList<Square> getTreasureSquares(Game game)
+  public HashSet<Square> getTreasureSquares(Game game)
   {
-    ArrayList<Square> treasureSquares = new ArrayList<Square>();
+    HashSet<Square> treasureSquares = new HashSet<Square>();
     for (Treasure treasure : game.getTreasure())
        treasureSquares.add(new Square(treasure.getLocation()));
     return treasureSquares;
+  }
+
+  public Treasure getTreasureIn(Square square, Game game)
+  {
+    Treasure treasure = null;
+    for (Treasure t: game.getTreasure())
+      if (square.equals(new Square(t.getLocation())))
+        treasure = t;
+    return treasure;
   }
 
   public void updateGrid(Game game)
@@ -65,6 +75,8 @@ public class Grid {
         Square sq = squareAt(x, y);
         if (getTreasureSquares(game).contains(sq))
           sq.setContainsTreasure( true );
+        else
+          sq.setContainsTreasure( false );
       }
     }
   }

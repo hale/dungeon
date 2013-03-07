@@ -12,6 +12,7 @@ import dungeon.ai.actions.ActionPickUp;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
 import dungeon.App;
+import dungeon.ui.MapPanel;
 
 import dungeon.ai.hale.pathfind.*;
 import dungeon.ai.Behaviour;
@@ -36,8 +37,8 @@ public class PatientPathFindBehaviour implements Behaviour
     fPath = (LinkedList<Point2D>) path;
   }
   protected int getPathSize() { return fPath.size(); }
-  Point2D fGoal = null;
-  public void setGoal(Point2D goal) { this.fGoal = goal; }
+  Point2D fDest = null;
+  public void setDest(Point2D dest) { this.fDest = dest; }
 
 
   public PatientPathFindBehaviour(Creature creature)
@@ -59,6 +60,8 @@ public class PatientPathFindBehaviour implements Behaviour
 
       boolean moved = tryMovement();
       if (moved) return true;
+
+      if (fDest == null) { return false; }
 
       setNewGoal();
       return tryMovement();
@@ -100,26 +103,25 @@ public class PatientPathFindBehaviour implements Behaviour
 
   private void setNewGoal()
   {
-    // FIXME: if treasure in adjacent square, move to treasure.
-    Square currentSquare = new Square(fCreature.getLocation());
-    for (Square square : fGrid.getAdjacentSquares(currentSquare))
-      if (square.containsTreasure())
-      {
-        fCreature.setGoal(square.getCenter(), fGame);
-          return;
-      }
     updatePath();
-    if (fPath.size() > 1)
+    if (fPath.size() > 0)
       fCreature.setGoal(fPath.pollFirst(), fGame);
-    fGrid.printSquares(fPath, fCreature.getLocation(), fGoal, fGame);
   }
 
   /* PATH FINDING */
 
   private void updatePath()
   {
-    assert(fGoal != null);
+    assert(fDest != null);
     fPath = (LinkedList<Point2D>) fPathFind.findPath(
-        fCreature.getLocation(), fGoal);
+        fCreature.getLocation(), fDest);
+
+    Square currentSquare = new Square(fCreature.getLocation());
+    for (Square square : fGrid.getAdjacentSquares(currentSquare))
+      if (square.containsTreasure())
+        fPath.push(fGrid.getTreasureIn(square, fGame).getLocation());
+
+    //MapPanel.setPath(fPath);
+    //fGrid.printSquares(fPath, fCreature.getLocation(), fDest, fGame);
   }
 }

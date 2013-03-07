@@ -11,10 +11,8 @@ public class Square {
 
   public Square(Point2D location)
   {
-    //System.out.println("Making square from: " + location);
     this.x = planeToGrid(location.getX());
     this.y = planeToGrid(location.getY());
-    //System.out.println("Square: [" + x + "," + y + "]");
   }
 
   public int getMoveCost(Square adjSquare)
@@ -22,11 +20,6 @@ public class Square {
     return terrainCost + ((isDiagonal(adjSquare)) ? 14 : 10);
   }
 
-  /* look at the gridpointX of this and the other square.
-   * if either of them are equal, the square is in the same
-   * row or column and therefore directly above or below.
-   * otherwise, it's diagonal.
-   */
   public boolean isDiagonal(Square adjSquare)
   {
     if (this.x != adjSquare.getX())
@@ -87,6 +80,15 @@ public class Square {
   public boolean containsTreasure() { return containsTreasure; }
   protected void setContainsTreasure(boolean containsTreasure) { this.containsTreasure = containsTreasure; }
 
+  private Point2D treasureLocation;
+  public Point2D getTreasureLocation() { return treasureLocation; }
+  public void setTreasureLocation(Point2D loc) { this.treasureLocation = loc; }
+
+  public Point2D getCenter()
+  {
+    return new Point2D.Double( (x*5)+2.5, (y*5)+2.5 );
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -107,15 +109,10 @@ public class Square {
     return result;
   }
 
-  public Point2D getCenter()
-  {
-    return new Point2D.Double( (x*5)+2.5, (y*5)+2.5 );
-  }
 
   @Override
   public String toString()
   {
-    //return (occupiable) ? "1" : "0";
     return "[" + x + "," + y + "]";
   }
 

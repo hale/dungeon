@@ -1,47 +1,36 @@
 # AI for Games assessment
 
+## TOMORROW .todo
 
-## Pathfinding .todo
-* When goal point of leader has been reached, tell leader to move directly to treasure (no pathfinding).
-* Set up a chain of creatures: Follower -> Follower -> Leader
-
-## Goal determination .todo
-* Design a simple state machine for mob behaviour. The state machine should pick the goal for the faction.
-* Make the goal determination at the faction-level a state machine.
-* Consider making the goal determination at the creature-level a simple state machine.
-
-## Attack .todo
-* Ensure your faction can appropriately attack an enemy faction.
-
-## Refactor .todo
-* Rename SimplePathFind to AStarPathFind
-* Check that classes:
-	* Have only a single responsibility
-	* Are open for extension but closed for modification.
-	* Convey behaviour at a glance.
-	* Are decoupled.
-* Clean up every file in `dungeon.ai.hale`
-
-## Documentation .todo
-* Write javadoc for public methods.
-* Write the report explaining strategy and implementation details of each.
-
-## Testing .todo
-* Test your behaviour files on a  slower computer
-* Create a map where mobs attack each other
+* **Improve performance - reduce A* calls**
+	* Put an enum in the creature behaviour for determining goal point.
+		* LEADER - goal point is fDest
+		* FOLLOWER - goal point is leader.
+	* Add a leader class var to creature behaviour
+	* When faction has a new goal, find the leader and update the creature behaviours with new leader and new state.
+* **Determine faction goal point:**
+	* Closest treasure?  heuristic...
+	* if no treasure, move to enemies
+* **Check fighting.**
+	* Write an xml map based on 2013.xml with two factions.
+	* Test attacking a statoinary faction
+	* test attacking collinsons faction
+* **Refactor**
+	* Rename SimplePathFind to AStarPathFind
+	* Clean up and lightly refactor classes in `dungeon.ai.hale`
+* **Improve performance** - speed up A*
+	* use a heap for open list
+	* replace LinkedLists with ArrayDeques.
+* **Documentation**
+	* Write javadoc for public methods.
+	* Write the report explaining strategy and implementation details of each.
 
 ---
-g
 
 
-## FAQ
-1. Will the faction mobs always spawn next to each other?
-	1. No.
-2. Will the dungeon be 20x20 for all 3 games?
-	1. No
 
 ## Behaviour.todo
-* (40+) Find optimal paths using A* search:
+* (40+) Find optimal paths using A* search: @done
 	* * `2013_1_1.xml` @done
 	* Map with narrow corridors. @done
 	* Map with locked doors, potions, flame traps and pits. @done
@@ -66,11 +55,6 @@ Therefore, return to the basic solution of independent pathfinding between creat
 
 
 # New Plan of Action
-
-
-
-
-
 
 
 
