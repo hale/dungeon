@@ -48,13 +48,13 @@ public class SimplePathFind {
 
   private LinkedList<Square> findPath(Square originSquare, Square goalSquare)
   {
+    long startTime = System.nanoTime();
+
     openList.clear();
     closedList.clear();
     boolean pathFound = false;
     int gScore;
     int hScore;
-
-    long startTime = System.nanoTime();
 
     openList.add(originSquare);
     while (!openList.isEmpty() && !pathFound)
@@ -69,11 +69,11 @@ public class SimplePathFind {
       );
       Square currentSquare = openList.pollFirst();
       assert(currentSquare != null);
-      closedList.add(currentSquare);
-      if (closedList.contains(goalSquare))
-      {
+
+      if (currentSquare.equals(goalSquare))
         pathFound = true;
-      }
+
+      closedList.add(currentSquare);
       for (Square adjSquare : fGrid.getAdjacentSquares(currentSquare))
       {
         assert(adjSquare != null);
@@ -105,16 +105,21 @@ public class SimplePathFind {
     originSquare.setParent(null);
     LinkedList<Square> pathList = new LinkedList<Square>();
     if (pathFound)
-    {
       for (Square sq = closedList.removeLast(); !sq.equals(originSquare); sq = sq.getParent())
         pathList.push(sq);
-      long ms = (System.nanoTime() - startTime) / 1000000;
+
+    long ms = (System.nanoTime() - startTime) / 1000000;
+    if (pathFound)
+    {
       System.out.println("\033[32m Path found! \033[0m");
       System.out.println("Path is " + pathList.size() + " steps long.");
       System.out.println("Path took " + ms + " milliseconds to calculate.");
     }
     else
+    {
       System.out.println("\033[31m No path found! \033[0m");
+      System.out.println("Path took " + ms + " milliseconds to calculate.");
+    }
     return pathList;
   }
 
