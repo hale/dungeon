@@ -5,7 +5,7 @@ import dungeon.model.items.mobs.Faction;
 import dungeon.model.items.mobs.Creature;
 import dungeon.collections.CreatureList;
 import dungeon.ai.Behaviour;
-import dungeon.ai.hale.pathfind.SimplePathFind;
+import dungeon.ai.hale.pathfind.AStar;
 import dungeon.ai.hale.pathfind.Grid;
 import dungeon.ai.hale.pathfind.Square;
 
@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class FactionGroupMoveBehaviour implements Behaviour {
 
-  SimplePathFind fPathFind;
+  AStar fPathFind;
   Grid fGrid;
   Faction faction;
   CreatureList fCreatures;
@@ -40,7 +40,7 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     {
       fGame = game;
       fGrid = new Grid(fGame);
-      fPathFind = new SimplePathFind(fGame, fGrid);
+      fPathFind = new AStar(fGame, fGrid);
     }
 
     fGrid.updateGrid(fGame);
@@ -59,11 +59,11 @@ public class FactionGroupMoveBehaviour implements Behaviour {
   private void setCreatureGoals()
   {
     Creature leader = closestCreatureToGoal();
-    PatientPathFindBehaviour behaviour;
+    CreatureBehaviour behaviour;
     for (Creature creature : fCreatures)
     {
       //if (creature.getGoal() !=null) continue;
-      behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
+      behaviour = (CreatureBehaviour) creature.getBehaviour();
       if (creature.equals(leader))
         behaviour.setDest(fGoal);
       else
@@ -94,7 +94,7 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     for (Creature creature : fGame.getCreatures())
       if (creature.getFaction().equals(faction.getName()))
       {
-        PatientPathFindBehaviour behaviour = (PatientPathFindBehaviour) creature.getBehaviour();
+        CreatureBehaviour behaviour = (CreatureBehaviour) creature.getBehaviour();
         behaviour.setGrid(fGrid);
         behaviour.setPathFind(fPathFind);
         fCreatures.addElement(creature);

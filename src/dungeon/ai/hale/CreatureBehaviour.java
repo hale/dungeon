@@ -17,13 +17,13 @@ import dungeon.ai.Behaviour;
 import dungeon.ai.CollisionDetection;
 
 
-public class PatientPathFindBehaviour implements Behaviour
+public class CreatureBehaviour implements Behaviour
 {
   static final boolean KEEP_TO_ROOMS = true;
   Creature fCreature;
   Game fGame;
-  SimplePathFind fPathFind;
-  protected void setPathFind(SimplePathFind pathFind) { this.fPathFind = pathFind; }
+  AStar fPathFind;
+  protected void setPathFind(AStar pathFind) { this.fPathFind = pathFind; }
 
   Grid fGrid;
   protected void setGrid(Grid grid) { this.fGrid = grid; }
@@ -36,7 +36,7 @@ public class PatientPathFindBehaviour implements Behaviour
   public void setDest(Point2D dest) { this.fDest = dest; }
 
 
-  public PatientPathFindBehaviour(Creature creature)
+  public CreatureBehaviour(Creature creature)
   {
     fCreature = creature;
   }

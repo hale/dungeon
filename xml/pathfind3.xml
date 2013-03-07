@@ -65,11 +65,11 @@
         <Attacks><Vector><Smash/><Dagger/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Orc>
-      <Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="blue">
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="blue">
         <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Ogre>
-      <Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="50" Y="150" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="20" X="50" Y="150" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">
         <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Ogre>

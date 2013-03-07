@@ -16,17 +16,13 @@ import dungeon.model.items.mobs.Creature;
 import dungeon.utils.*;
 import dungeon.ui.MapPanel;
 
-public class SimplePathFind {
-
-  // hash map from [sq1, sq2] to list<square>
-
+public class AStar {
 
   Grid fGrid;
   ArrayDeque<Square> closedList;
   PriorityQueue<Square> openList;
 
-
-  public SimplePathFind(Game game, Grid grid)
+  public AStar(Game game, Grid grid)
   {
     this.fGrid = grid;
     this.closedList = new ArrayDeque<Square>();
@@ -56,7 +52,7 @@ public class SimplePathFind {
 
   private ArrayDeque<Square> findPath(Square originSquare, Square goalSquare)
   {
-    long startTime = System.nanoTime();
+    //long startTime = System.nanoTime();
 
     openList.clear();
     closedList.clear();
