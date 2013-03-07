@@ -14,8 +14,6 @@ import java.util.Comparator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
-import java.util.List;
-import java.util.ArrayList;
 
 
 public class FactionGroupMoveBehaviour implements Behaviour {

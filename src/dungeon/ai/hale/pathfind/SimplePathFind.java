@@ -2,9 +2,8 @@ package dungeon.ai.hale.pathfind;
 
 import java.awt.geom.Point2D;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.LinkedList;
-import java.util.TreeSet;
 import java.util.Comparator;
 import java.util.Collections;
 
@@ -23,7 +22,7 @@ public class SimplePathFind {
 
   Grid fGrid;
   LinkedList<Square> openList = new LinkedList<Square>();
-  LinkedList<Square> closedList = new LinkedList<Square>();
+  ArrayDeque<Square> closedList = new ArrayDeque<Square>();
 
 
   public SimplePathFind(Game game, Grid grid)
@@ -31,22 +30,22 @@ public class SimplePathFind {
     this.fGrid = grid;
   }
 
-  public List<Point2D> findPath(Point2D pointA, Point2D pointB)
+  public ArrayDeque<Point2D> findPath(Point2D pointA, Point2D pointB)
   {
     Square originSquare = new Square(pointA);
     Square goalSquare = new Square(pointB);
     return squaresToPoints(findPath(originSquare, goalSquare));
   }
 
-  private List<Point2D> squaresToPoints(List<Square> squares)
+  private ArrayDeque<Point2D> squaresToPoints(ArrayDeque<Square> squares)
   {
-    List<Point2D> points = new LinkedList<Point2D>();
+    ArrayDeque<Point2D> points = new ArrayDeque<Point2D>();
     for (Square square : squares)
       points.add(square.getCenter());
     return points;
   }
 
-  private LinkedList<Square> findPath(Square originSquare, Square goalSquare)
+  private ArrayDeque<Square> findPath(Square originSquare, Square goalSquare)
   {
     long startTime = System.nanoTime();
 
@@ -59,6 +58,7 @@ public class SimplePathFind {
     openList.add(originSquare);
     while (!openList.isEmpty() && !pathFound)
     {
+        System.out.println("Open list size: " + openList.size());
       //Square currentSquare = bestSquare()
       Collections.sort(openList,
         new Comparator<Square>() {
@@ -67,7 +67,7 @@ public class SimplePathFind {
           }
         }
       );
-      Square currentSquare = openList.pollFirst();
+      Square currentSquare = openList.poll();
       assert(currentSquare != null);
 
       if (currentSquare.equals(goalSquare))
@@ -103,7 +103,7 @@ public class SimplePathFind {
       }
     }
     originSquare.setParent(null);
-    LinkedList<Square> pathList = new LinkedList<Square>();
+    ArrayDeque<Square> pathList = new ArrayDeque<Square>();
     if (pathFound)
       for (Square sq = closedList.removeLast(); !sq.equals(originSquare); sq = sq.getParent())
         pathList.push(sq);

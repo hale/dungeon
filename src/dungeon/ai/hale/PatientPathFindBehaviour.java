@@ -2,9 +2,7 @@ package dungeon.ai.hale;
 
 import java.awt.geom.Point2D;
 import java.util.Random;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 
 import dungeon.ai.actions.ActionAttack;
 import dungeon.ai.actions.ActionDoor;
@@ -31,11 +29,8 @@ public class PatientPathFindBehaviour implements Behaviour
   protected void setGrid(Grid grid) { this.fGrid = grid; }
 
 
-  LinkedList<Point2D> fPath;
-  protected void setPath(List<Point2D> path)
-  {
-    fPath = (LinkedList<Point2D>) path;
-  }
+  ArrayDeque<Point2D> fPath;
+  protected void setPath(ArrayDeque<Point2D> path) { fPath = path; }
   protected int getPathSize() { return fPath.size(); }
   Point2D fDest = null;
   public void setDest(Point2D dest) { this.fDest = dest; }
@@ -113,9 +108,9 @@ public class PatientPathFindBehaviour implements Behaviour
   private void updatePath()
   {
     assert(fDest != null);
-    fPath = (LinkedList<Point2D>) fPathFind.findPath(
-        fCreature.getLocation(), fDest);
+    fPath = fPathFind.findPath(fCreature.getLocation(), fDest);
 
+    // add treasure to path if treasure in adjacent square.
     Square currentSquare = new Square(fCreature.getLocation());
     for (Square square : fGrid.getAdjacentSquares(currentSquare))
       if (square.containsTreasure())
