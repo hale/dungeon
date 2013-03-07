@@ -48,23 +48,12 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     updateFactionCreatures();
 
     if (fGoal == null || goalReached())
-    {
-      // set new goal
       fGoal = newGoal();
-      // todo: set the leader for this goal
-    }
 
-    // can we do this
     if (fGoal != null)
       setCreatureGoals();
 
-
     return true;
-  }
-
-  private void setLeader()
-  {
-
   }
 
   private void setCreatureGoals()
@@ -84,7 +73,6 @@ public class FactionGroupMoveBehaviour implements Behaviour {
 
   private Creature closestCreatureToGoal()
   {
-    System.out.println("finding closest creature");
     int lowestPathSize = Integer.MAX_VALUE;
     assert(!fCreatures.isEmpty());
     Creature closestCreature = fCreatures.get(0);
@@ -119,10 +107,18 @@ public class FactionGroupMoveBehaviour implements Behaviour {
     if (goal_pt == null)
       goal_pt = treasureLocation();
     if (goal_pt  == null)
-      goal_pt = heroLocation();
+      goal_pt = enemyLocation();
     //if (goal_pt  == null)
       //goal_pt  = randomLocation();
     return goal_pt;
+  }
+
+  private Point2D enemyLocation()
+  {
+    for (Creature creature : fGame.getCreatures())
+      if (!fCreatures.contains(creature))
+        return creature.getLocation();
+    return null;
   }
 
   private boolean goalReached()

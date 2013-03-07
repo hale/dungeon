@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Game Name="simple">
+<Game Name="simple" Tournament="true">
   <Map>
     <Tiles>
       <Vector>
@@ -51,25 +51,26 @@
   </Map>
   <Factions>
     <Vector>
+      <Faction Name="blue" Behaviour="dungeon.ai.hale.FactionGroupMoveBehaviour"/>
       <Faction Name="red" Behaviour="dungeon.ai.hale.FactionGroupMoveBehaviour"/>
     </Vector>
   </Factions>
   <Creatures>
     <Vector>
-      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="95" Y="10" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">
-        <Attacks><Vector></Vector></Attacks>
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="95" Y="10" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="blue">
+        <Attacks><Vector><Smash/><Dagger/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Orc>
-      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="95" Y="15" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">
-        <Attacks><Vector></Vector></Attacks>
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="115" Y="145" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">
+        <Attacks><Vector><Smash/><Dagger/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Orc>
-      <Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">
-        <Attacks><Vector></Vector></Attacks>
+      <Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="blue">
+        <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Ogre>
-      <Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="90" Y="15" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">
-        <Attacks><Vector></Vector></Attacks>
+      <Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="50" Y="150" Behaviour="dungeon.ai.hale.PatientPathFindBehaviour" Faction="red">
+        <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Ogre>
     </Vector>
@@ -82,8 +83,8 @@
       <Potion Type="0" X="3" Y="5"/>
     </Vector>
   </Treasure>
-  <Hero CurrentEnergy="100" CurrentHealth="100" Gold="0" X="115" Y="145">
-    <Attacks><Vector></Vector></Attacks>
-    <Inventory><Vector/></Inventory>
-  </Hero>
+  <!--<Hero CurrentEnergy="100" CurrentHealth="100" Gold="0" X="115" Y="145">-->
+    <!--<Attacks><Vector></Vector></Attacks>-->
+    <!--<Inventory><Vector/></Inventory>-->
+  <!--</Hero>-->
 </Game>

@@ -56,7 +56,6 @@ public class SimplePathFind {
 
   private ArrayDeque<Square> findPath(Square originSquare, Square goalSquare)
   {
-    //ArrayList<Integer> openListSizes = new ArrayList<Integer>();
     long startTime = System.nanoTime();
 
     openList.clear();
@@ -68,8 +67,6 @@ public class SimplePathFind {
     openList.add(originSquare);
     while (!openList.isEmpty() && !pathFound)
     {
-      //openListSizes.add(openList.size());
-      //Square currentSquare = bestSquare()
       Square currentSquare = openList.poll();
       assert(currentSquare != null);
 
@@ -114,24 +111,18 @@ public class SimplePathFind {
       for (Square sq = closedList.removeLast(); !sq.equals(originSquare); sq = sq.getParent())
         pathList.push(sq);
 
-    //long sum = 0;
-    //for (Integer score : openListSizes)
-      //sum += score;
-    //double average = (double) sum / openList.size();
-    //System.out.println("Average openlist size: " + average);
-
-    long ms = (System.nanoTime() - startTime) / 1000000;
-    if (pathFound)
-    {
-      System.out.println("\033[32m Path found! \033[0m");
-      System.out.println("Path is " + pathList.size() + " steps long.");
-      System.out.println("Path took " + ms + " milliseconds to calculate.");
-    }
-    else
-    {
-      System.out.println("\033[31m No path found! \033[0m");
-      System.out.println("Path took " + ms + " milliseconds to calculate.");
-    }
+    //long ms = (System.nanoTime() - startTime) / 1000000;
+    //if (pathFound)
+    //{
+      //System.out.println("\033[32m Path found! \033[0m");
+      //System.out.println("Path is " + pathList.size() + " steps long.");
+      //System.out.println("Path took " + ms + " milliseconds to calculate.");
+    //}
+    //else
+    //{
+      //System.out.println("\033[31m No path found! \033[0m");
+      //System.out.println("Path took " + ms + " milliseconds to calculate.");
+    //}
     return pathList;
   }
 

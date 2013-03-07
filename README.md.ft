@@ -2,19 +2,16 @@
 
 ## TOMORROW .todo
 
-* **Improve performance - reduce A* calls**
-	* Put an enum in the creature behaviour for determining goal point.
-		* LEADER - goal point is fDest
-		* FOLLOWER - goal point is leader.
-	* Add a leader class var to creature behaviour
-	* When faction has a new goal, find the leader and update the creature behaviours with new leader and new state.
 * **Determine faction goal point:**
-	* Closest treasure?  heuristic...
+	* Closest treasure?
+		* For now: move to first treasure in list. @done
+		* Next: A* in reverse, find nearest treasure.
 	* if no treasure, move to enemies
+		* For now: first enemy in list. @done
+		* Next: closest enemy
 * **Check fighting.**
-	* Write an xml map based on 2013.xml with two factions.
-	* Test attacking a statoinary faction
-	* test attacking collinsons faction
+	* Write an xml map based on 2013.xml with two factions. @done
+	* test against your own behaviour
 * **Refactor**
 	* Rename SimplePathFind to AStarPathFind
 	* Clean up and lightly refactor classes in `dungeon.ai.hale`
@@ -48,6 +45,9 @@
 * (20) Description of how you tested your code, and recommendations of how to test "this type of game". 
 
 ---
+
+
+
 # Faction Pathfinding
 Having a follower and a leader results in difficulties when fetching treasure from the end of narrow corridors.  The leader becomes blocked by the follower, and telling the follower to move out of the way is nontrivial.
 
