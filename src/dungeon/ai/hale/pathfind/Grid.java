@@ -22,10 +22,10 @@ import java.util.HashSet;
 public class Grid {
 
   boolean gridInitialised =false;
-  protected static final double TILE_SIZE = 5;
+  protected static final int TILE_SIZE = 5;
   int xArraySize;
   int yArraySize;
-  double halfTileSize = TILE_SIZE/2;
+  double halfTileSize = (double) TILE_SIZE/2;
 
   Square[][] sqGrid;
 

@@ -3,7 +3,8 @@ package dungeon.ai.hale.pathfind;
 import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.ArrayDeque;
-import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
 
@@ -21,13 +22,21 @@ public class SimplePathFind {
 
 
   Grid fGrid;
-  LinkedList<Square> openList = new LinkedList<Square>();
-  ArrayDeque<Square> closedList = new ArrayDeque<Square>();
+  ArrayDeque<Square> closedList;
+  PriorityQueue<Square> openList;
 
 
   public SimplePathFind(Game game, Grid grid)
   {
     this.fGrid = grid;
+    this.closedList = new ArrayDeque<Square>();
+    this.openList = new PriorityQueue<Square>(fGrid.TILE_SIZE * fGrid.TILE_SIZE,
+      new Comparator<Square>() {
+              public int compare(Square a, Square b) {
+                return a.getFCost() - b.getFCost();
+              }
+            }
+      );
   }
 
   public ArrayDeque<Point2D> findPath(Point2D pointA, Point2D pointB)
@@ -47,6 +56,7 @@ public class SimplePathFind {
 
   private ArrayDeque<Square> findPath(Square originSquare, Square goalSquare)
   {
+    //ArrayList<Integer> openListSizes = new ArrayList<Integer>();
     long startTime = System.nanoTime();
 
     openList.clear();
@@ -58,15 +68,8 @@ public class SimplePathFind {
     openList.add(originSquare);
     while (!openList.isEmpty() && !pathFound)
     {
-        System.out.println("Open list size: " + openList.size());
+      //openListSizes.add(openList.size());
       //Square currentSquare = bestSquare()
-      Collections.sort(openList,
-        new Comparator<Square>() {
-          public int compare(Square a, Square b) {
-            return a.getFCost() - b.getFCost();
-          }
-        }
-      );
       Square currentSquare = openList.poll();
       assert(currentSquare != null);
 
@@ -81,7 +84,6 @@ public class SimplePathFind {
           continue;
         if (!openList.contains(adjSquare))
         {
-          openList.add(adjSquare);
           if (adjSquare.hasParent())
             gScore = currentSquare.getMoveCost(adjSquare) + currentSquare.getGScore();
           else
@@ -89,6 +91,7 @@ public class SimplePathFind {
           adjSquare.setGScore(gScore);
           adjSquare.setHScore(fGrid.chebyshevDist(currentSquare, goalSquare));
           adjSquare.setParent(currentSquare);
+          openList.add(adjSquare);
         } else
         {
           if (currentSquare.getGScore() + currentSquare.getMoveCost(adjSquare) < adjSquare.getGScore())
@@ -97,6 +100,9 @@ public class SimplePathFind {
             gScore = currentSquare.getMoveCost(adjSquare) + adjSquare.getParent().getGScore();
             adjSquare.setGScore(gScore);
             adjSquare.setHScore(fGrid.chebyshevDist(currentSquare, goalSquare));
+            // now remove it and add it again to the openList to ensure order in the heap.
+            openList.remove(adjSquare);
+            openList.add(adjSquare);
           }
         }
         assert(adjSquare.hasParent());
@@ -107,6 +113,12 @@ public class SimplePathFind {
     if (pathFound)
       for (Square sq = closedList.removeLast(); !sq.equals(originSquare); sq = sq.getParent())
         pathList.push(sq);
+
+    //long sum = 0;
+    //for (Integer score : openListSizes)
+      //sum += score;
+    //double average = (double) sum / openList.size();
+    //System.out.println("Average openlist size: " + average);
 
     long ms = (System.nanoTime() - startTime) / 1000000;
     if (pathFound)
