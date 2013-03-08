@@ -4,7 +4,8 @@ import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.ArrayDeque;
 import java.util.PriorityQueue;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Comparator;
 import java.util.Collections;
 
@@ -22,6 +23,15 @@ public class AStar {
   ArrayDeque<Square> closedList;
   PriorityQueue<Square> openList;
 
+  /**
+   * For finding paths between points using the A* algorithm.  The openList is
+   * implemented as a heap, using Java.util.PriorityQueue. Paths are saved as
+   * an ArrayDeque, for the functionality of a LinkedList and the speed of
+   * an ArrayList.
+   *
+   * @param game The game which this is running in.
+   * @param grid The grid to find paths on.
+   */
   public AStar(Game game, Grid grid)
   {
     this.fGrid = grid;
@@ -35,23 +45,55 @@ public class AStar {
       );
   }
 
+  /**
+   * Finds the shortest path between two points on a plane.
+   *
+   * @param pointA The first point.
+   * @param pointB The second point.
+   * @return A minimal deque of adjacent points from pointA to pointB.
+   */
   public ArrayDeque<Point2D> findPath(Point2D pointA, Point2D pointB)
   {
-    Square originSquare = new Square(pointA);
-    Square goalSquare = new Square(pointB);
-    return squaresToPoints(findPath(originSquare, goalSquare));
+    Set<Square> origins = new HashSet<Square>();
+    Set<Square> goals = new HashSet<Square>();
+    origins.add(new Square(pointA));
+    goals.add(new Square(pointB));
+    return squaresToPoints(findShortestPath(origins, goals));
   }
 
-  private ArrayDeque<Point2D> squaresToPoints(ArrayDeque<Square> squares)
+  /**
+   * Finds the shortest path between one set of points and another.
+   *
+   * @param origins A distinct set of points.
+   * @param goals A distinct set of points.
+   * @return The shortest path from any x in origins to any y in goals.
+   */
+  public ArrayDeque<Point2D> findPath(Set<Point2D> origins, Set<Point2D> goals)
   {
-    ArrayDeque<Point2D> points = new ArrayDeque<Point2D>();
-    for (Square square : squares)
-      points.add(square.getCenter());
-    return points;
+    Set<Square> originSquares = new HashSet<Square>();
+    Set<Square> goalSquares = new HashSet<Square>();
+    for (Point2D pt : origins)
+      originSquares.add(new Square(pt));
+    for (Point2D pt : goals)
+      goalSquares.add(new Square(pt));
+    return squaresToPoints(findShortestPath(originSquares, goalSquares));
   }
 
-  private ArrayDeque<Square> findPath(Square originSquare, Square goalSquare)
+  private int smallestChebyshev(Square origin, Set<Square> goals)
   {
+    int smallest = Integer.MAX_VALUE;
+    for (Square goal : goals)
+    {
+      int cheb = fGrid.chebyshevDist(origin, goal);
+      if (cheb < smallest)
+        smallest = cheb;
+    }
+    return smallest;
+  }
+
+  private ArrayDeque<Square> findShortestPath(Set<Square> origins, Set<Square> goals)
+  {
+
     //long startTime = System.nanoTime();
 
     openList.clear();
@@ -60,14 +102,21 @@ public class AStar {
     int gScore;
     int hScore;
 
-    openList.add(originSquare);
+    for (Square sq : origins)
+    {
+      sq.setGScore(0);
+      sq.setHScore(smallestChebyshev(sq, goals));
+      openList.add(sq);
+    }
+
     while (!openList.isEmpty() && !pathFound)
     {
       Square currentSquare = openList.poll();
       assert(currentSquare != null);
 
-      if (currentSquare.equals(goalSquare))
-        pathFound = true;
+      for (Square goal : goals)
+        if (currentSquare.equals(goal))
+          pathFound = true;
 
       closedList.add(currentSquare);
       for (Square adjSquare : fGrid.getAdjacentSquares(currentSquare))
@@ -82,7 +131,7 @@ public class AStar {
           else
             gScore = currentSquare.getMoveCost(adjSquare);
           adjSquare.setGScore(gScore);
-          adjSquare.setHScore(fGrid.chebyshevDist(currentSquare, goalSquare));
+          adjSquare.setHScore(smallestChebyshev(currentSquare, goals));
           adjSquare.setParent(currentSquare);
           openList.add(adjSquare);
         } else
@@ -92,7 +141,7 @@ public class AStar {
             adjSquare.setParent(currentSquare);
             gScore = currentSquare.getMoveCost(adjSquare) + adjSquare.getParent().getGScore();
             adjSquare.setGScore(gScore);
-            adjSquare.setHScore(fGrid.chebyshevDist(currentSquare, goalSquare));
+            adjSquare.setHScore(smallestChebyshev(currentSquare, goals));
             // now remove it and add it again to the openList to ensure order in the heap.
             openList.remove(adjSquare);
             openList.add(adjSquare);
@@ -101,10 +150,11 @@ public class AStar {
         assert(adjSquare.hasParent());
       }
     }
-    originSquare.setParent(null);
+    for (Square origin : origins)
+      origin.setParent(null);
     ArrayDeque<Square> pathList = new ArrayDeque<Square>();
     if (pathFound)
-      for (Square sq = closedList.removeLast(); !sq.equals(originSquare); sq = sq.getParent())
+      for (Square sq = closedList.removeLast(); !origins.contains(sq); sq = sq.getParent())
         pathList.push(sq);
 
     //long ms = (System.nanoTime() - startTime) / 1000000;
@@ -120,6 +170,16 @@ public class AStar {
       //System.out.println("Path took " + ms + " milliseconds to calculate.");
     //}
     return pathList;
+
+  }
+
+
+  private ArrayDeque<Point2D> squaresToPoints(ArrayDeque<Square> squares)
+  {
+    ArrayDeque<Point2D> points = new ArrayDeque<Point2D>();
+    for (Square square : squares)
+      points.add(square.getCenter());
+    return points;
   }
 
 
