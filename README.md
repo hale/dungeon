@@ -71,7 +71,9 @@ At first I was choosing a leader based on their current health.  Whilst this cho
 
 Detecting for situations like that and fixing them retroactively is quite hard.  You might specify the condition as being 
 
-> When two or more faction creatures are within roughly the same area, and they have a goal which hasn't been reached in the past few ticks, then switch leaders".  Whilst this might work, you are still faced with the difficulties of:
+> When two or more faction creatures are within roughly the same area, and they have a goal which hasn't been reached in the past few ticks, then switch leaders".  
+
+Whilst this might work, you are still faced with the difficulties of:
 
 * Determining 'the same area'.  In narrow corridors with lots of corners, you need pathfinding to be certain.
 * Once you've determined faction creatures are too close, you still need to make sure they've been too close for a period of time - otherwise, they might just be moving in parallel.  It's possible to change this condition to "if the path of one creature contains another, switch leaders", but this can cause paths to be incorrectly discounted.
