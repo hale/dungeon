@@ -2,15 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec652bcb-9467-4c66-ab44-248d1ed79404" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/ai/pathfind/Grid.java" afterPath="$PROJECT_DIR$/src/dungeon/ai/pathfind/Grid.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/ai/PathFindBehaviour.java" afterPath="$PROJECT_DIR$/src/dungeon/ai/PathFindBehaviour.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/ai/pathfind/SimplePathFind.java" afterPath="$PROJECT_DIR$/src/dungeon/ai/pathfind/SimplePathFind.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/ai/pathfind/Square.java" afterPath="$PROJECT_DIR$/src/dungeon/ai/pathfind/Square.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/AStar.java" afterPath="$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/AStar.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/ai/hale/CreatureBehaviour.java" afterPath="$PROJECT_DIR$/src/dungeon/ai/hale/CreatureBehaviour.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/ai/hale/FactionBehaviour.java" afterPath="$PROJECT_DIR$/src/dungeon/ai/hale/FactionBehaviour.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/Grid.java" afterPath="$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/Grid.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md.ft" afterPath="$PROJECT_DIR$/README.md.ft" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/Square.java" afterPath="$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/Square.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dungeon.iml" afterPath="$PROJECT_DIR$/dungeon.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dungeon.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1361989015757" ignored="false" />
+    <file path="/Dummy.txt" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1362736699774" ignored="false" />
     <file path="/a.java" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1361987781351" ignored="false" />
     <file path="/fragment.java" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1361987842380" ignored="false" />
     <file path="/AttackBehaviour.java" changelist="ec652bcb-9467-4c66-ab44-248d1ed79404" time="1360332724216" ignored="false" />
@@ -38,7 +42,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -73,6 +76,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -82,32 +86,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SimplePathFind.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dungeon/ai/pathfind/SimplePathFind.java">
+      <file leaf-file-name="CreatureBehaviour.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dungeon/ai/hale/CreatureBehaviour.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="121" column="4" selection-start="4521" selection-end="4521" vertical-scroll-proportion="0.0">
+            <state line="10" column="12" selection-start="340" selection-end="340" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FactionBehaviour.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/dungeon/ai/hale/FactionBehaviour.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="55" column="6" selection-start="1542" selection-end="1542" vertical-scroll-proportion="0.26119402">
               <folding>
-                <element signature="e#1830#1977#0" expanded="true" />
-                <element signature="e#1966#1967#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Square.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/dungeon/ai/pathfind/Square.java">
+      <file leaf-file-name="AStar.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/AStar.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="27" selection-start="1768" selection-end="1768" vertical-scroll-proportion="0.537037">
-              <folding />
+            <state line="125" column="37" selection-start="3901" selection-end="3901" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PathFind.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dungeon/ai/pathfind/PathFind.java">
+      <file leaf-file-name="Grid.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/Grid.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="20" selection-start="301" selection-end="301" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="119" column="0" selection-start="3142" selection-end="3142" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Square.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/Square.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="42" selection-start="579" selection-end="579" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,6 +154,13 @@
       <MyDateState />
     </option>
   </component>
+  <component name="GradleLocalSettings">
+    <option name="expandStates">
+      <map>
+        <entry key="dungeon" value="true" />
+      </map>
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
@@ -139,6 +173,11 @@
         <option value="$PROJECT_DIR$/xml/p2.xml" />
         <option value="$PROJECT_DIR$/src/dungeon/ai/pathfind/SimplePathFind.java" />
         <option value="$PROJECT_DIR$/src/dungeon/ai/pathfind/Square.java" />
+        <option value="$PROJECT_DIR$/src/dungeon/ai/hale/FactionBehaviour.java" />
+        <option value="$PROJECT_DIR$/src/dungeon/ai/hale/CreatureBehaviour.java" />
+        <option value="$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/AStar.java" />
+        <option value="$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/Grid.java" />
+        <option value="$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/Square.java" />
       </list>
     </option>
   </component>
@@ -194,7 +233,6 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="2" />
     <option name="y" value="22" />
     <option name="width" value="1366" />
     <option name="height" value="742" />
@@ -210,7 +248,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
-    <option name="STATE" value="0" />
+    <option name="STATE" value="2" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
@@ -225,7 +263,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -543,7 +580,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="pathfind" />
+              <option name="myItemId" value="hale" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -569,11 +606,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="pathfind" />
+              <option name="myItemId" value="hale" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="utilities" />
+              <option name="myItemId" value="pathfind" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -605,6 +642,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -812,24 +850,24 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2" y="22" width="1366" height="742" extended-state="0" />
+    <frame x="0" y="22" width="1366" height="742" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.69131833" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47651514" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.50384617" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25076923" sideWeight="0.3256579" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3279743" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.67105263" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.69131833" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1219697" sideWeight="0.6012862" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30868167" sideWeight="0.49076924" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26666668" sideWeight="0.69131833" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30868167" sideWeight="0.49076924" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -897,18 +935,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/dungeon/ai/actions/ActionPickUp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="918" selection-end="918" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dungeon/model/combat/Longbow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="2" selection-start="288" selection-end="288" vertical-scroll-proportion="0.42807627" />
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/googlecode/stateless4j/1.0/stateless4j-1.0-sources.jar!/com/googlecode/stateless4j/StateMachine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="132" column="0" selection-start="5331" selection-end="5331" vertical-scroll-proportion="0.0" />
@@ -974,27 +1000,46 @@
         <state line="60" column="49" selection-start="1750" selection-end="1750" vertical-scroll-proportion="0.025167786" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dungeon/ai/pathfind/PathFind.java">
+    <entry file="file://$PROJECT_DIR$/src/dungeon/ai/hale/CreatureBehaviour.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="20" selection-start="301" selection-end="301" vertical-scroll-proportion="0.0">
+        <state line="10" column="12" selection-start="340" selection-end="340" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dungeon/ai/pathfind/SimplePathFind.java">
+    <entry file="file://$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/Square.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="4" selection-start="4521" selection-end="4521" vertical-scroll-proportion="0.0">
+        <state line="25" column="42" selection-start="579" selection-end="579" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#1830#1977#0" expanded="true" />
-            <element signature="e#1966#1967#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dungeon/ai/pathfind/Square.java">
+    <entry file="file://$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/Grid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="27" selection-start="1768" selection-end="1768" vertical-scroll-proportion="0.537037">
-          <folding />
+        <state line="119" column="0" selection-start="3142" selection-end="3142" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dungeon/ai/hale/pathfind/AStar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="125" column="37" selection-start="3901" selection-end="3901" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dungeon/ai/hale/FactionBehaviour.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="6" selection-start="1542" selection-end="1542" vertical-scroll-proportion="0.26119402">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
