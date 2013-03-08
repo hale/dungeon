@@ -1,22 +1,19 @@
 package dungeon.ai.hale;
 
-import java.awt.geom.Point2D;
-import java.util.Random;
-import java.util.ArrayDeque;
-
+import dungeon.ai.Behaviour;
+import dungeon.ai.CollisionDetection;
 import dungeon.ai.actions.ActionAttack;
 import dungeon.ai.actions.ActionDoor;
 import dungeon.ai.actions.ActionPickUp;
+import dungeon.ai.hale.pathfind.AStar;
+import dungeon.ai.hale.pathfind.Grid;
+import dungeon.ai.hale.pathfind.Square;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
-import dungeon.model.items.treasure.Treasure;;
-import dungeon.App;
-import dungeon.ui.MapPanel;
+import dungeon.model.items.treasure.Treasure;
 
-import dungeon.ai.hale.pathfind.*;
-import dungeon.ai.Behaviour;
-import dungeon.ai.CollisionDetection;
-
+import java.awt.geom.Point2D;
+import java.util.ArrayDeque;
 
 public class CreatureBehaviour implements Behaviour
 {
@@ -86,12 +83,9 @@ public class CreatureBehaviour implements Behaviour
    */
   private boolean tryActions()
   {
-    if (ActionAttack.performAction(fCreature, fGame))
-      return true;
-    if (ActionPickUp.performAction(fCreature, fGame))
-      return true;
-    if (ActionDoor.performAction(fCreature, fGame))
-      return true;
+    if      (ActionAttack.performAction(fCreature, fGame)) return true;
+    else if (ActionPickUp.performAction(fCreature, fGame)) return true;
+    else if (ActionDoor.performAction(fCreature, fGame))   return true;
     return false;
   }
 
@@ -99,7 +93,7 @@ public class CreatureBehaviour implements Behaviour
    * Attempts to move to a predefined goal point.
    *
    * @return true if there is a goal and the collision check passes.
-   *         false and unsets the goal otherwise.
+   *         false and un-sets the goal otherwise.
    */
   private boolean tryMovement()
   {
@@ -141,7 +135,7 @@ public class CreatureBehaviour implements Behaviour
           Treasure treasure = fGrid.getTreasureIn(square, fGame);
           if(CollisionDetection.canOccupy(fGame, fCreature, treasure.getLocation()))
             fPath.push(treasure.getLocation());
-        } catch(Exception e) { }
+        } catch(Exception ignored) { }
 
   }
 }

@@ -2,19 +2,17 @@ package dungeon.ai.hale.pathfind;
 
 import dungeon.App;
 import dungeon.model.Game;
-import dungeon.model.items.mobs.Creature;
-import dungeon.model.items.mobs.Orc;
-import dungeon.model.structure.Tile;
-import dungeon.model.structure.Door;
-import dungeon.model.structure.Pit;
-import dungeon.collections.TreasureList;
-import dungeon.model.structure.FlameTrap;
 import dungeon.model.items.treasure.Treasure;
+import dungeon.model.structure.Door;
+import dungeon.model.structure.FlameTrap;
+import dungeon.model.structure.Pit;
+import dungeon.model.structure.Tile;
+
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Grid representation of the map, for use in pathfinding.
@@ -48,15 +46,13 @@ public class Grid {
     this.xArraySize = (int) (bounds.getWidth() / TILE_SIZE);
     this.yArraySize = (int) (bounds.getHeight() / TILE_SIZE);
     sqGrid =  new Square[xArraySize][yArraySize];
-    constructGrid(game);
+    constructGrid();
     updateGrid(game);
   }
 
   /**
    * The square object at a given [x,y] grid coordinate
    *
-   * @param x
-   * @param y
    * @return The square at this x,y
    */
   protected Square squareAt(int x, int y)
@@ -234,7 +230,7 @@ public class Grid {
     if (xDist > yDist)
       return (14 * yDist) + (10 * (xDist - yDist));
     else
-      return (14 * xDist) + (10 * (yDist = xDist));
+      return (14 * xDist) + (10 * (yDist - xDist));
   }
 
   /**
@@ -283,7 +279,7 @@ public class Grid {
    * pathfinding algorithm to avoid flame traps unless no other path is possible.
    *
    */
-  private void constructGrid(Game game)
+  private void constructGrid()
   {
     for (int y = 0; y < yArraySize; y++) {
       for (int x = 0; x < xArraySize; x++) {

@@ -1,9 +1,7 @@
 package dungeon.ai.hale.pathfind;
+
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-
-import dungeon.model.structure.*;
-import dungeon.model.items.mobs.Creature;
 
 public class Square {
 
@@ -22,7 +20,6 @@ public class Square {
   public int getY() { return y; }
   public void setY(int y) { this.y = y; }
 
-  private int fCost;
   public int getFCost() { return gScore + hScore; }
 
   private int gScore;
@@ -30,7 +27,6 @@ public class Square {
   public void setGScore(int gScore) { this.gScore = gScore; }
 
   private int hScore;
-  public int getHScore() { return hScore; }
   public void setHScore(int hScore) { this.hScore = hScore; }
 
   private Square parent = null;;
@@ -50,15 +46,11 @@ public class Square {
   public boolean containsTreasure() { return containsTreasure; }
   protected void setContainsTreasure(boolean containsTreasure) { this.containsTreasure = containsTreasure; }
 
-  private Point2D treasureLocation;
-  public Point2D getTreasureLocation() { return treasureLocation; }
-  public void setTreasureLocation(Point2D loc) { this.treasureLocation = loc; }
-
   /**
    * The movement cost of a square is defined as it's terrain cost, plus a relative
    * measure of how long it takes to get from the other square.
    *
-   * @param adjSquare The square to move froom
+   * @param adjSquare The square to move from
    * @return terrain cost + 10 or 14 depending on the adjSquare.
    */
   public int getMoveCost(Square adjSquare)

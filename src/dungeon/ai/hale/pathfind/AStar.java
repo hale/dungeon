@@ -1,22 +1,10 @@
 package dungeon.ai.hale.pathfind;
 
-import java.awt.geom.Point2D;
-import java.util.List;
-import java.util.ArrayDeque;
-import java.util.PriorityQueue;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Comparator;
-import java.util.Collections;
-
-import dungeon.App;
-import dungeon.ai.*;
-import dungeon.ai.hale.pathfind.*;
-import dungeon.model.*;
-import dungeon.model.items.mobs.Creature;
+import dungeon.model.Game;
 import dungeon.model.items.Item;
-import dungeon.utils.*;
-import dungeon.ui.MapPanel;
+
+import java.awt.geom.Point2D;
+import java.util.*;
 
 public class AStar {
 
@@ -30,10 +18,9 @@ public class AStar {
    * The openList is implemented as a heap, using Java.util.PriorityQueue.
    * Paths are saved as an ArrayDeque
    *
-   * @param game The game which this is running in.
    * @param grid The grid to find paths on.
    */
-  public AStar(Game game, Grid grid)
+  public AStar(Grid grid)
   {
     this.fGrid = grid;
     this.closedList = new ArrayDeque<Square>();
@@ -80,17 +67,6 @@ public class AStar {
     return squaresToPoints(findShortestPath(originSquares, goalSquares));
   }
 
-  private ArrayDeque<Point2D> findPath(Set<Point2D> origins, Set<Point2D> goals)
-  {
-    Set<Square> originSquares = new HashSet<Square>();
-    Set<Square> goalSquares = new HashSet<Square>();
-    for (Point2D pt : origins)
-      originSquares.add(new Square(pt));
-    for (Point2D pt : goals)
-      goalSquares.add(new Square(pt));
-    return squaresToPoints(findShortestPath(originSquares, goalSquares));
-  }
-
   /**
    * The A* algorithm.
    *
@@ -107,7 +83,6 @@ public class AStar {
     closedList.clear();
     boolean pathFound = false;
     int gScore;
-    int hScore;
 
     for (Square sq : origins)
     {

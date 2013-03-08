@@ -1,29 +1,20 @@
 package dungeon.ai.hale;
 
-import dungeon.model.Game;
-import dungeon.model.items.mobs.Faction;
-import dungeon.model.items.mobs.Creature;
-import dungeon.model.items.mobs.Ogre;
-import dungeon.model.items.Item;
-import dungeon.model.items.treasure.Treasure;
-import dungeon.collections.CreatureList;
 import dungeon.ai.Behaviour;
+import dungeon.ai.CollisionDetection;
 import dungeon.ai.hale.pathfind.AStar;
 import dungeon.ai.hale.pathfind.Grid;
-import dungeon.ai.hale.pathfind.Square;
-import dungeon.ai.CollisionDetection;
+import dungeon.collections.CreatureList;
+import dungeon.model.Game;
+import dungeon.model.items.Item;
+import dungeon.model.items.mobs.Creature;
+import dungeon.model.items.mobs.Faction;
+import dungeon.model.items.mobs.Ogre;
+import dungeon.model.items.treasure.Treasure;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.List;
-
-import dungeon.App;
-
-import dungeon.ui.MapPanel;
 
 
 /**
@@ -69,7 +60,7 @@ public class FactionBehaviour implements Behaviour {
       {
         fGame = game;
         fGrid = new Grid(fGame);
-        fPathFind = new AStar(fGame, fGrid);
+        fPathFind = new AStar(fGrid);
         setupCreatures();
       }
       fGrid.updateGrid(fGame);
@@ -109,10 +100,10 @@ public class FactionBehaviour implements Behaviour {
     ArrayList<Item> items = new ArrayList<Item>(fGame.getTreasure().size() + fGame.getCreatures().size());
     for (Creature creature : fGame.getCreatures())
       if (!fCreatures.contains(creature))
-        items.add((Item) creature);
+        items.add(creature);
     for (Treasure treasure : fGame.getTreasure())
       if(CollisionDetection.canOccupy(fGame, new Ogre(), treasure.getLocation()))
-        items.add((Item) treasure);
+        items.add(treasure);
     return items;
   }
 

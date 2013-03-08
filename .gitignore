@@ -2,3 +2,16 @@ dist
 dist/*
 target
 target/*
+.idea/ant.xml
+.idea/codeStyleSettings.xml
+.idea/compiler.xml
+.idea/copyright
+.idea/encodings.xml
+.idea/libraries
+.idea/misc.xml
+.idea/modules.xml
+.idea/scopes
+.idea/uiDesigner.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea

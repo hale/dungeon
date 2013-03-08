@@ -2,24 +2,24 @@
 
 ## TOMORROW .todo
 
-* **Determine faction goal point:**
+* **Determine faction goal point:** @done
 	* Closest treasure?
 		* For now: move to first treasure in list. @done
-		* Next: A* in reverse, find nearest treasure.
+		* Next: A* in reverse, find nearest treasure. @done
 	* if no treasure, move to enemies
 		* For now: first enemy in list. @done
-		* Next: closest enemy
-* **Check fighting.**
+		* Next: closest enemy @done
+* **Check fighting.** @done
 	* Write an xml map based on 2013.xml with two factions. @done
-	* test against your own behaviour
-* **Refactor**
-	* Rename SimplePathFind to AStarPathFind
-	* Clean up and lightly refactor classes in `dungeon.ai.hale`
+	* test against your own behaviour @done
+* **Refactor** @done
+	* Rename SimplePathFind to AStarPathFind @done
+	* Clean up and lightly refactor classes in `dungeon.ai.hale` @done
 * **Improve performance** - speed up A* @done
 	* use a heap for open list @done
 	* replace LinkedLists with ArrayDeques. @done
 * **Documentation**
-	* Write javadoc for public methods.
+	* Write javadoc for public methods. @done
 	* Write the report explaining strategy and implementation details of each.
 
 ---
