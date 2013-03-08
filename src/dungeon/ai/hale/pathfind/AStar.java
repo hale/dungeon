@@ -25,10 +25,10 @@ public class AStar {
   PriorityQueue<Square> openList;
 
   /**
-   * For finding paths between points using the A* algorithm.  The openList is
-   * implemented as a heap, using Java.util.PriorityQueue. Paths are saved as
-   * an ArrayDeque, for the functionality of a LinkedList and the speed of
-   * an ArrayList.
+   * For finding paths between points using the A* algorithm.
+   *
+   * The openList is implemented as a heap, using Java.util.PriorityQueue.
+   * Paths are saved as an ArrayDeque
    *
    * @param game The game which this is running in.
    * @param grid The grid to find paths on.
@@ -91,6 +91,13 @@ public class AStar {
     return squaresToPoints(findShortestPath(originSquares, goalSquares));
   }
 
+  /**
+   * The A* algorithm.
+   *
+   * Initial pseudocode taken from http://www.policyalmanac.org/games/aStarTutorial.htm
+   *
+   * Adapted to use a PriorityQueue, and support multiple start and finish points.
+   */
   private ArrayDeque<Square> findShortestPath(Set<Square> origins, Set<Square> goals)
   {
 
@@ -147,7 +154,6 @@ public class AStar {
             openList.add(adjSquare);
           }
         }
-        //assert(adjSquare.hasParent());
       }
     }
     for (Square origin : origins)
@@ -170,9 +176,7 @@ public class AStar {
       //System.out.println("Path took " + ms + " milliseconds to calculate.");
     //}
     return pathList;
-
   }
-
 
   private ArrayDeque<Point2D> squaresToPoints(ArrayDeque<Square> squares)
   {

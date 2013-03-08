@@ -21,14 +21,27 @@ import java.util.HashSet;
  */
 public class Grid {
 
-  boolean gridInitialised =false;
+  /**
+   * The dimensions of a Square in the grid
+   */
   protected static final int TILE_SIZE = 5;
-  int xArraySize;
-  int yArraySize;
   double halfTileSize = (double) TILE_SIZE/2;
 
+  /**
+   * The height and width of the 2D array
+   */
+  int xArraySize;
+  int yArraySize;
+
+  /**
+   * 2D array of all the squares in the game
+   */
   Square[][] sqGrid;
 
+  /**
+   * Picks the dimensions of the grid based on the tile size, to support
+   * variable size maps
+   */
   public Grid(Game game)
   {
     Rectangle2D bounds = game.getMap().getBounds(0);
@@ -39,39 +52,30 @@ public class Grid {
     updateGrid(game);
   }
 
+  /**
+   * The square object at a given [x,y] grid coordinate
+   *
+   * @param x
+   * @param y
+   * @return The square at this x,y
+   */
   protected Square squareAt(int x, int y)
   {
     return sqGrid[x][y];
   }
 
+  /**
+   * The square containing a point on the plane
+   *
+   * @param point a 2D point on the plane
+   * @return the Square, an approximatino of this location.
+   */
   public Square squareAt(Point2D point)
   {
     int x = (int) (point.getX() / 5.0);
     int y = (int) (point.getY() / 5.0);
     return squareAt(x, y);
   }
-
-  /**
-   * The creature at a given point;
-   *
-   * @param point The point the creature is supposed to be near.
-   * @param game The game to fetch the creatures from.
-   * @return A creature whose centerpoint resides in the same square as the point
-   */
-  public Creature creatureIn(Point2D pnt, Game game)
-  {
-    // get the rectangle occupied by each creature - if point in rectangle return creature;
-
-    for (Creature creature : game.getCreatures())
-    {
-      Rectangle2D area = creature.getShape();
-      if (area.contains(pnt.getX(), pnt.getY()))
-        return creature;
-    }
-    return null;
-  }
-
-
 
   /**
    * The set of squares that contain treasure.
@@ -125,8 +129,6 @@ public class Grid {
       }
     }
   }
-
-
 
   /**
    * Squares in the grid one-step away from a given square.
@@ -202,7 +204,6 @@ public class Grid {
       list.add(square);
   }
 
-
   /**
    * The rectillinear distance between two squares. This heuristic function
    * results in an inadmissable A*, since diagonal movement is allowed.
@@ -272,28 +273,32 @@ public class Grid {
     }
   }
 
+  /**
+   * Populates the grid with squares, and sets those squares based on the game
+   * state.
+   *
+   * Pits, closed doors and the gaps between tiles are set as non-occupiable.
+   *
+   * Flame traps are given a positive terrain modifier.  This causes the
+   * pathfinding algorithm to avoid flame traps unless no other path is possible.
+   *
+   */
   private void constructGrid(Game game)
   {
-    if (!gridInitialised) {
-      gridInitialised=true;
+    for (int y = 0; y < yArraySize; y++) {
+      for (int x = 0; x < xArraySize; x++) {
+        Square square = new Square();
+        Tile tile = getTileAtGrid(x, y);
+        square.setX(x);
+        square.setY(y);
 
-      for (int y = 0; y < yArraySize; y++) {
-        for (int x = 0; x < xArraySize; x++) {
-          Square square = new Square();
-          Tile tile = getTileAtGrid(x, y);
+        if (tile == null || isPit(tile) || isClosedDoor(tile) )
+          square.setOccupiable( false );
 
-          square.setX(x);
-          square.setY(y);
+        if (tile !=null && isTrap(tile))
+          square.setTerrainCost(4000);
 
-          if (tile == null || isPit(tile) || isClosedDoor(tile) )
-            square.setOccupiable( false );
-
-
-          if (tile !=null && isTrap(tile))
-            square.setTerrainCost(4000);
-
-          sqGrid[x][y] = square;
-        }
+        sqGrid[x][y] = square;
       }
     }
   }
@@ -329,6 +334,10 @@ public class Grid {
     return true;
   }
 
+  /**
+   * translates an x,y grid reference to a grid coordinate, and gets the tile
+   * at that point.
+   */
   private Tile getTileAtGrid(int x, int y)
   {
     Point2D.Double location = new Point2D.Double(halfTileSize

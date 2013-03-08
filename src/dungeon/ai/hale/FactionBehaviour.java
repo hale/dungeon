@@ -3,6 +3,7 @@ package dungeon.ai.hale;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Faction;
 import dungeon.model.items.mobs.Creature;
+import dungeon.model.items.mobs.Ogre;
 import dungeon.model.items.Item;
 import dungeon.model.items.treasure.Treasure;
 import dungeon.collections.CreatureList;
@@ -10,12 +11,12 @@ import dungeon.ai.Behaviour;
 import dungeon.ai.hale.pathfind.AStar;
 import dungeon.ai.hale.pathfind.Grid;
 import dungeon.ai.hale.pathfind.Square;
+import dungeon.ai.CollisionDetection;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Random;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,9 @@ import dungeon.App;
 import dungeon.ui.MapPanel;
 
 
+/**
+ * Controls the overall destination for creatures in the same faction.
+ */
 public class FactionBehaviour implements Behaviour {
 
   AStar fPathFind;
@@ -34,6 +38,9 @@ public class FactionBehaviour implements Behaviour {
   Game fGame;
   Point2D fGoal = null;
 
+  /**
+   * Factions are specified in the XML file as strings. E.g. "red".
+   */
   public FactionBehaviour(Faction faction)
   {
     this.faction = faction;
@@ -41,32 +48,62 @@ public class FactionBehaviour implements Behaviour {
   }
 
   @Override
-  public boolean onTick(Game game)
-  {
-    if (fGame == null)
+    /**
+     * Is called every time in the game loop.
+     *
+     * On the first tick, class variables  are intialised.  This allows us to
+     * write behaviour classes without always passing a Game and Creature object
+     * as parameters.
+     *
+     * On every subsequent tick, the following happens:
+     *
+     * 1. The grid is updated to reflect the game state.
+     * 2. Creatures in this faction are re-included.
+     * 3. A new goal point is set.
+     * 4. The creatures in the faction are set this goal point as their goal point.
+     *
+     */
+    public boolean onTick(Game game)
     {
-      fGame = game;
-      fGrid = new Grid(fGame);
-      fPathFind = new AStar(fGame, fGrid);
-      setupCreatures();
+      if (fGame == null)
+      {
+        fGame = game;
+        fGrid = new Grid(fGame);
+        fPathFind = new AStar(fGame, fGrid);
+        setupCreatures();
+      }
+      fGrid.updateGrid(fGame);
+      this.fCreatures = getFactionCreatures();
+      setNewGoal();
+      setCreatureGoals();
+      return true;
     }
 
-    fGrid.updateGrid(fGame);
-
-    this.fCreatures = getFactionCreatures();
-
+  /**
+   * Determines the best goal point for this faction.
+   *
+   * The best goal point is the shortest path between any member of this faction
+   * and any reachable item.
+   *
+   * Setting the goal in this way has a number of useful outcomes.
+   *
+   * 1. Faction creatures will converge over time.
+   * 2. Since there is usually more treasure than enemies, treasure is usually
+   *    prioritised over enemies.
+   * 3. When enemies come close, they are attacked even if there is free treasure.
+   * 4. Creatures rare;y get stuck.
+   */
+  private void setNewGoal()
+  {
     ArrayList<Item> goals = getTreasureAndEnemies();
     ArrayDeque<Point2D> path = fPathFind.findPath(new ArrayList<Item>(fCreatures), goals);
-    MapPanel.setPath(new ArrayList<Point2D>(path));
-
-    if (path.size() > 1)
+    if (path.size() > 0)
       fGoal = path.getFirst();
-
-    setCreatureGoals();
-
-    return true;
   }
 
+  /**
+   * Finds treasure that can be reached by an ogre, and creatures not in this faction.
+   */
   private ArrayList<Item> getTreasureAndEnemies()
   {
     ArrayList<Item> items = new ArrayList<Item>(fGame.getTreasure().size() + fGame.getCreatures().size());
@@ -74,20 +111,23 @@ public class FactionBehaviour implements Behaviour {
       if (!fCreatures.contains(creature))
         items.add((Item) creature);
     for (Treasure treasure : fGame.getTreasure())
-      items.add((Item) treasure);
+      if(CollisionDetection.canOccupy(fGame, new Ogre(), treasure.getLocation()))
+        items.add((Item) treasure);
     return items;
   }
 
+  /**
+   * Sets the destination goals of all the creatures to be the same as the faction goal
+   */
   private void setCreatureGoals()
   {
-    CreatureBehaviour behaviour;
     for (Creature creature : fCreatures)
-    {
-      behaviour = (CreatureBehaviour) creature.getBehaviour();
-      behaviour.setDest(fGoal);
-    }
+      ((CreatureBehaviour) creature.getBehaviour()).setDest(fGoal);
   }
 
+  /**
+   * Populates the factions creatures from the global creature list.
+   */
   private CreatureList getFactionCreatures()
   {
     CreatureList creatures = new CreatureList();
@@ -97,6 +137,10 @@ public class FactionBehaviour implements Behaviour {
     return creatures;
   }
 
+  /**
+   * Initialises the creature behaviour class, passing it reusable objects and
+   * setting th behaviour.
+   */
   private void setupCreatures()
   {
     this.fCreatures = getFactionCreatures();

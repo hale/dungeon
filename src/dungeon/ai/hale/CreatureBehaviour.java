@@ -9,6 +9,7 @@ import dungeon.ai.actions.ActionDoor;
 import dungeon.ai.actions.ActionPickUp;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
+import dungeon.model.items.treasure.Treasure;;
 import dungeon.App;
 import dungeon.ui.MapPanel;
 
@@ -19,19 +20,16 @@ import dungeon.ai.CollisionDetection;
 
 public class CreatureBehaviour implements Behaviour
 {
-  static final boolean KEEP_TO_ROOMS = true;
-  Creature fCreature;
   Game fGame;
+  Creature fCreature;
+  ArrayDeque<Point2D> fPath;
+
   AStar fPathFind;
   protected void setPathFind(AStar pathFind) { this.fPathFind = pathFind; }
 
   Grid fGrid;
   protected void setGrid(Grid grid) { this.fGrid = grid; }
 
-
-  ArrayDeque<Point2D> fPath;
-  protected void setPath(ArrayDeque<Point2D> path) { fPath = path; }
-  protected int getPathSize() { return fPath.size(); }
   Point2D fDest = null;
   public void setDest(Point2D dest) { this.fDest = dest; }
 
@@ -44,11 +42,22 @@ public class CreatureBehaviour implements Behaviour
   /* TICKS */
 
   @Override
+    /**
+     * Is called every time int he game loop.
+     *
+     * If this tick happens after the faction behaviour, the first tick will be wasted.
+     *
+     * The behaviour specifies the following actions each time:
+     *
+     * 1. If possible take an action.  If not, move.
+     * 2. If movement was not possible, set a new goal.
+     * 3. Try to move again.
+     */
     public boolean onTick(Game game)
     {
       if (fGame == null) fGame = game;
-      if (fGrid == null) { App.log("fGrid null"); return false; }
-      if (fPathFind == null) { App.log("fPathFind null"); return false; }
+      if (fGrid == null)  return false;
+      if (fPathFind == null) return false;
 
       boolean acted = tryActions();
       if (acted) return true;
@@ -72,8 +81,9 @@ public class CreatureBehaviour implements Behaviour
       return false;
     }
 
-  /* ACTIONS */
-
+  /**
+   * Attempts all basic action moves.
+   */
   private boolean tryActions()
   {
     if (ActionAttack.performAction(fCreature, fGame))
@@ -85,8 +95,12 @@ public class CreatureBehaviour implements Behaviour
     return false;
   }
 
-  /* MOVEMENT */
-
+  /**
+   * Attempts to move to a predefined goal point.
+   *
+   * @return true if there is a goal and the collision check passes.
+   *         false and unsets the goal otherwise.
+   */
   private boolean tryMovement()
   {
     if (fCreature.getGoal() != null && CollisionDetection.canOccupy(fGame, fCreature, fCreature.getGoal()))
@@ -95,29 +109,39 @@ public class CreatureBehaviour implements Behaviour
     return false;
   }
 
-
+  /**
+   * Recalculates the path and take the next step
+   */
   private void setNewGoal()
   {
     updatePath();
+    addTreasureDiversionIfClose();
     if (fPath.size() > 0)
       fCreature.setGoal(fPath.pollFirst(), fGame);
   }
 
-  /* PATH FINDING */
-
+  /**
+   * Uses A* to calculate the path from here to the goal
+   */
   private void updatePath()
   {
     fPath = fPathFind.findPath(fCreature.getLocation(), fDest);
+  }
 
-    // add treasure to path if treasure in adjacent square.
+  /**
+   * If there is treasure in a free adjacent square, and that treasure is
+   * accessible, make a diversion to pick up the treasure.
+   */
+  private void addTreasureDiversionIfClose()
+  {
     Square currentSquare = new Square(fCreature.getLocation());
     for (Square square : fGrid.getAdjacentSquares(currentSquare))
       if (square.containsTreasure())
         try { // sometimes when the game ends, this causes a null pointer exception
-        fPath.push(fGrid.getTreasureIn(square, fGame).getLocation());
+          Treasure treasure = fGrid.getTreasureIn(square, fGame);
+          if(CollisionDetection.canOccupy(fGame, fCreature, treasure.getLocation()))
+            fPath.push(treasure.getLocation());
         } catch(Exception e) { }
 
-    //MapPanel.setPath(fPath);
-    //fGrid.printSquares(fPath, fCreature.getLocation(), fDest, fGame);
   }
 }

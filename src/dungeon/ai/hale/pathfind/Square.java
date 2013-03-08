@@ -14,39 +14,6 @@ public class Square {
     this.x = planeToGrid(location.getX());
     this.y = planeToGrid(location.getY());
   }
-
-  public int getMoveCost(Square adjSquare)
-  {
-    return terrainCost + ((isDiagonal(adjSquare)) ? 14 : 10);
-  }
-
-  public boolean isDiagonal(Square adjSquare)
-  {
-    if (this.x != adjSquare.getX())
-      if (this.y != adjSquare.getY())
-        return true;
-    return false;
-  }
-
-  private int planeToGrid(double point)
-  {
-    return (int) (point / 5.0);
-  }
-
-  protected Rectangle2D getRectangle()
-  {
-    double height = Grid.TILE_SIZE;
-    double width =  Grid.TILE_SIZE;
-    double x =  ((this.x) * 5) ;
-    double y =  ((this.y) * 5) ;
-
-    return new Rectangle2D.Double(x, y, width, height);
-  }
-
-  private boolean occupiable = true;
-  public boolean isOccupiable() { return this.occupiable; }
-  public void setOccupiable(boolean occupiable) { this.occupiable = occupiable; }
-
   private int x;
   public int getX() { return x; }
   public void setX(int x) { this.x = x; }
@@ -54,11 +21,6 @@ public class Square {
   private int y;
   public int getY() { return y; }
   public void setY(int y) { this.y = y; }
-
-  /* The cost of moving on this square.  E.g. for flame traps */
-  private int terrainCost = 0;
-  public int getTerrainCost() { return terrainCost; }
-  public void setTerrainCost(int cost) { this.terrainCost = cost; }
 
   private int fCost;
   public int getFCost() { return gScore + hScore; }
@@ -76,6 +38,14 @@ public class Square {
   public void setParent(Square parent) { this.parent = parent; }
   public boolean hasParent() { return (parent != null) ? true : false; }
 
+  private boolean occupiable = true;
+  public boolean isOccupiable() { return this.occupiable; }
+  public void setOccupiable(boolean occupiable) { this.occupiable = occupiable; }
+
+  private int terrainCost = 0;
+  public int getTerrainCost() { return terrainCost; }
+  public void setTerrainCost(int cost) { this.terrainCost = cost; }
+
   private boolean containsTreasure = false;
   public boolean containsTreasure() { return containsTreasure; }
   protected void setContainsTreasure(boolean containsTreasure) { this.containsTreasure = containsTreasure; }
@@ -84,12 +54,66 @@ public class Square {
   public Point2D getTreasureLocation() { return treasureLocation; }
   public void setTreasureLocation(Point2D loc) { this.treasureLocation = loc; }
 
+  /**
+   * The movement cost of a square is defined as it's terrain cost, plus a relative
+   * measure of how long it takes to get from the other square.
+   *
+   * @param adjSquare The square to move froom
+   * @return terrain cost + 10 or 14 depending on the adjSquare.
+   */
+  public int getMoveCost(Square adjSquare)
+  {
+    return terrainCost + ((isDiagonal(adjSquare)) ? 14 : 10);
+  }
+
+  /**
+   * Determines if this square and the other are aligned horizontally or vertically,
+   * or neither.
+   *
+   * @param adjSquare The other square.
+   * @return true if the squares are in the same row or column, false otherwise.
+   */
+  public boolean isDiagonal(Square adjSquare)
+  {
+    if (this.x != adjSquare.getX())
+      if (this.y != adjSquare.getY())
+        return true;
+    return false;
+  }
+
+  private int planeToGrid(double point)
+  {
+    return (int) (point / 5.0);
+  }
+
+  /**
+   * Useful for interfacing with non-grid aware parts of the game engine.
+   *
+   * @ return A Rectangle representatino of this square.
+   */
+  protected Rectangle2D getRectangle()
+  {
+    double height = Grid.TILE_SIZE;
+    double width =  Grid.TILE_SIZE;
+    double x =  ((this.x) * 5) ;
+    double y =  ((this.y) * 5) ;
+    return new Rectangle2D.Double(x, y, width, height);
+  }
+
+
+  /**
+   * @return  the center of this tile
+   */
   public Point2D getCenter()
   {
     return new Point2D.Double( (x*5)+2.5, (y*5)+2.5 );
   }
 
   @Override
+    /**
+     * A square is equal to another square if they have the same x and y grid
+     * coordinate.
+     */
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
