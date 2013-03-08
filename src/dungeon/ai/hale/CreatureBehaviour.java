@@ -15,6 +15,9 @@ import dungeon.model.items.treasure.Treasure;
 import java.awt.geom.Point2D;
 import java.util.ArrayDeque;
 
+/**
+ * Controls the steps taken by a creature to reach the faction destination.
+ */
 public class CreatureBehaviour implements Behaviour
 {
   Game fGame;

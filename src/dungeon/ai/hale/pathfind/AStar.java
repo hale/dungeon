@@ -1,11 +1,16 @@
 package dungeon.ai.hale.pathfind;
 
-import dungeon.model.Game;
 import dungeon.model.items.Item;
 
 import java.awt.geom.Point2D;
 import java.util.*;
 
+/**
+ * For finding paths between points using the A* algorithm.
+ *
+ * The openList is implemented as a heap, using Java.util.PriorityQueue.
+ * Paths are saved as an ArrayDeque
+ */
 public class AStar {
 
   Grid fGrid;
@@ -13,11 +18,6 @@ public class AStar {
   PriorityQueue<Square> openList;
 
   /**
-   * For finding paths between points using the A* algorithm.
-   *
-   * The openList is implemented as a heap, using Java.util.PriorityQueue.
-   * Paths are saved as an ArrayDeque
-   *
    * @param grid The grid to find paths on.
    */
   public AStar(Grid grid)

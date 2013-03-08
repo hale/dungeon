@@ -3,10 +3,21 @@ package dungeon.ai.hale.pathfind;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * A fixed size node within the grid representation of the map.
+ */
 public class Square {
 
+  /**
+   * Creates a new square with no attributes.
+   */
   public Square() { }
 
+  /**
+   * Creates a new square with an x,y corresponding to a point on the plane.
+   *
+   * @param location A point within the square.
+   */
   public Square(Point2D location)
   {
     this.x = planeToGrid(location.getX());
@@ -106,30 +117,30 @@ public class Square {
      * A square is equal to another square if they have the same x and y grid
      * coordinate.
      */
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
 
-    Square square = (Square) o;
+      Square square = (Square) o;
 
-    if (x != square.x) return false;
-    if (y != square.y) return false;
+      if (x != square.x) return false;
+      if (y != square.y) return false;
 
-    return true;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = x;
-    result = 31 * result + y;
-    return result;
-  }
-
+      return true;
+    }
 
   @Override
-  public String toString()
-  {
-    return "[" + x + "," + y + "]";
-  }
+    public int hashCode() {
+      int result = x;
+      result = 31 * result + y;
+      return result;
+    }
+
+
+  @Override
+    public String toString()
+    {
+      return "[" + x + "," + y + "]";
+    }
 
 }
