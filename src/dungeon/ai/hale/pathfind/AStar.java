@@ -14,6 +14,7 @@ import dungeon.ai.*;
 import dungeon.ai.hale.pathfind.*;
 import dungeon.model.*;
 import dungeon.model.items.mobs.Creature;
+import dungeon.model.items.Item;
 import dungeon.utils.*;
 import dungeon.ui.MapPanel;
 
@@ -62,13 +63,24 @@ public class AStar {
   }
 
   /**
-   * Finds the shortest path between one set of points and another.
+   * Finds the shortest path between one list of items and another.
    *
-   * @param origins A distinct set of points.
-   * @param goals A distinct set of points.
+   * @param origins A list of items.
+   * @param goals A list of items.
    * @return The shortest path from any x in origins to any y in goals.
    */
-  public ArrayDeque<Point2D> findPath(Set<Point2D> origins, Set<Point2D> goals)
+  public ArrayDeque<Point2D> findPath(List<Item> origins, List<Item> goals)
+  {
+    Set<Square> originSquares = new HashSet<Square>();
+    Set<Square> goalSquares = new HashSet<Square>();
+    for (Item origin : origins)
+      originSquares.add(new Square(origin.getLocation()));
+    for (Item goal : goals)
+      goalSquares.add(new Square(goal.getLocation()));
+    return squaresToPoints(findShortestPath(originSquares, goalSquares));
+  }
+
+  private ArrayDeque<Point2D> findPath(Set<Point2D> origins, Set<Point2D> goals)
   {
     Set<Square> originSquares = new HashSet<Square>();
     Set<Square> goalSquares = new HashSet<Square>();
@@ -77,18 +89,6 @@ public class AStar {
     for (Point2D pt : goals)
       goalSquares.add(new Square(pt));
     return squaresToPoints(findShortestPath(originSquares, goalSquares));
-  }
-
-  private int smallestChebyshev(Square origin, Set<Square> goals)
-  {
-    int smallest = Integer.MAX_VALUE;
-    for (Square goal : goals)
-    {
-      int cheb = fGrid.chebyshevDist(origin, goal);
-      if (cheb < smallest)
-        smallest = cheb;
-    }
-    return smallest;
   }
 
   private ArrayDeque<Square> findShortestPath(Set<Square> origins, Set<Square> goals)
@@ -147,7 +147,7 @@ public class AStar {
             openList.add(adjSquare);
           }
         }
-        assert(adjSquare.hasParent());
+        //assert(adjSquare.hasParent());
       }
     }
     for (Square origin : origins)
@@ -180,6 +180,18 @@ public class AStar {
     for (Square square : squares)
       points.add(square.getCenter());
     return points;
+  }
+
+  private int smallestChebyshev(Square origin, Set<Square> goals)
+  {
+    int smallest = Integer.MAX_VALUE;
+    for (Square goal : goals)
+    {
+      int cheb = fGrid.chebyshevDist(origin, goal);
+      if (cheb < smallest)
+        smallest = cheb;
+    }
+    return smallest;
   }
 
 

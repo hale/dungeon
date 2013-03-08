@@ -3,6 +3,8 @@ package dungeon.ai.hale;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Faction;
 import dungeon.model.items.mobs.Creature;
+import dungeon.model.items.Item;
+import dungeon.model.items.treasure.Treasure;
 import dungeon.collections.CreatureList;
 import dungeon.ai.Behaviour;
 import dungeon.ai.hale.pathfind.AStar;
@@ -14,6 +16,13 @@ import java.util.Comparator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+
+import dungeon.App;
+
+import dungeon.ui.MapPanel;
 
 
 public class FactionBehaviour implements Behaviour {
@@ -22,7 +31,7 @@ public class FactionBehaviour implements Behaviour {
   Grid fGrid;
   Faction faction;
   CreatureList fCreatures;
-  Creature leader;
+  Creature fLeader;
   Game fGame;
   Random fRandom = new Random();
   Point2D fGoal = null;
@@ -56,47 +65,88 @@ public class FactionBehaviour implements Behaviour {
      * 3. set the fGoal to be the last square.
      */
 
+    ArrayList<Item> goals = getTreasureAndEnemies();
+    ArrayDeque<Point2D> path = fPathFind.findPath(new ArrayList<Item>(fCreatures), goals);
+    MapPanel.setPath(new ArrayList<Point2D>(path));
 
-    if (fGoal == null || goalReached())
-      fGoal = newGoal();
+    if (path.size() > 1)
+    {
+      //for (Point2D pt : path)
+        //App.log(pt.toString());
+      //fGrid.printSquares(new ArrayList<Point2D>(path), path.getFirst(), path.getLast(), fGame);
 
-    if (fGoal != null)
+      fLeader = closestCreature(path.getLast());
+      // FIXME: the problem is the path contains wrong squares at beginning and/or end.  Print the path
+      assert(fLeader!=null);
+
+      fGoal = path.getFirst();
+    }
       setCreatureGoals();
+
+
+    //if (fGoal == null || goalReached())
+      //fGoal = newGoal();
+
+    //if (fGoal != null)
 
     return true;
   }
 
+  private ArrayList<Item> getTreasureAndEnemies()
+  {
+    ArrayList<Item> items = new ArrayList<Item>(fGame.getTreasure().size() + fGame.getCreatures().size());
+    for (Creature creature : fGame.getCreatures())
+      if (!fCreatures.contains(creature))
+        items.add((Item) creature);
+    for (Treasure treasure : fGame.getTreasure())
+      items.add((Item) treasure);
+    return items;
+  }
+
   private void setCreatureGoals()
   {
-    Creature leader = closestCreatureToGoal();
+    //Creature leader = closestCreatureToGoal();
     CreatureBehaviour behaviour;
     for (Creature creature : fCreatures)
     {
       //if (creature.getGoal() !=null) continue;
       behaviour = (CreatureBehaviour) creature.getBehaviour();
-      if (creature.equals(leader))
+      //if (creature.equals(fLeader))
         behaviour.setDest(fGoal);
-      else
-        behaviour.setDest(leader.getLocation());
+      //else
+        //behaviour.setDest(fLeader.getLocation());
     }
   }
 
-  private Creature closestCreatureToGoal()
+  private Creature closestCreature(Point2D pnt)
   {
-    int lowestPathSize = Integer.MAX_VALUE;
-    assert(!fCreatures.isEmpty());
-    Creature closestCreature = fCreatures.get(0);
+    Creature closest = fCreatures.get(0);
+    double smallest = Double.MAX_VALUE;
     for (Creature creature : fCreatures)
     {
-      int pathSize = (fPathFind.findPath(creature.getLocation(), fGoal)).size();
-      if (pathSize < lowestPathSize)
-      {
-        closestCreature = creature;
-        lowestPathSize = pathSize;
-      }
+      if (creature.getLocation().distance(closest.getLocation()) < smallest)
+        closest = creature;
     }
-    return closestCreature;
+    return closest;
+
   }
+
+  //private Creature closestCreatureToGoal()
+  //{
+    //int lowestPathSize = Integer.MAX_VALUE;
+    //assert(!fCreatures.isEmpty());
+    //Creature closestCreature = fCreatures.get(0);
+    //for (Creature creature : fCreatures)
+    //{
+      //int pathSize = (fPathFind.findPath(creature.getLocation(), fGoal)).size();
+      //if (pathSize < lowestPathSize)
+      //{
+        //closestCreature = creature;
+        //lowestPathSize = pathSize;
+      //}
+    //}
+    //return closestCreature;
+  //}
 
   private CreatureList getFactionCreatures()
   {

@@ -52,6 +52,28 @@ public class Grid {
   }
 
   /**
+   * The creature at a given point;
+   *
+   * @param point The point the creature is supposed to be near.
+   * @param game The game to fetch the creatures from.
+   * @return A creature whose centerpoint resides in the same square as the point
+   */
+  public Creature creatureIn(Point2D pnt, Game game)
+  {
+    // get the rectangle occupied by each creature - if point in rectangle return creature;
+
+    for (Creature creature : game.getCreatures())
+    {
+      Rectangle2D area = creature.getShape();
+      if (area.contains(pnt.getX(), pnt.getY()))
+        return creature;
+    }
+    return null;
+  }
+
+
+
+  /**
    * The set of squares that contain treasure.
    *
    * @param game The game object to get treasure from.
@@ -104,70 +126,7 @@ public class Grid {
     }
   }
 
-  private void constructGrid(Game game)
-  {
-    if (!gridInitialised) {
-      gridInitialised=true;
 
-      for (int y = 0; y < yArraySize; y++) {
-        for (int x = 0; x < xArraySize; x++) {
-          Square square = new Square();
-          Tile tile = getTileAtGrid(x, y);
-
-          square.setX(x);
-          square.setY(y);
-
-          if (tile == null || isPit(tile) || isClosedDoor(tile) )
-            square.setOccupiable( false );
-
-
-          if (tile !=null && isTrap(tile))
-            square.setTerrainCost(4000);
-
-          sqGrid[x][y] = square;
-        }
-      }
-    }
-  }
-
-  private boolean isClosedDoor(Tile tile)
-  {
-    Door door;
-    try{
-      door = (Door) tile;
-    } catch(ClassCastException e) {
-      return false;
-    }
-    if (door.getState() == Door.CLOSED || door.getState() == Door.LOCKED)
-      return true;
-    return false;
-  }
-  private boolean isTrap(Tile tile)
-  {
-    try{
-      FlameTrap trap = (FlameTrap) tile;
-    } catch(ClassCastException e) {
-      return false;
-    }
-    return true;
-  }
-  private boolean isPit(Tile tile)
-  {
-    try{
-      Pit pit = (Pit) tile;
-    } catch(ClassCastException e) {
-      return false;
-    }
-    return true;
-  }
-
-  private Tile getTileAtGrid(int x, int y)
-  {
-    Point2D.Double location = new Point2D.Double(halfTileSize
-         + x * TILE_SIZE, halfTileSize + y * TILE_SIZE);
-
-     return App.getGame().getMap().getTileAt(location);
-   }
 
   /**
    * Squares in the grid one-step away from a given square.
@@ -237,7 +196,6 @@ public class Grid {
 
     return adjSquares;
   }
-
   private void addSquareIfOccupiable(Square square, List<Square> list)
   {
     if (square.isOccupiable())
@@ -313,5 +271,70 @@ public class Grid {
       System.out.println();
     }
   }
+
+  private void constructGrid(Game game)
+  {
+    if (!gridInitialised) {
+      gridInitialised=true;
+
+      for (int y = 0; y < yArraySize; y++) {
+        for (int x = 0; x < xArraySize; x++) {
+          Square square = new Square();
+          Tile tile = getTileAtGrid(x, y);
+
+          square.setX(x);
+          square.setY(y);
+
+          if (tile == null || isPit(tile) || isClosedDoor(tile) )
+            square.setOccupiable( false );
+
+
+          if (tile !=null && isTrap(tile))
+            square.setTerrainCost(4000);
+
+          sqGrid[x][y] = square;
+        }
+      }
+    }
+  }
+
+  private boolean isClosedDoor(Tile tile)
+  {
+    Door door;
+    try{
+      door = (Door) tile;
+    } catch(ClassCastException e) {
+      return false;
+    }
+    if (door.getState() == Door.CLOSED || door.getState() == Door.LOCKED)
+      return true;
+    return false;
+  }
+  private boolean isTrap(Tile tile)
+  {
+    try{
+      FlameTrap trap = (FlameTrap) tile;
+    } catch(ClassCastException e) {
+      return false;
+    }
+    return true;
+  }
+  private boolean isPit(Tile tile)
+  {
+    try{
+      Pit pit = (Pit) tile;
+    } catch(ClassCastException e) {
+      return false;
+    }
+    return true;
+  }
+
+  private Tile getTileAtGrid(int x, int y)
+  {
+    Point2D.Double location = new Point2D.Double(halfTileSize
+         + x * TILE_SIZE, halfTileSize + y * TILE_SIZE);
+
+     return App.getGame().getMap().getTileAt(location);
+   }
 
 }
