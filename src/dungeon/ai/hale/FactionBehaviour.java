@@ -48,6 +48,15 @@ public class FactionBehaviour implements Behaviour {
 
     this.fCreatures = getFactionCreatures();
 
+    /*
+     * 1. do a path find with:
+     *     originList: all the mobs in this faction
+     *     goalList: all the treasure and enemies
+     * 2. set the creature in the first square of that to be the leader
+     * 3. set the fGoal to be the last square.
+     */
+
+
     if (fGoal == null || goalReached())
       fGoal = newGoal();
 
