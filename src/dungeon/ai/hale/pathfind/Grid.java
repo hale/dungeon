@@ -51,6 +51,12 @@ public class Grid {
     return squareAt(x, y);
   }
 
+  /**
+   * The set of squares that contain treasure.
+   *
+   * @param game The game object to get treasure from.
+   * @return A subset of treasure in the game.
+   */
   public HashSet<Square> getTreasureSquares(Game game)
   {
     HashSet<Square> treasureSquares = new HashSet<Square>();
@@ -59,6 +65,15 @@ public class Grid {
     return treasureSquares;
   }
 
+  /**
+   * A treasure item in a given square.  If there is more than one treasure item,
+   * the treasure returned is arbitarily chosen.
+   *
+   * @param square Where to look for treasure.
+   * @param game The game to get treasure from.
+   *
+   * @return A Treasure object within this square.
+   */
   public Treasure getTreasureIn(Square square, Game game)
   {
     Treasure treasure = null;
@@ -68,6 +83,11 @@ public class Grid {
     return treasure;
   }
 
+  /**
+   * Updates changeable attributes of (squares in) the grid. The current
+   * implementation only tracks treasure.
+   * @param game The game state to inspect.
+   */
   public void updateGrid(Game game)
   {
     for (int y = 0; y < yArraySize; y++) {
@@ -77,6 +97,9 @@ public class Grid {
           sq.setContainsTreasure( true );
         else
           sq.setContainsTreasure( false );
+        //for (Creature creature : game.getCreatures())
+          //if (creature.getShape().intersects(sq.getRectangle()))
+            //sq.setOccupiable( false );
       }
     }
   }
@@ -97,12 +120,9 @@ public class Grid {
           if (tile == null || isPit(tile) || isClosedDoor(tile) )
             square.setOccupiable( false );
 
-          //for (Creature creature : game.getCreatures())
-            //if (creature.getShape().intersects(square.getRectangle()))
-              //square.setOccupiable( false );
 
           if (tile !=null && isTrap(tile))
-            square.setTerrainCost(200);
+            square.setTerrainCost(4000);
 
           sqGrid[x][y] = square;
         }
@@ -149,21 +169,23 @@ public class Grid {
      return App.getGame().getMap().getTileAt(location);
    }
 
-  // there can be up to 8 adjacent squares; there may be less.
+  /**
+   * Squares in the grid one-step away from a given square.
+   *
+   * The grid currently assumes diagonal movement is allowed.  Only reachable
+   * squares are returned. A reachable square:
+   *
+   *   1. is truly adjacent (ie not the same square)
+   *   2. is not out of bounds of the grid
+   *   3. is occupiable (not a wall)
+   *   4. can be reached (does not intersect a wall)
+   *
+   * @param square The center square.
+   * @return Between 0 and 8 squares.
+   */
   public List<Square> getAdjacentSquares(Square square)
   {
-    //System.out.print("Getting adjacent squares for: [");
-    //System.out.println(square.getX() + "," + square.getY() + "]");
-
-    // This method only returns adjacent squares
-    // which are valid.  A valid adjacent square:
-    // 1) is truly adjacent (ie not the same square) @done
-    // 2) is not out of bounds of the grid @done
-    // 3) is occupiable (not a wall) @done
-    // 4) can be reached (does not intersect a wall) @done
-    // TODO: remove isOccupiable() check in adjSquares loop
-
-    List<Square> adjSquares = new ArrayList<Square>();
+    List<Square> adjSquares = new ArrayList<Square>(9);
 
     int sqX = square.getX();
     int sqY = square.getY();
@@ -223,6 +245,14 @@ public class Grid {
   }
 
 
+  /**
+   * The rectillinear distance between two squares. This heuristic function
+   * results in an inadmissable A*, since diagonal movement is allowed.
+   *
+   * @param sq1
+   * @param sq2
+   * @return An integer distance; a multiple of 144.
+   */
   public int manhattanDist(Square sq1, Square sq2)
   {
     int xDist = Math.abs(sq1.getX() - sq2.getX());
@@ -230,6 +260,14 @@ public class Grid {
     return 10*(xDist + yDist);
   }
 
+  /**
+   * The diagonal distance between two squares.  This heuristic function is
+   * admissable and a better approximation than euclidian distance.
+   *
+   * @param sq1
+   * @param sq2
+   * @return An integer distance; a multiple of 144.
+   */
   public int chebyshevDist(Square sq1, Square sq2)
   {
     int xDist = Math.abs(sq1.getX() - sq2.getX());
@@ -240,6 +278,14 @@ public class Grid {
       return (14 * xDist) + (10 * (yDist = xDist));
   }
 
+  /**
+   * Prints a colourised representation of the grid to stdout.  Will only work in
+   * terminal emulators that support UNIX escape codes.
+   *
+   * @param list A list of points to plot.
+   * @param p1 The origin point.
+   * @param p2 The goal point.
+   */
   public void printSquares(List<Point2D> list, Point2D p1, Point2D p2, Game game)
   {
     Square origin = squareAt(p1);
