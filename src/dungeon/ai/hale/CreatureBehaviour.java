@@ -1,5 +1,6 @@
 package dungeon.ai.hale;
 
+import dungeon.ai.hale.State;
 import dungeon.ai.Behaviour;
 import dungeon.ai.CollisionDetection;
 import dungeon.ai.actions.ActionAttack;
@@ -23,6 +24,7 @@ public class CreatureBehaviour implements Behaviour
   Game fGame;
   Creature fCreature;
   ArrayDeque<Point2D> fPath;
+  State fState;
 
   AStar fPathFind;
   protected void setPathFind(AStar pathFind) { this.fPathFind = pathFind; }
@@ -67,7 +69,12 @@ public class CreatureBehaviour implements Behaviour
 
       if (fDest == null) { return false; }
 
-      setNewGoal();
+      updateState();
+      if (fState.equals(State.THREATENED))
+        runAway();
+      else
+        setNewGoal();
+
       return tryMovement();
     }
 
@@ -80,6 +87,18 @@ public class CreatureBehaviour implements Behaviour
     public boolean gameOverTick(Game game) {
       return false;
     }
+
+  private void updateState()
+  {
+    // TODO: switch state based on environment.
+    fState = State.SAFE;
+  }
+
+  private void runAway()
+  {
+    // TODO: pathfind to some safe place
+    setNewGoal();
+  }
 
   /**
    * Attempts all basic action moves.
