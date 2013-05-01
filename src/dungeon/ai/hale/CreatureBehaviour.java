@@ -26,7 +26,11 @@ public class CreatureBehaviour implements Behaviour
   Game fGame;
   Creature fCreature;
   ArrayDeque<Point2D> fPath;
-  State fState;
+
+  /* States for Q-learning */
+  boolean fIsThreatened = false;
+  int fEnergy = 5;
+  int fHealth = 5;
 
   AStar fPathFind;
   protected void setPathFind(AStar pathFind) { this.fPathFind = pathFind; }
@@ -47,7 +51,7 @@ public class CreatureBehaviour implements Behaviour
 
   @Override
     /**
-     * Is called every time int he game loop.
+     * Is called every time in the game loop.
      *
      * If this tick happens after the faction behaviour, the first tick will be wasted.
      *
@@ -63,6 +67,16 @@ public class CreatureBehaviour implements Behaviour
       if (fGrid == null)  return false;
       if (fPathFind == null) return false;
 
+      if (updateState())
+      {
+        System.out.print(fCreature.getFaction() + " ");
+        System.out.print(fCreature + ": ");
+        System.out.print("E(" + fEnergy + ") ");
+        System.out.print("H(" + fHealth + ") ");
+        System.out.print("!(" + fIsThreatened + ") ");
+        System.out.println();
+      }
+
       boolean acted = tryActions();
       if (acted) return true;
 
@@ -71,13 +85,7 @@ public class CreatureBehaviour implements Behaviour
 
       if (fDest == null) { return false; }
 
-      updateState();
-      App.log(fCreature + " is " + fState);
-      if (fState.equals(State.THREATENED))
-        runAway();
-      else
-        setNewGoal();
-
+      setNewGoal();
       return tryMovement();
     }
 
@@ -92,28 +100,58 @@ public class CreatureBehaviour implements Behaviour
     }
 
   /**
-   * Sets the state of the creature based on their proximity to enemy
-   * creatures. If any of the 8 neighboring squares contains a creature from
-   * another faction, the creature's state is set to threatened.  Otherwise the
-   * state is safe.
+   * Update state for q learning.
+   *
+   * @return true if the state variables change, false otherwise.
    */
-  private void updateState()
+  private boolean updateState()
+  {
+    boolean oldThreatened = fIsThreatened;
+    int oldEnergy = fEnergy;
+    int oldHealth = fHealth;
+
+    fIsThreatened = isNearEnemies();
+    fEnergy = discreteEnergy();
+    fHealth = discreteHealth();
+
+    if(oldThreatened == fIsThreatened
+        && oldEnergy == fEnergy
+        && oldHealth == fHealth)
+      return false;
+    return true;
+  }
+
+  /**
+   * If any of the 8 neighboring squares contains a creature from another
+   * faction, the creature's state is set to threatened.  Otherwise the state
+   * is safe.
+   */
+  private boolean isNearEnemies()
   {
     List<Square> adjSquares = fGrid.getAdjacentSquares(
         fGrid.squareAt( fCreature.getLocation() ));
-
-    fState = State.SAFE;
     for (Creature creat : fGame.getCreatures() )
       if (!fCreature.getFaction().equals(creat.getFaction()))
         for (Square sq : adjSquares)
           if (sq.equals(fGrid.squareAt(creat.getLocation())))
-            fState = State.THREATENED;
+            return true;
+    return false;
   }
 
-  private void runAway()
+  /**
+   * @return A value between 1 and 5 representing the creature's current health.
+   */
+  private int discreteHealth()
   {
-    // TODO: pathfind to some safe place
-    setNewGoal();
+    return (int) Math.ceil(fCreature.getCurrentHealth() / fCreature.getMaxHealth() * 5);
+  }
+
+  /**
+   * @return A value between 1 and 5 representing the creature's current health.
+   */
+  private int discreteEnergy()
+  {
+    return (int) Math.ceil(fCreature.getCurrentEnergy() / fCreature.getMaxEnergy() * 5);
   }
 
   /**
