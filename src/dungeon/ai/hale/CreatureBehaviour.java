@@ -1,5 +1,6 @@
 package dungeon.ai.hale;
 
+import dungeon.App;
 import dungeon.ai.hale.State;
 import dungeon.ai.Behaviour;
 import dungeon.ai.CollisionDetection;
@@ -15,6 +16,7 @@ import dungeon.model.items.treasure.Treasure;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayDeque;
+import java.util.List;
 
 /**
  * Controls the steps taken by a creature to reach the faction destination.
@@ -70,6 +72,7 @@ public class CreatureBehaviour implements Behaviour
       if (fDest == null) { return false; }
 
       updateState();
+      App.log(fCreature + " is " + fState);
       if (fState.equals(State.THREATENED))
         runAway();
       else
@@ -88,10 +91,23 @@ public class CreatureBehaviour implements Behaviour
       return false;
     }
 
+  /**
+   * Sets the state of the creature based on their proximity to enemy
+   * creatures. If any of the 8 neighboring squares contains a creature from
+   * another faction, the creature's state is set to threatened.  Otherwise the
+   * state is safe.
+   */
   private void updateState()
   {
-    // TODO: switch state based on environment.
+    List<Square> adjSquares = fGrid.getAdjacentSquares(
+        fGrid.squareAt( fCreature.getLocation() ));
+
     fState = State.SAFE;
+    for (Creature creat : fGame.getCreatures() )
+      if (!fCreature.getFaction().equals(creat.getFaction()))
+        for (Square sq : adjSquares)
+          if (sq.equals(fGrid.squareAt(creat.getLocation())))
+            fState = State.THREATENED;
   }
 
   private void runAway()
