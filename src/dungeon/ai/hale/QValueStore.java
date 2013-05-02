@@ -5,12 +5,12 @@ import java.io.*;
 
 public class QValueStore
 {
-  private HashMap<Object[], Double> store;
+  private HashMap<Object[], Double> fStore;
   private static final String FILEPATH = "QValueStore.ser";
 
   protected double getQValue(State state, Action action)
   {
-    return store.get(new Object[] { state, action });
+    return fStore.get(new Object[] { state, action });
   }
 
   protected Action getBestAction(State state)
@@ -31,7 +31,13 @@ public class QValueStore
 
   protected void storeQValue(State state, Action action, double value)
   {
-    store.put(new Object[] { state, action }, value);
+    fStore.put(new Object[] { state, action }, value);
+  }
+
+  @Override
+  public String toString()
+  {
+    return fStore.toString();
   }
 
   public void saveToDisk()
@@ -39,7 +45,7 @@ public class QValueStore
     try{
       ObjectOutputStream oos = new ObjectOutputStream(
           new FileOutputStream(FILEPATH));
-      oos.writeObject( store );
+      oos.writeObject( fStore );
       oos.flush();
       oos.close();
     } catch (Exception e) {
@@ -52,7 +58,7 @@ public class QValueStore
     try{
       ObjectInputStream ois = new ObjectInputStream(
           new FileInputStream(FILEPATH));
-      store = (HashMap<Object[], Double>) ois.readObject();
+      fStore = (HashMap<Object[], Double>) ois.readObject();
       ois.close();
     } catch (Exception e) {
       e.printStackTrace();
