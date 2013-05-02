@@ -28,9 +28,7 @@ public class CreatureBehaviour implements Behaviour
   ArrayDeque<Point2D> fPath;
 
   /* States for Q-learning */
-  boolean fIsThreatened = false;
-  int fEnergy = 5;
-  int fHealth = 5;
+  State fState = new State();
 
   AStar fPathFind;
   protected void setPathFind(AStar pathFind) { this.fPathFind = pathFind; }
@@ -71,10 +69,7 @@ public class CreatureBehaviour implements Behaviour
       {
         System.out.print(fCreature.getFaction() + " ");
         System.out.print(fCreature + ": ");
-        System.out.print("E(" + fEnergy + ") ");
-        System.out.print("H(" + fHealth + ") ");
-        System.out.print("!(" + fIsThreatened + ") ");
-        System.out.println();
+        System.out.println( fState );
       }
 
       boolean acted = tryActions();
@@ -106,18 +101,12 @@ public class CreatureBehaviour implements Behaviour
    */
   private boolean updateState()
   {
-    boolean oldThreatened = fIsThreatened;
-    int oldEnergy = fEnergy;
-    int oldHealth = fHealth;
-
-    fIsThreatened = isNearEnemies();
-    fEnergy = discreteEnergy();
-    fHealth = discreteHealth();
-
-    if(oldThreatened == fIsThreatened
-        && oldEnergy == fEnergy
-        && oldHealth == fHealth)
+    State newState = new State(
+        discreteEnergy(), discreteHealth(), isNearEnemies()
+    );
+    if( newState.equals(fState) )
       return false;
+    fState = newState;
     return true;
   }
 

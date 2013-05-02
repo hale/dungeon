@@ -1,5 +1,54 @@
 package dungeon.ai.hale;
 
-enum State {
-  THREATENED, SAFE
+public class State {
+  private int energy;
+  private int health;
+  private boolean isThreatened;
+
+  public State()
+  {
+    this(5, 5, false);
+  }
+
+  public State(int energy, int health, boolean isThreatened)
+  {
+    this.energy = energy;
+    this.health = health;
+    this.isThreatened = isThreatened;
+  }
+
+  public int getEnergy() { return energy; }
+  public int getHealth() { return health; }
+  public boolean isThreatened() { return isThreatened; }
+  public void setEnergy(int energy) { this.energy = energy; }
+  public void setHealth(int health) { this.health = health; }
+  public void setThreatened(boolean threatened) { this.isThreatened = threatened; }
+
+  @Override
+  public String toString()
+  {
+    return "E(" + energy + ") H(" + health + ") !(" + isThreatened + ") ";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    State state = (State) o;
+
+    if (energy != state.energy) return false;
+    if (health != state.health) return false;
+    if (isThreatened != state.isThreatened) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = energy;
+    result = 31 * result + health;
+    result = 31 * result + (isThreatened ? 1 : 0);
+    return result;
+  }
 }
