@@ -3,6 +3,9 @@ package dungeon.ai.hale;
 public class State {
   private int energy;
   private int health;
+
+  protected static final int MAX_ENERGY = 5;
+  protected static final int MAX_HEALTH = 5;
   private boolean isThreatened;
 
   public State()
