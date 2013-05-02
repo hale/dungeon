@@ -10,12 +10,14 @@ public class QValueStore
 
   public QValueStore()
   {
-    loadFromDisk();
+    //loadFromDisk();
+    fStore = new HashMap<Object[], Double>();
   }
 
   protected double getQValue(State state, Action action)
   {
-    return fStore.get(new Object[] { state, action });
+    Double value = fStore.get(new Object[] { state, action });
+    return (value == null) ? 0.0 : value;
   }
 
   protected Action getBestAction(State state)
@@ -42,7 +44,14 @@ public class QValueStore
   @Override
   public String toString()
   {
-    return fStore.toString();
+    StringBuilder sb = new StringBuilder(1000);
+    for (Object[] actionState : fStore.keySet())
+    {
+      sb.append("S(" + actionState[0] + ") A(" + actionState[1] +
+          ") Q(" + fStore.get(actionState) + ")\n"
+      );
+    }
+    return sb.toString();
   }
 
   public void saveToDisk()
