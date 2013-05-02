@@ -6,12 +6,12 @@ import java.io.*;
 public class QValueStore
 {
   private HashMap<Object[], Double> fStore;
-  private static final String FILEPATH = "QValueStore.ser";
+  private static final String FILEPATH = "src/dungeon/ai/hale/QValueStore.ser";
 
   public QValueStore()
   {
-    //loadFromDisk();
-    fStore = new HashMap<Object[], Double>();
+    loadFromDisk();
+    //fStore = new HashMap<Object[], Double>();
   }
 
   protected double getQValue(State state, Action action)
@@ -47,8 +47,8 @@ public class QValueStore
     StringBuilder sb = new StringBuilder(1000);
     for (Object[] actionState : fStore.keySet())
     {
-      sb.append("S(" + actionState[0] + ") A(" + actionState[1] +
-          ") Q(" + fStore.get(actionState) + ")\n"
+      sb.append("(" + actionState[0] + ") " + actionState[1] +
+          " " + fStore.get(actionState) + "\n"
       );
     }
     return sb.toString();
@@ -74,8 +74,14 @@ public class QValueStore
           new FileInputStream(FILEPATH));
       fStore = (HashMap<Object[], Double>) ois.readObject();
       ois.close();
+      System.out.println("Loaded the following q-table from disk:");
+      System.out.println( this.toString() );
+    } catch (EOFException e) {
+      System.out.println("No object in the file.");
     } catch (Exception e) {
       e.printStackTrace();
+    } finally {
+      fStore = new HashMap<Object[], Double>();
     }
   }
 
