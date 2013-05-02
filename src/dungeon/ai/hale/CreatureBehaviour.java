@@ -132,7 +132,8 @@ public class CreatureBehaviour implements Behaviour
    */
   private int discreteHealth()
   {
-    return (int) Math.ceil(fCreature.getCurrentHealth() / fCreature.getMaxHealth() * 5);
+    return (int) Math.ceil(fCreature.getCurrentHealth() /
+        fCreature.getMaxHealth() * 5);
   }
 
   /**
@@ -140,7 +141,8 @@ public class CreatureBehaviour implements Behaviour
    */
   private int discreteEnergy()
   {
-    return (int) Math.ceil(fCreature.getCurrentEnergy() / fCreature.getMaxEnergy() * 5);
+    return (int) Math.ceil(fCreature.getCurrentEnergy() /
+        fCreature.getMaxEnergy() * 5);
   }
 
   /**
