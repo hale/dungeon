@@ -8,31 +8,6 @@ public class QValueStore
   private HashMap<Object[], Double> store;
   private static final String FILEPATH = "QValueStore.ser";
 
-  public void saveToDisk()
-  {
-    try{
-      ObjectOutputStream oos = new ObjectOutputStream(
-          new FileOutputStream(FILEPATH));
-      oos.writeObject( store );
-      oos.flush();
-      oos.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void loadFromDisk()
-  {
-    try{
-      ObjectInputStream ois = new ObjectInputStream(
-          new FileInputStream(FILEPATH));
-      store = (HashMap<Object[], Double>) ois.readObject();
-      ois.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
   protected double getQValue(State state, Action action)
   {
     return store.get(new Object[] { state, action });
@@ -57,6 +32,31 @@ public class QValueStore
   protected void storeQValue(State state, Action action, double value)
   {
     store.put(new Object[] { state, action }, value);
+  }
+
+  public void saveToDisk()
+  {
+    try{
+      ObjectOutputStream oos = new ObjectOutputStream(
+          new FileOutputStream(FILEPATH));
+      oos.writeObject( store );
+      oos.flush();
+      oos.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void loadFromDisk()
+  {
+    try{
+      ObjectInputStream ois = new ObjectInputStream(
+          new FileInputStream(FILEPATH));
+      store = (HashMap<Object[], Double>) ois.readObject();
+      ois.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
 
