@@ -15,8 +15,7 @@ import dungeon.model.items.mobs.Creature;
 import dungeon.model.items.treasure.Treasure;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayDeque;
-import java.util.List;
+import java.util.*;
 
 /**
  * Controls the steps taken by a creature to reach the faction destination.
@@ -27,8 +26,14 @@ public class CreatureBehaviour implements Behaviour
   Creature fCreature;
   ArrayDeque<Point2D> fPath;
 
-  /* States for Q-learning */
+  /* Q-learning */
   State fState = new State();
+  State fPreviousState = new State();
+  Action fAction = Action.MOVE_TO_GOAL;
+  QValueStore fQTable = new QValueStore();
+  boolean fDead = false;
+  boolean fWon;
+  boolean fGameOver = false;
 
   AStar fPathFind;
   protected void setPathFind(AStar pathFind) { this.fPathFind = pathFind; }
@@ -65,11 +70,13 @@ public class CreatureBehaviour implements Behaviour
       if (fGrid == null)  return false;
       if (fPathFind == null) return false;
 
-      if (updateState())
+      updateState();
+      if (!fPreviousState.equals(fState))
       {
         System.out.print(fCreature.getFaction() + " ");
         System.out.print(fCreature + ": ");
         System.out.println( fState );
+        updateQTable();
       }
 
       boolean acted = tryActions();
@@ -86,28 +93,56 @@ public class CreatureBehaviour implements Behaviour
 
   @Override
     public boolean deathTick(Game game) {
+      fDead = true;
       return false;
     }
 
   @Override
     public boolean gameOverTick(Game game) {
+      fGameOver = true;
+      fWon = (fCreature.getCurrentHealth() > 0) ? true : false;
       return false;
     }
+
+  private double calculateReward(State before, State after)
+  {
+    double reward = 0.0;
+    if (after.getHealth() == 0)
+      reward = -0.2;
+    //if (fGameOver)
+      //reward = fWon ? 0.5 : -0.5;
+    //return reward;
+    //if (fPreviousState.isThreatened() == false && fState.isThreatened() == true)
+      //reward = -0.5;
+    return reward;
+  }
+  private void updateQTable()
+  {
+    double reward = calculateReward(fPreviousState, fState);
+    double learningRate = 0.4;
+    double discountRate = 0.9;
+    double currentQ = fQTable.getQValue(fPreviousState, fAction);
+    double maxQ = fQTable.getQValue(fState, fQTable.getBestAction(fState));
+
+    double qValue = (1 - learningRate) * (currentQ + learningRate) * (reward +
+        discountRate + maxQ);
+
+    fQTable.storeQValue(fState, fAction, qValue);
+    System.out.println("Q TABLE UPDATED");
+    System.out.println( fQTable );
+  }
 
   /**
    * Update state for q learning.
    *
    * @return true if the state variables change, false otherwise.
    */
-  private boolean updateState()
+  private void updateState()
   {
-    State newState = new State(
+    fPreviousState = fState;
+    fState = new State(
         discreteEnergy(), discreteHealth(), isNearEnemies()
     );
-    if( newState.equals(fState) )
-      return false;
-    fState = newState;
-    return true;
   }
 
   /**
@@ -175,6 +210,13 @@ public class CreatureBehaviour implements Behaviour
    */
   private void setNewGoal()
   {
+    if ( new Random().nextInt(2) == 0)
+      fAction = Action.WAIT;
+    else
+      fAction = Action.MOVE_TO_GOAL;
+
+    if (fAction.equals(Action.WAIT)) { return; }
+
     updatePath();
     addTreasureDiversionIfClose();
     if (fPath.size() > 0)
