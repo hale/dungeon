@@ -13,9 +13,8 @@
 
 ---
 
-next steps:
-
-1. make the same q table used by all mobs in the faction
+### next steps @todo
+1. make the same q table used by all mobs in the faction @done
 2. load / save the q table to disk
 3. pick rewards which result in significant changes in q values
 4. put the q learning stuff in its own class away from creature behaviour
