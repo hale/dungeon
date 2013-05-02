@@ -30,10 +30,12 @@ public class CreatureBehaviour implements Behaviour
   State fState = new State();
   State fPreviousState = new State();
   Action fAction = Action.MOVE_TO_GOAL;
-  QValueStore fQTable = new QValueStore();
   boolean fDead = false;
   boolean fWon;
   boolean fGameOver = false;
+
+  QValueStore fQTable;
+  protected void setQTable(QValueStore qTable) { this.fQTable = qTable; }
 
   AStar fPathFind;
   protected void setPathFind(AStar pathFind) { this.fPathFind = pathFind; }
@@ -69,13 +71,14 @@ public class CreatureBehaviour implements Behaviour
       if (fGame == null) fGame = game;
       if (fGrid == null)  return false;
       if (fPathFind == null) return false;
+      if (fQTable == null) return false;
 
       updateState();
       if (!fPreviousState.equals(fState))
       {
-        System.out.print(fCreature.getFaction() + " ");
-        System.out.print(fCreature + ": ");
-        System.out.println( fState );
+        //System.out.print(fCreature.getFaction() + " ");
+        //System.out.print(fCreature + ": ");
+        //System.out.println( fState );
         updateQTable();
       }
 
@@ -101,6 +104,7 @@ public class CreatureBehaviour implements Behaviour
     public boolean gameOverTick(Game game) {
       fGameOver = true;
       fWon = (fCreature.getCurrentHealth() > 0) ? true : false;
+      fQTable.saveToDisk();
       return false;
     }
 
@@ -128,7 +132,7 @@ public class CreatureBehaviour implements Behaviour
         discountRate + maxQ);
 
     fQTable.storeQValue(fState, fAction, qValue);
-    System.out.println("Q TABLE UPDATED");
+    System.out.println( "Q TABLE UPDATED - " + fCreature.getFaction() );
     System.out.println( fQTable );
   }
 

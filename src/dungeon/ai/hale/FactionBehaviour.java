@@ -22,6 +22,7 @@ import java.util.ArrayList;
  */
 public class FactionBehaviour implements Behaviour {
 
+  QValueStore fQTable = new QValueStore();
   AStar fPathFind;
   Grid fGrid;
   Faction faction;
@@ -140,6 +141,7 @@ public class FactionBehaviour implements Behaviour {
       CreatureBehaviour behaviour = new CreatureBehaviour(creature);
       behaviour.setGrid(fGrid);
       behaviour.setPathFind(fPathFind);
+      behaviour.setQTable(fQTable);
       creature.setBehaviour(behaviour);
     }
   }
