@@ -1,6 +1,6 @@
 package dungeon.ai.hale;
 
-public class State {
+public class State implements java.io.Serializable {
   private int energy;
   private int health;
 
@@ -30,7 +30,8 @@ public class State {
   @Override
   public String toString()
   {
-    return "E(" + energy + ") H(" + health + ") !(" + isThreatened + ") ";
+    String threatStr = isThreatened ? "THREATENED" : "SAFE";
+    return "E" + energy + " H" + health + " " + threatStr;
   }
 
   @Override
