@@ -8,6 +8,11 @@ public class QValueStore
   private HashMap<Object[], Double> fStore;
   private static final String FILEPATH = "QValueStore.ser";
 
+  public QValueStore()
+  {
+    loadFromDisk();
+  }
+
   protected double getQValue(State state, Action action)
   {
     return fStore.get(new Object[] { state, action });
