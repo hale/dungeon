@@ -108,6 +108,7 @@ public class QValueStore
       e.printStackTrace();
       fStore = new HashMap<ActionState, Double>();
     }
+  }
 
   @Override
   public String toString()
@@ -121,7 +122,5 @@ public class QValueStore
     }
     return sb.toString();
   }
-  }
-
 
 }
