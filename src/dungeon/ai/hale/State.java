@@ -7,31 +7,35 @@ public class State implements java.io.Serializable {
   protected static final int MAX_ENERGY = 5;
   protected static final int MAX_HEALTH = 5;
   private boolean isThreatened;
+  private int pathSize;
 
   public State()
   {
-    this(5, 5, false);
+    this(5, 5, false, 0);
   }
 
-  public State(int energy, int health, boolean isThreatened)
+  public State(int energy, int health, boolean isThreatened, int pathSize)
   {
     this.energy = energy;
     this.health = health;
     this.isThreatened = isThreatened;
+    this.pathSize = pathSize;
   }
 
   public int getEnergy() { return energy; }
   public int getHealth() { return health; }
   public boolean isThreatened() { return isThreatened; }
+  public int getPathSize() { return pathSize; }
   public void setEnergy(int energy) { this.energy = energy; }
   public void setHealth(int health) { this.health = health; }
   public void setThreatened(boolean threatened) { this.isThreatened = threatened; }
+  public void setPathSize(int pathSize) { this.pathSize = pathSize; }
 
   @Override
   public String toString()
   {
     String threatStr = isThreatened ? "THREATENED" : "SAFE";
-    return "E" + energy + " H" + health + " " + threatStr;
+    return "E" + energy + " H" + health + " P" + pathSize + " " + threatStr;
   }
 
   @Override
@@ -44,6 +48,7 @@ public class State implements java.io.Serializable {
     if (energy != state.energy) return false;
     if (health != state.health) return false;
     if (isThreatened != state.isThreatened) return false;
+    if (pathSize != state.pathSize) return false;
 
     return true;
   }
@@ -53,6 +58,7 @@ public class State implements java.io.Serializable {
     int result = energy;
     result = 31 * result + health;
     result = 31 * result + (isThreatened ? 1 : 0);
+    result = 31 * result + pathSize;
     return result;
   }
 }

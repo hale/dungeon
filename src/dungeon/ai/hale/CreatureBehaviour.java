@@ -33,6 +33,7 @@ public class CreatureBehaviour implements Behaviour
   boolean fDead = false;
   boolean fWon;
   boolean fGameOver = false;
+  private boolean fTrain = true;
 
   QValueStore fQTable;
   protected void setQTable(QValueStore qTable) { this.fQTable = qTable; }
@@ -95,7 +96,8 @@ public class CreatureBehaviour implements Behaviour
 
   @Override
     public boolean deathTick(Game game) {
-      fDead = true;
+      fPreviousState = null;
+      fState = null;
       return false;
     }
 
@@ -103,7 +105,7 @@ public class CreatureBehaviour implements Behaviour
     public boolean gameOverTick(Game game) {
       fGameOver = true;
       fWon = (fCreature.getCurrentHealth() > 0) ? true : false;
-      fQTable.saveToDisk();
+      if (fTrain) fQTable.saveToDisk();
       return false;
     }
 
@@ -111,35 +113,29 @@ public class CreatureBehaviour implements Behaviour
   {
     double reward = 0.0;
     /* POSITIVE */
-    if (after.getEnergy() > before.getEnergy())
-      reward = 0.5;
     if (before.isThreatened() && !after.isThreatened())
-      reward = 0.5;
+      reward += 0.5;
+    if (after.getPathSize() < before.getPathSize())
+      reward += 0.1;
 
     /* NEGATIVE */
-    if (before.getHealth() > after.getHealth())
-      reward = -0.5;
-    if (after.getEnergy() < 2 && after.isThreatened())
-      reward = -0.5;
+    if (after.getPathSize() == before.getPathSize())
+      reward += -0.1;
+    if (!before.isThreatened() && after.isThreatened())
+      reward += -0.2;
+    if (after.getHealth() == 0)
+      reward += -0.4;
+    if (!before.isThreatened() && after.isThreatened())
+      if (after.getEnergy() == 0)
+        reward += -0.3;
 
-    //if (after.getEnergy() < 5 && after.isThreatened())
-      //reward += -0.5;
-
-    //if (after.getHealth() == 0)
-      //reward = -0.5;
-
-    //if (fGameOver)
-      //reward = fWon ? 0.5 : -0.5;
-    //return reward;
-    //if (fPreviousState.isThreatened() == false && fState.isThreatened() == true)
-      //reward = -0.5;
     return reward;
   }
   private void updateQTable()
   {
     double reward = calculateReward(fPreviousState, fState);
     double learningRate = 0.2;
-    double discountRate = 0.45;
+    double discountRate = 0.35;
     double currentQ = fQTable.getQValue(fPreviousState, fAction);
     double maxQ = fQTable.getQValue(fState, fQTable.getBestAction(fState));
 
@@ -157,8 +153,9 @@ public class CreatureBehaviour implements Behaviour
   private void updateState()
   {
     fPreviousState = fState;
+    int pathSize = fPath == null ? 0 : fPath.size();
     fState = new State(
-        discreteEnergy(), discreteHealth(), isNearEnemies()
+        discreteEnergy(), discreteHealth(), isNearEnemies(), pathSize
     );
   }
 
@@ -225,7 +222,8 @@ public class CreatureBehaviour implements Behaviour
   private void setAction()
   {
     // do random action 20% of the time
-    if ( new Random().nextInt(5) == 0)
+    //if ( new Random().nextInt(5) == 0)
+    if (fTrain)
       fAction = Action.random();
     else
       fAction = fQTable.getBestAction(fState);
