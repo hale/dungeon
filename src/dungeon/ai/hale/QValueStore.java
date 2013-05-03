@@ -5,18 +5,17 @@ import java.io.*;
 
 public class QValueStore
 {
-  private HashMap<Object[], Double> fStore;
+  private HashMap<ActionState, Double> fStore;
   private static final String FILEPATH = "src/dungeon/ai/hale/QValueStore.ser";
 
   public QValueStore()
   {
     loadFromDisk();
-    //fStore = new HashMap<Object[], Double>();
   }
 
   protected double getQValue(State state, Action action)
   {
-    Double value = fStore.get(new Object[] { state, action });
+    Double value = fStore.get(new ActionState(state, action));
     return (value == null) ? 0.0 : value;
   }
 
@@ -38,16 +37,17 @@ public class QValueStore
 
   protected void storeQValue(State state, Action action, double value)
   {
-    fStore.put(new Object[] { state, action }, value);
+    ActionState key = new ActionState(state, action);
+    fStore.put(key, value);
   }
 
   @Override
   public String toString()
   {
     StringBuilder sb = new StringBuilder(1000);
-    for (Object[] actionState : fStore.keySet())
+    for (ActionState actionState : fStore.keySet())
     {
-      sb.append("(" + actionState[0] + ") " + actionState[1] +
+      sb.append("(" + actionState.getState() + ") " + actionState.getAction() +
           " " + fStore.get(actionState) + "\n"
       );
     }
@@ -62,6 +62,7 @@ public class QValueStore
       oos.writeObject( fStore );
       oos.flush();
       oos.close();
+      System.out.println("Table saved to disk");
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -72,16 +73,16 @@ public class QValueStore
     try{
       ObjectInputStream ois = new ObjectInputStream(
           new FileInputStream(FILEPATH));
-      fStore = (HashMap<Object[], Double>) ois.readObject();
+      fStore = (HashMap<ActionState, Double>) ois.readObject();
       ois.close();
-      System.out.println("Loaded the following q-table from disk:");
+      System.out.println("Loaded " + fStore.keySet().size() + " q values from disk");
       System.out.println( this.toString() );
     } catch (EOFException e) {
       System.out.println("No object in the file.");
+      fStore = new HashMap<ActionState, Double>();
     } catch (Exception e) {
       e.printStackTrace();
-    } finally {
-      fStore = new HashMap<Object[], Double>();
+      fStore = new HashMap<ActionState, Double>();
     }
   }
 
