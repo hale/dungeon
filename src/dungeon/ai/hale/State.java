@@ -9,11 +9,20 @@ public class State implements java.io.Serializable {
   private boolean isThreatened;
   private int pathSize;
 
+  /**
+   * Initialises the state with sensible defaults.
+   */
   public State()
   {
     this(5, 5, false, 0);
   }
 
+  /**
+   * @param energy Energy level 1 to 5.
+   * @param health Health level 1 to 5.
+   * @param isThreatened whether the creature is under attacked.
+   * @param pathSize The number of steps (squares) from creature to goal.
+   */
   public State(int energy, int health, boolean isThreatened, int pathSize)
   {
     this.energy = energy;
@@ -23,12 +32,15 @@ public class State implements java.io.Serializable {
   }
 
   public int getEnergy() { return energy; }
-  public int getHealth() { return health; }
-  public boolean isThreatened() { return isThreatened; }
-  public int getPathSize() { return pathSize; }
   public void setEnergy(int energy) { this.energy = energy; }
+
+  public int getHealth() { return health; }
   public void setHealth(int health) { this.health = health; }
+
+  public boolean isThreatened() { return isThreatened; }
   public void setThreatened(boolean threatened) { this.isThreatened = threatened; }
+
+  public int getPathSize() { return pathSize; }
   public void setPathSize(int pathSize) { this.pathSize = pathSize; }
 
   @Override

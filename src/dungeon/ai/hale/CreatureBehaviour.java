@@ -1,15 +1,9 @@
 package dungeon.ai.hale;
 
 import dungeon.App;
-import dungeon.ai.hale.State;
-import dungeon.ai.Behaviour;
-import dungeon.ai.CollisionDetection;
-import dungeon.ai.actions.ActionAttack;
-import dungeon.ai.actions.ActionDoor;
-import dungeon.ai.actions.ActionPickUp;
-import dungeon.ai.hale.pathfind.AStar;
-import dungeon.ai.hale.pathfind.Grid;
-import dungeon.ai.hale.pathfind.Square;
+import dungeon.ai.*;
+import dungeon.ai.actions.*;
+import dungeon.ai.hale.pathfind.*;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
 import dungeon.model.items.treasure.Treasure;
@@ -23,16 +17,10 @@ import java.util.*;
 public class CreatureBehaviour implements Behaviour
 {
   Game fGame;
-
   State fState = new State();
-
   Creature fCreature;
-  protected Creature getCreature() { return fCreature; }
-
   ArrayDeque<Point2D> fPath;
-  protected ArrayDeque<Point2D> getPath() { return fPath; }
-
-  QLearningHelper fQLearning = new QLearningHelper( this );
+  QLearningHelper fQLearning = new QLearningHelper();
 
   AStar fPathFind;
   protected void setPathFind(AStar pathFind) { this.fPathFind = pathFind; }
@@ -42,7 +30,6 @@ public class CreatureBehaviour implements Behaviour
 
   Point2D fDest = null;
   public void setDest(Point2D dest) { this.fDest = dest; }
-
 
   public CreatureBehaviour(Creature creature)
   {
@@ -88,7 +75,6 @@ public class CreatureBehaviour implements Behaviour
 
   @Override
     public boolean deathTick(Game game) {
-      fQLearning.creatureDeath();
       return false;
     }
 
@@ -104,9 +90,9 @@ public class CreatureBehaviour implements Behaviour
   }
 
   /**
-   * Update state for q learning.
+   * Update state for Q-Learning.
    *
-   * @return true if the state variables change, false otherwise.
+   * @return A state object representing the creature's state on this tick.
    */
   private State updateState()
   {
@@ -117,9 +103,8 @@ public class CreatureBehaviour implements Behaviour
   }
 
   /**
-   * If any of the 8 neighboring squares contains a creature from another
-   * faction, the creature's state is set to threatened.  Otherwise the state
-   * is safe.
+   * @return true if an adjacent square contains non-faction creature, false
+   * otherwise.
    */
   private boolean isNearEnemies()
   {

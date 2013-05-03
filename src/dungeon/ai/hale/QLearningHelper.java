@@ -5,32 +5,36 @@ import java.util.*;
 import dungeon.model.items.mobs.Creature;
 import dungeon.ai.hale.pathfind.*;
 
+/**
+ * Helper class to manage QLearning for a creature's behaviour.
+ */
 public class QLearningHelper
 {
-  private CreatureBehaviour fBehaviour;
 
   QValueStore fQTable;
-  protected void setQTable(QValueStore qTable) { this.fQTable = qTable; }
   protected QValueStore getQTable() { return fQTable; }
+  protected void setQTable(QValueStore qTable) { this.fQTable = qTable; }
 
   Action fAction = Action.MOVE_TO_GOAL;
+  protected Action getAction() { return fAction; }
+
+  /** Toggle building the table and learning from it. */
   private boolean fTrain = false;
 
-  public QLearningHelper(CreatureBehaviour behaviour)
-  {
-    this.fBehaviour = behaviour;
-  }
-
+  /**
+   * Equivalent to the gameOver() tick in Behaviour.
+   */
   protected void gameOver()
   {
     if (fTrain) fQTable.saveToDisk();
   }
 
-
-  protected void creatureDeath()
-  {
-  }
-
+  /**
+   * Called every tick in the creature's behaviour class
+   *
+   * @param previousState State from the previous tick.
+   * @param state Current state.
+   */
   protected void onTick(State previousState, State state)
   {
     if (!previousState.equals(state))
@@ -38,8 +42,15 @@ public class QLearningHelper
     setAction( state );
   }
 
-  protected Action getAction() { return fAction; }
 
+  /**
+   * Picks an action based on the current state.  If fTrain is set to true, the
+   * action is chosen randomly (for quicker learning). If fTrain is false, the
+   * QTable is used to get the best action. A compromise between the two is
+   * commented.
+   *
+   * @param state Current state.
+   */
   private void setAction(State state)
   {
     // do random action 20% of the time
@@ -52,6 +63,13 @@ public class QLearningHelper
       fAction = Action.random();
   }
 
+  /**
+   * Picks a reward value for a given state change.
+   *
+   * @param before State from the previous tick.
+   * @param after State from the current tick.
+   * @return A double value x, where x is between -1 and 1
+   */
   private double calculateReward(State before, State after)
   {
     double reward = 0.0;
@@ -74,6 +92,12 @@ public class QLearningHelper
 
     return reward;
   }
+  /**
+   * Adds or updates a value to the q table.
+   *
+   * @param previousState State from the previous tick.
+   * @param state State from this ticks.
+   */
   private void updateQTable(State previousState, State state)
   {
     double reward = calculateReward(previousState, state);

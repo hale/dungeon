@@ -1,5 +1,8 @@
 package dungeon.ai.hale;
 
+/**
+ * Wrapper for an action-state pair, used in q-learning.
+ */
 public class ActionState implements java.io.Serializable
 {
   private Action action;
@@ -7,7 +10,6 @@ public class ActionState implements java.io.Serializable
 
   protected ActionState(State state, Action action)
   {
-
     this.action = action;
     this.state = state;
   }
