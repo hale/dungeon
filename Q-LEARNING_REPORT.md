@@ -21,3 +21,5 @@
 * have the q learning utility class provide an action (either randomly chosen or from the  q table) @done
 * train and observe meaningful improvement in behaviour @done
 * write report 
+* document code
+* submit
