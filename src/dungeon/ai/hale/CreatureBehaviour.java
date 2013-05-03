@@ -76,9 +76,6 @@ public class CreatureBehaviour implements Behaviour
       updateState();
       if (!fPreviousState.equals(fState))
       {
-        //System.out.print(fCreature.getFaction() + " ");
-        //System.out.print(fCreature + ": ");
-        //System.out.println( fState );
         updateQTable();
       }
 
@@ -89,6 +86,8 @@ public class CreatureBehaviour implements Behaviour
       if (moved) return true;
 
       if (fDest == null) { return false; }
+
+      setAction();
 
       setNewGoal();
       return tryMovement();
@@ -111,15 +110,23 @@ public class CreatureBehaviour implements Behaviour
   private double calculateReward(State before, State after)
   {
     double reward = 0.0;
-    //if (after.getEnergy() < 5 && after.isThreatened())
-      //reward = -0.5;
+    /* POSITIVE */
     if (after.getEnergy() > before.getEnergy())
       reward = 0.5;
-    if (!before.isThreatened() && !after.isThreatened())
-      reward += 0.5;
+    if (before.isThreatened() && !after.isThreatened())
+      reward = 0.5;
 
-    if (after.getHealth() == 0)
-      reward = -1;
+    /* NEGATIVE */
+    if (before.getHealth() > after.getHealth())
+      reward = -0.5;
+    if (after.getEnergy() < 2 && after.isThreatened())
+      reward = -0.5;
+
+    //if (after.getEnergy() < 5 && after.isThreatened())
+      //reward += -0.5;
+
+    //if (after.getHealth() == 0)
+      //reward = -0.5;
 
     //if (fGameOver)
       //reward = fWon ? 0.5 : -0.5;
@@ -131,8 +138,8 @@ public class CreatureBehaviour implements Behaviour
   private void updateQTable()
   {
     double reward = calculateReward(fPreviousState, fState);
-    double learningRate = 0.3;
-    double discountRate = 0.75;
+    double learningRate = 0.2;
+    double discountRate = 0.45;
     double currentQ = fQTable.getQValue(fPreviousState, fAction);
     double maxQ = fQTable.getQValue(fState, fQTable.getBestAction(fState));
 
@@ -215,16 +222,22 @@ public class CreatureBehaviour implements Behaviour
     return false;
   }
 
+  private void setAction()
+  {
+    // do random action 20% of the time
+    if ( new Random().nextInt(5) == 0)
+      fAction = Action.random();
+    else
+      fAction = fQTable.getBestAction(fState);
+    if (fAction == null)
+      fAction = Action.random();
+  }
+
   /**
    * Recalculates the path and take the next step
    */
   private void setNewGoal()
   {
-    if ( new Random().nextInt(2) == 0)
-      fAction = Action.WAIT;
-    else
-      fAction = Action.MOVE_TO_GOAL;
-
     if (fAction.equals(Action.WAIT)) { return; }
 
     updatePath();
