@@ -52,7 +52,7 @@
   <Factions>
     <Vector>
       <Faction Name="blue" Behaviour="dungeon.ai.hale.FactionBehaviour"/>
-      <Faction Name="red" Behaviour="dungeon.ai.collinson.STFBehaviour"/>
+      <Faction Name="red" Behaviour="dungeon.ai.hale.FactionBehaviour"/>
     </Vector>
   </Factions>
   <Creatures>
