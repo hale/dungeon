@@ -68,6 +68,7 @@ public class FactionBehaviour implements Behaviour {
       this.fCreatures = getFactionCreatures();
       setNewGoal();
       setCreatureGoals();
+
       return true;
     }
 
@@ -148,11 +149,15 @@ public class FactionBehaviour implements Behaviour {
 
   @Override
     public boolean deathTick(Game game) {
+      // FIXME: this code never runs...
+      System.out.println("Someone died.");
       return false;
     }
 
   @Override
     public boolean gameOverTick(Game game) {
+      // FIXME: this code never runs...
+      System.out.println("GAME OVER");
       return false;
     }
 }
