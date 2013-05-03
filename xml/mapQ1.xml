@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Game Name="map1" Tournament="true">
+    <Map>
+      <Tiles>
+        <Vector>
+          <Floor Height="100" Width="100" X="100.0" Y="0.0"/>
+          <Floor Height="30" Width="30" X="0.0" Y="170.0"/>
+
+          <Floor Height="50" Width="50" X="0.0" Y="0.0"/>
+          <Floor Height="50" Width="50" X="150.0" Y="150.0"/>
+
+          <Floor Height="20" Width="50" X="50.0" Y="10.0"/>
+          <Floor Height="50" Width="20" X="170.0" Y="100.0"/>
+
+          <Floor Height="120" Width="20" X="5.0" Y="50"/>
+          <Floor Height="20" Width="120" X="30.0" Y="175"/>
+
+          <Door Height="5" Width="20" X="5.0" Y="50" State="2" KeyID="1"/>
+          <Door Height="20" Width="5" X="145" Y="175" State="2" KeyID="2"/>
+         </Vector>
+      </Tiles>
+    </Map>
+
+  <Factions>
+    <Vector>
+     <Faction Name="yellow" Behaviour="dungeon.ai.collinson.STFBehaviour"/>
+     <Faction Name="blue" Behaviour="dungeon.ai.hale.FactionBehaviour"/>
+    </Vector>
+   </Factions>
+
+  <Creatures>
+    <Vector>
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="35" Y="35" Behaviour="dungeon.ai.DefaultBehaviour" Faction="yellow">
+        <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Ogre>
+
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="0" X="25" Y="25" Behaviour="dungeon.ai.DefaultBehaviour" Faction="yellow">
+        <Attacks><Vector><Smash/><Dagger/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Orc>
+
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="165" Y="165" Behaviour="dungeon.ai.DefaultBehaviour" Faction="blue">
+        <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Ogre>
+
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="0" X="175" Y="175" Behaviour="dungeon.ai.DefaultBehaviour" Faction="blue">
+        <Attacks><Vector><Smash/><Dagger/></Vector></Attacks>
+        <Inventory><Vector/></Inventory>
+      </Orc>
+
+    </Vector>
+  </Creatures>
+
+  <Treasure>
+    <Vector>
+      <Gold Worth="50" X="190" Y="10"/>
+      <Gold Worth="50" X="110" Y="10"/>
+      <Gold Worth="50" X="190" Y="90"/>
+      <Gold Worth="50" X="110" Y="90"/>
+      <Gold Worth="10" X="10" Y="100"/>
+      <Gold Worth="10" X="100" Y="190"/>
+      <Gold Worth="15" X="10" Y="10"/>
+      <Gold Worth="15" X="190" Y="190"/>
+      <Gold Worth="30" X="75" Y="20"/>
+      <Gold Worth="30" X="180" Y="125"/>
+
+      <Key X="150" Y="50"/>
+      <Key X="5" Y="45" DoorID="2"/>
+      <Key X="155" Y="195" DoorID="1"/>
+
+
+      <Potion Type="1" X="10" Y="190"/>
+      <Potion Type="0" X="10" Y="185"/>
+      <Potion Type="1" X="15" Y="185"/>
+      <Potion Type="0" X="15" Y="190"/>
+    </Vector>
+  </Treasure>
+  </Game>
