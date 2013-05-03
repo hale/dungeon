@@ -111,8 +111,16 @@ public class CreatureBehaviour implements Behaviour
   private double calculateReward(State before, State after)
   {
     double reward = 0.0;
+    //if (after.getEnergy() < 5 && after.isThreatened())
+      //reward = -0.5;
+    if (after.getEnergy() > before.getEnergy())
+      reward = 0.5;
+    if (!before.isThreatened() && !after.isThreatened())
+      reward += 0.5;
+
     if (after.getHealth() == 0)
-      reward = -0.2;
+      reward = -1;
+
     //if (fGameOver)
       //reward = fWon ? 0.5 : -0.5;
     //return reward;
@@ -123,8 +131,8 @@ public class CreatureBehaviour implements Behaviour
   private void updateQTable()
   {
     double reward = calculateReward(fPreviousState, fState);
-    double learningRate = 0.4;
-    double discountRate = 0.9;
+    double learningRate = 0.3;
+    double discountRate = 0.75;
     double currentQ = fQTable.getQValue(fPreviousState, fAction);
     double maxQ = fQTable.getQValue(fState, fQTable.getBestAction(fState));
 
@@ -132,8 +140,6 @@ public class CreatureBehaviour implements Behaviour
         discountRate + maxQ);
 
     fQTable.storeQValue(fState, fAction, qValue);
-    System.out.println( "Q TABLE UPDATED - " + fCreature.getFaction() );
-    System.out.println( fQTable );
   }
 
   /**
