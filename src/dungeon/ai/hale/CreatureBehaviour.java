@@ -23,20 +23,16 @@ import java.util.*;
 public class CreatureBehaviour implements Behaviour
 {
   Game fGame;
-  Creature fCreature;
-  ArrayDeque<Point2D> fPath;
 
-  /* Q-learning */
   State fState = new State();
-  State fPreviousState = new State();
-  Action fAction = Action.MOVE_TO_GOAL;
-  boolean fDead = false;
-  boolean fWon;
-  boolean fGameOver = false;
-  private boolean fTrain = true;
 
-  QValueStore fQTable;
-  protected void setQTable(QValueStore qTable) { this.fQTable = qTable; }
+  Creature fCreature;
+  protected Creature getCreature() { return fCreature; }
+
+  ArrayDeque<Point2D> fPath;
+  protected ArrayDeque<Point2D> getPath() { return fPath; }
+
+  QLearningHelper fQLearning = new QLearningHelper( this );
 
   AStar fPathFind;
   protected void setPathFind(AStar pathFind) { this.fPathFind = pathFind; }
@@ -72,13 +68,11 @@ public class CreatureBehaviour implements Behaviour
       if (fGame == null) fGame = game;
       if (fGrid == null)  return false;
       if (fPathFind == null) return false;
-      if (fQTable == null) return false;
+      if (fQLearning.getQTable() == null) return false;
 
-      updateState();
-      if (!fPreviousState.equals(fState))
-      {
-        updateQTable();
-      }
+      State previousState = fState;
+      fState = updateState();
+      fQLearning.onTick(previousState, fState);
 
       boolean acted = tryActions();
       if (acted) return true;
@@ -88,61 +82,25 @@ public class CreatureBehaviour implements Behaviour
 
       if (fDest == null) { return false; }
 
-      setAction();
-
       setNewGoal();
       return tryMovement();
     }
 
   @Override
     public boolean deathTick(Game game) {
-      fPreviousState = null;
-      fState = null;
+      fQLearning.creatureDeath();
       return false;
     }
 
   @Override
     public boolean gameOverTick(Game game) {
-      fGameOver = true;
-      fWon = (fCreature.getCurrentHealth() > 0) ? true : false;
-      if (fTrain) fQTable.saveToDisk();
+      fQLearning.gameOver();
       return false;
     }
 
-  private double calculateReward(State before, State after)
+  protected void setQTable(QValueStore qTable)
   {
-    double reward = 0.0;
-    /* POSITIVE */
-    if (before.isThreatened() && !after.isThreatened())
-      reward += 0.5;
-    if (after.getPathSize() < before.getPathSize())
-      reward += 0.1;
-
-    /* NEGATIVE */
-    if (after.getPathSize() == before.getPathSize())
-      reward += -0.1;
-    if (!before.isThreatened() && after.isThreatened())
-      reward += -0.2;
-    if (after.getHealth() == 0)
-      reward += -0.4;
-    if (!before.isThreatened() && after.isThreatened())
-      if (after.getEnergy() == 0)
-        reward += -0.3;
-
-    return reward;
-  }
-  private void updateQTable()
-  {
-    double reward = calculateReward(fPreviousState, fState);
-    double learningRate = 0.2;
-    double discountRate = 0.35;
-    double currentQ = fQTable.getQValue(fPreviousState, fAction);
-    double maxQ = fQTable.getQValue(fState, fQTable.getBestAction(fState));
-
-    double qValue = (1 - learningRate) * (currentQ + learningRate) * (reward +
-        discountRate + maxQ);
-
-    fQTable.storeQValue(fState, fAction, qValue);
+    fQLearning.setQTable( qTable );
   }
 
   /**
@@ -150,11 +108,10 @@ public class CreatureBehaviour implements Behaviour
    *
    * @return true if the state variables change, false otherwise.
    */
-  private void updateState()
+  private State updateState()
   {
-    fPreviousState = fState;
     int pathSize = fPath == null ? 0 : fPath.size();
-    fState = new State(
+    return new State(
         discreteEnergy(), discreteHealth(), isNearEnemies(), pathSize
     );
   }
@@ -219,24 +176,12 @@ public class CreatureBehaviour implements Behaviour
     return false;
   }
 
-  private void setAction()
-  {
-    // do random action 20% of the time
-    //if ( new Random().nextInt(5) == 0)
-    if (fTrain)
-      fAction = Action.random();
-    else
-      fAction = fQTable.getBestAction(fState);
-    if (fAction == null)
-      fAction = Action.random();
-  }
-
   /**
    * Recalculates the path and take the next step
    */
   private void setNewGoal()
   {
-    if (fAction.equals(Action.WAIT)) { return; }
+    if (fQLearning.getAction().equals(Action.WAIT)) { return; }
 
     updatePath();
     addTreasureDiversionIfClose();
