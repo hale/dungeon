@@ -1,5 +1,5 @@
-package dungeon.ai.hale.qlearning;
-import dungeon.ai.hale.*;
+package dungeon.ai.Qhale.qlearning;
+import dungeon.ai.Qhale.*;
 
 /**
  * Wrapper for an action-state pair, used in q-learning.

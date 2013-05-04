@@ -1,4 +1,4 @@
-package dungeon.ai.hale;
+package dungeon.ai.Qhale;
 
 public class State implements java.io.Serializable {
   private int energy;

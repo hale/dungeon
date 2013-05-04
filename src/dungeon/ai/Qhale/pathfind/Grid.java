@@ -1,4 +1,4 @@
-package dungeon.ai.hale.pathfind;
+package dungeon.ai.Qhale.pathfind;
 
 import dungeon.App;
 import dungeon.model.Game;

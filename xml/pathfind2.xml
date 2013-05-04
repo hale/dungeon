@@ -51,7 +51,7 @@
   </Map>
   <Creatures>
     <Vector>
-      <Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.hale.PathFindBehaviour">
+      <Ogre CurrentEnergy="10" CurrentHealth="10" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.Qhale.PathFindBehaviour">
         <Attacks><Vector></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Ogre>

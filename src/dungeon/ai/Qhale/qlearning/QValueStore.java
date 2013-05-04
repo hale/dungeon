@@ -1,6 +1,6 @@
-package dungeon.ai.hale.qlearning;
+package dungeon.ai.Qhale.qlearning;
 
-import dungeon.ai.hale.*;
+import dungeon.ai.Qhale.*;
 
 import java.util.*;
 import java.io.*;
@@ -13,7 +13,7 @@ public class QValueStore
 {
   private HashMap<ActionState, Double> fStore;
   private static final String FILEPATH =
-    "src/dungeon/ai/hale/qlearning/QValueStore.ser";
+    "src/dungeon/ai/Qhale/qlearning/QValueStore.ser";
 
   /**
    * By default try to load the fStore from disk.

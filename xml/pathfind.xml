@@ -26,7 +26,7 @@
     </Map>
   <Creatures>
     <Vector>
-      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.hale.PathFindBehaviour">
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.Qhale.PathFindBehaviour">
         <Attacks><Vector><Smash/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Orc>

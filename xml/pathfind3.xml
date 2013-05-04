@@ -51,25 +51,25 @@
   </Map>
   <Factions>
     <Vector>
-      <Faction Name="blue" Behaviour="dungeon.ai.hale.FactionBehaviour"/>
-      <Faction Name="red" Behaviour="dungeon.ai.hale.FactionBehaviour"/>
+      <Faction Name="red" Behaviour="dungeon.ai.Qhale.myqfaction"/>
+      <Faction Name="blue" Behaviour="dungeon.ai.collinson.STFBehaviour"/>
     </Vector>
   </Factions>
   <Creatures>
     <Vector>
-      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="95" Y="10" Behaviour="dungeon.ai.hale.CreatureBehaviour" Faction="blue">
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="95" Y="10" Behaviour="dungeon.ai.Qhale.CreatureBehaviour" Faction="blue">
         <Attacks><Vector><Smash/><Dagger/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Orc>
-      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="115" Y="145" Behaviour="dungeon.ai.hale.CreatureBehaviour" Faction="red">
+      <Orc CurrentEnergy="10" CurrentHealth="10" Gold="20" X="115" Y="145" Behaviour="dungeon.ai.Qhale.CreatureBehaviour" Faction="red">
         <Attacks><Vector><Smash/><Dagger/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Orc>
-      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.hale.CreatureBehaviour" Faction="blue">
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="20" X="90" Y="10" Behaviour="dungeon.ai.Qhale.CreatureBehaviour" Faction="blue">
         <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Ogre>
-      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="20" X="50" Y="150" Behaviour="dungeon.ai.hale.CreatureBehaviour" Faction="red">
+      <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="20" X="50" Y="150" Behaviour="dungeon.ai.Qhale.CreatureBehaviour" Faction="red">
         <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Ogre>

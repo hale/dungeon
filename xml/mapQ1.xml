@@ -23,8 +23,8 @@
 
   <Factions>
     <Vector>
-     <Faction Name="yellow" Behaviour="dungeon.ai.collinson.STFBehaviour"/>
-     <Faction Name="blue" Behaviour="dungeon.ai.hale.FactionBehaviour"/>
+     <Faction Name="yellow" Behaviour="dungeon.ai.Qhale.myqfaction"/>
+     <Faction Name="blue" Behaviour="dungeon.ai.collinson.STFBehaviour"/>
     </Vector>
    </Factions>
 
@@ -34,6 +34,26 @@
         <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
         <Inventory><Vector/></Inventory>
       </Ogre>
+
+        <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="130" Y="30" Behaviour="dungeon.ai.DefaultBehaviour" Faction="yellow">
+            <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
+            <Inventory><Vector/></Inventory>
+        </Ogre>
+
+        <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="45" Y="35" Behaviour="dungeon.ai.DefaultBehaviour" Faction="yellow">
+            <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
+            <Inventory><Vector/></Inventory>
+        </Ogre>
+
+        <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="15" Y="35" Behaviour="dungeon.ai.DefaultBehaviour" Faction="blue">
+            <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
+            <Inventory><Vector/></Inventory>
+        </Ogre>
+
+        <Ogre CurrentEnergy="100" CurrentHealth="100" Gold="0" X="165" Y="35" Behaviour="dungeon.ai.DefaultBehaviour" Faction="blue">
+            <Attacks><Vector><Sword/><Longbow/></Vector></Attacks>
+            <Inventory><Vector/></Inventory>
+        </Ogre>
 
       <Orc CurrentEnergy="10" CurrentHealth="10" Gold="0" X="25" Y="25" Behaviour="dungeon.ai.DefaultBehaviour" Faction="yellow">
         <Attacks><Vector><Smash/><Dagger/></Vector></Attacks>

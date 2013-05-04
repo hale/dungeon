@@ -1,10 +1,6 @@
-package dungeon.ai.hale.qlearning;
+package dungeon.ai.Qhale.qlearning;
 
-import java.util.*;
-
-import dungeon.model.items.mobs.Creature;
-import dungeon.ai.hale.pathfind.*;
-import dungeon.ai.hale.*;
+import dungeon.ai.Qhale.*;
 
 /**
  * Helper class to manage QLearning for a creature's behaviour.

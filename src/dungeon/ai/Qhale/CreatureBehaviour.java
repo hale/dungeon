@@ -1,10 +1,9 @@
-package dungeon.ai.hale;
+package dungeon.ai.Qhale;
 
-import dungeon.App;
 import dungeon.ai.*;
 import dungeon.ai.actions.*;
-import dungeon.ai.hale.pathfind.*;
-import dungeon.ai.hale.qlearning.*;
+import dungeon.ai.Qhale.pathfind.*;
+import dungeon.ai.Qhale.qlearning.*;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
 import dungeon.model.items.treasure.Treasure;

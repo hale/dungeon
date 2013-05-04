@@ -1,9 +1,9 @@
-package dungeon.ai.hale;
+package dungeon.ai.Qhale;
 
 import dungeon.ai.Behaviour;
 import dungeon.ai.CollisionDetection;
-import dungeon.ai.hale.pathfind.*;
-import dungeon.ai.hale.qlearning.*;
+import dungeon.ai.Qhale.pathfind.*;
+import dungeon.ai.Qhale.qlearning.*;
 import dungeon.collections.CreatureList;
 import dungeon.model.Game;
 import dungeon.model.items.Item;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Controls the overall destination for creatures in the same faction.
  */
-public class FactionBehaviour implements Behaviour {
+public class myqfaction implements Behaviour {
 
   QValueStore fQTable = new QValueStore();
   AStar fPathFind;
@@ -33,7 +33,7 @@ public class FactionBehaviour implements Behaviour {
   /**
    * Factions are specified in the XML file as strings. E.g. "red".
    */
-  public FactionBehaviour(Faction faction)
+  public myqfaction(Faction faction)
   {
     this.faction = faction;
     fCreatures = new CreatureList();

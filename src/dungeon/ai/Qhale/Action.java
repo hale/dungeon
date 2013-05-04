@@ -1,4 +1,4 @@
-package dungeon.ai.hale;
+package dungeon.ai.Qhale;
 
 import java.util.*;
 
