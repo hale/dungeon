@@ -58,15 +58,15 @@ runs required for improved behaviour.  This in turn is necessary because the set
 action-state pairs is quite large.
 
 The discount rate is the result of trial and error, where much higher values
-would quickly cause Q values to reach +/-Infinity.
+would quickly cause Q-values to reach +/-Infinity.
 
 The algorithm uses a HashMap for the data store.  I wanted to avoid primitive
 types (such as a 2D array), since using object orientation would allow the data
 structure to be more easily changed at a later point.
 
-Since the Q-Table associates action-state pairs with the Q values, I
+Since the Q-Table associates action-state pairs with the Q-values, I
 created an `ActionState` wrapper class to identify a unique action and state
-combination.  Overriding `equals()` and `hashCode()` simplified Q table updates.
+combination.  Overriding `equals()` and `hashCode()` simplified Q-table updates.
 
 The Q-Learning implementation is based on pseudocode taken from Chapter 7 of
 *Artificial Intelligence for Games* (2009) by Ian Millington and John Funge.
@@ -98,7 +98,7 @@ pathfinding exercise.
 * Stand still.
 
 Given the wide range of states and rewards, I decided to limit the available
-actions to moving or taking no action. In addition, adding additional complex
+actions to moving or not moving. Adding additional complex
 behaviour was beyond the scope of this exercise.
 
 ### Rewards
@@ -135,29 +135,30 @@ rewarded.
 ## Training process
 
 Initially, the algorithm would take random actions 20% of the time, and the
-rest of the time take the best action as determined by the Q Table. However,
+rest of the time take the best action as determined by the Q-Table. However,
 this cornered the learning into particular (bad) behaviours - such as not
-moving at all, or never waiting.  In addition, the learning would take to long
-when only acting randomly 20% of the time.  A class variable in
+moving at all, or never waiting.  In addition, the learning would take too long
+when only acting randomly 20% of the time.  To combat this, a class variable in
 `QLearningHelper.java` toggles either saving learning data into the Q-Table and
 acting randomly, or only reading the Q-Table and taking the best learnt action.
 
-The Q-Table is trained on mapQ1.xml against Collinson behaiour, and itself on
-pathfind3.xml  The included learning data is the result of approximately 100
-tournaments. ~90 state-action pairs have been encountered during learning.
+The Q-Table is trained on `mapQ1.xml` against Collinson behaiour, and  against
+itself on pathfind3.xml  The included learning data is the result of
+approximately 100 tournaments. ~90 state-action pairs have been encountered
+during learning.
 
-The QTable HashMap is serialised and saved in a flat file, and updated at the
+The Q-Table HashMap is serialised and saved in a flat file, and updated at the
 end of each game.
 
-Generating significantly more training data was not possible due to the
-limitations of the game engine. Sometimes the creatures would get stuck,
-requiring manual intervention to continue the training process. Further and
-better training would be possible if the dungeon layout and item placement
-could be programatically randomised.
+Generating significantly more training data was not possible due to limitations
+of running tournaments. Sometimes the creatures would get stuck, requiring
+manual intervention to continue the training process. Further and better
+training would be possible if the dungeon layout and item placement could be
+programatically randomised.
 
 ## Analysis of behaviour
 
-Q-learning was employed in this implementation to overcome limitations of the
+Q-Learning was employed in this implementation to overcome limitations of the
 previous behaviour.  The faction could optimally pathfind to treasure and
 enemies, but did not react to changes in health or energy.  The result was
 blind pursuit of the enemy factions, often resulting in lost games.  
@@ -176,6 +177,12 @@ game states. The different situations which can occur in even a simple game are
 played out, and given predefined rewards the action taken can be measured and
 recorded.
 
+The result matched my expectations.  In general, the ogre will wait after the
+first longbow shot until its energy is replenished.  In addition, when a
+faction creature is near the enemy they do not wait, since there isn't as much
+benefit. Other behavioural differences can be observed, but it's more difficult
+to see a pattern.
+
 ## Limitations
 
 Despite the behaviour improving perceptually, the overall number of games won
@@ -193,10 +200,21 @@ behaviour.
 ## Conclusion
 
 I began with the hypothesis that merely rewarding game wins and losses would
-not result in better behaviour.  Instead, QLearning should be employed to
+not result in better behaviour.  Instead, Q-Learning could be employed to
 direct the creature's actions towards certain behavioural goals.  In the case
-of my behaviour, this was to wait when the energy level was below a certain
-thresh-hold. I hoped that using Q-Learning to achieve this goal would result in
-more nuanced and reliable behaviour than if that had been implemented
+of my behaviour, when the energy level was below a certain thresh-hold the
+creature should (normally) wait. Using Q-Learning to achieve this goal would
+result in more nuanced and reliable behaviour than if that had been implemented
 procedurally.
+
+Sometimes, it is more important for the AI players to behave according to an
+understandable logic than to always take the best possible action.  One
+possible negative consequence of learning algorithms is they can uncover
+exploits in the game world which might not be entertaining to human players.
+This effect can be mitigated by placing limitations on the action sequences of
+creatures.  It raises the interesting possibility of rewarding entertaining
+behaviour and punishing what players might consider 'cheating'.
+
+
+
 
