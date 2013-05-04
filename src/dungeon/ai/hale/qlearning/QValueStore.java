@@ -12,7 +12,8 @@ import java.io.*;
 public class QValueStore
 {
   private HashMap<ActionState, Double> fStore;
-  private static final String FILEPATH = "src/dungeon/ai/hale/QValueStore.ser";
+  private static final String FILEPATH =
+    "src/dungeon/ai/hale/qlearning/QValueStore.ser";
 
   /**
    * By default try to load the fStore from disk.
