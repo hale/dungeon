@@ -144,7 +144,7 @@ acting randomly, or only reading the Q-Table and taking the best learnt action.
 
 The Q-Table is trained on `mapQ1.xml` against Collinson behaiour, and  against
 itself on pathfind3.xml  The included learning data is the result of
-approximately 100 tournaments. ~90 state-action pairs have been encountered
+approximately 100 tournaments. ~120 state-action pairs have been encountered
 during learning.
 
 The Q-Table HashMap is serialised and saved in a flat file, and updated at the
@@ -161,7 +161,7 @@ programatically randomised.
 Q-Learning was employed in this implementation to overcome limitations of the
 previous behaviour.  The faction could optimally pathfind to treasure and
 enemies, but did not react to changes in health or energy.  The result was
-blind pursuit of the enemy factions, often resulting in lost games.  
+blind pursuit of the enemy factions, often resulting in lost games.
 
 From observing the behaviour of my faction, I decided to reward and 'punish' the
 creatures for attacking the enemy with low energy.  By limiting the scope of
