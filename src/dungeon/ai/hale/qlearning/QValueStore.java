@@ -1,4 +1,6 @@
-package dungeon.ai.hale;
+package dungeon.ai.hale.qlearning;
+
+import dungeon.ai.hale.*;
 
 import java.util.*;
 import java.io.*;

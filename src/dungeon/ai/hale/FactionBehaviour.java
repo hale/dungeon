@@ -2,8 +2,8 @@ package dungeon.ai.hale;
 
 import dungeon.ai.Behaviour;
 import dungeon.ai.CollisionDetection;
-import dungeon.ai.hale.pathfind.AStar;
-import dungeon.ai.hale.pathfind.Grid;
+import dungeon.ai.hale.pathfind.*;
+import dungeon.ai.hale.qlearning.*;
 import dungeon.collections.CreatureList;
 import dungeon.model.Game;
 import dungeon.model.items.Item;

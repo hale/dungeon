@@ -1,9 +1,10 @@
-package dungeon.ai.hale;
+package dungeon.ai.hale.qlearning;
 
 import java.util.*;
 
 import dungeon.model.items.mobs.Creature;
 import dungeon.ai.hale.pathfind.*;
+import dungeon.ai.hale.*;
 
 /**
  * Helper class to manage QLearning for a creature's behaviour.
@@ -12,11 +13,11 @@ public class QLearningHelper
 {
 
   QValueStore fQTable;
-  protected QValueStore getQTable() { return fQTable; }
-  protected void setQTable(QValueStore qTable) { this.fQTable = qTable; }
+  public QValueStore getQTable() { return fQTable; }
+  public void setQTable(QValueStore qTable) { this.fQTable = qTable; }
 
   Action fAction = Action.MOVE_TO_GOAL;
-  protected Action getAction() { return fAction; }
+  public Action getAction() { return fAction; }
 
   /** Toggle building the table and learning from it. */
   private boolean fTrain = false;
@@ -24,7 +25,7 @@ public class QLearningHelper
   /**
    * Equivalent to the gameOver() tick in Behaviour.
    */
-  protected void gameOver()
+  public void gameOver()
   {
     if (fTrain) fQTable.saveToDisk();
   }
@@ -35,7 +36,7 @@ public class QLearningHelper
    * @param previousState State from the previous tick.
    * @param state Current state.
    */
-  protected void onTick(State previousState, State state)
+  public void onTick(State previousState, State state)
   {
     if (!previousState.equals(state))
       updateQTable(previousState, state);

@@ -4,6 +4,7 @@ import dungeon.App;
 import dungeon.ai.*;
 import dungeon.ai.actions.*;
 import dungeon.ai.hale.pathfind.*;
+import dungeon.ai.hale.qlearning.*;
 import dungeon.model.Game;
 import dungeon.model.items.mobs.Creature;
 import dungeon.model.items.treasure.Treasure;
@@ -18,6 +19,7 @@ public class CreatureBehaviour implements Behaviour
 {
   Game fGame;
   State fState = new State();
+  Action fAction;
   Creature fCreature;
   ArrayDeque<Point2D> fPath;
   QLearningHelper fQLearning = new QLearningHelper();
@@ -63,13 +65,12 @@ public class CreatureBehaviour implements Behaviour
 
       boolean acted = tryActions();
       if (acted) return true;
-
       boolean moved = tryMovement();
       if (moved) return true;
-
       if (fDest == null) { return false; }
 
-      setNewGoal();
+      Action action = fQLearning.getAction();
+      setNewGoal(action);
       return tryMovement();
     }
 
@@ -162,11 +163,13 @@ public class CreatureBehaviour implements Behaviour
   }
 
   /**
-   * Recalculates the path and take the next step
+   * Recalculates the path and take the next step.
+   *
+   * @param action Action which determines the new goal.
    */
-  private void setNewGoal()
+  private void setNewGoal(Action action)
   {
-    if (fQLearning.getAction().equals(Action.WAIT)) { return; }
+    if (action.equals(Action.WAIT)) { return; }
 
     updatePath();
     addTreasureDiversionIfClose();
