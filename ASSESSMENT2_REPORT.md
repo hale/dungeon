@@ -1,8 +1,8 @@
 Philip Hale - 50907446 - p.hale.09@aberdeen.ac.uk
 
 # CS3523 Assessment 1: AI Tournament
-Set: March 11, 2013
-Due: May 3, 2013
+
+**Set:** March 11, 2013 **Due:** May 3, 2013
 
 ---
 
