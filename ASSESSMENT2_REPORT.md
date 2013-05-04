@@ -8,24 +8,22 @@ Due: May 3, 2013
 
 ## File list
 
-```
-src/dungeon/ai/hale
-|── Action.java
-├── CreatureBehaviour.java
-├── FactionBehaviour.java
-├── State.java
-├── pathfind
-│   ├── AStar.java
-│   ├── Grid.java
-│   └── Square.java
-└── qlearning
-    ├── ActionState.java
-    ├── QLearningHelper.java
-    ├── QValueStore.java
-    └── QValueStore.ser
+    src/dungeon/ai/hale
+    |── Action.java
+    ├── CreatureBehaviour.java
+    ├── FactionBehaviour.java
+    ├── State.java
+    ├── pathfind
+    │   ├── AStar.java
+    │   ├── Grid.java
+    │   └── Square.java
+    └── qlearning
+        ├── ActionState.java
+        ├── QLearningHelper.java
+        ├── QValueStore.java
+        └── QValueStore.ser
 
-2 directories, 11 files
-```
+    2 directories, 11 files
 
 ## Usage
 
@@ -45,25 +43,65 @@ The Faction Behaviour attribute in the map file should be set like so:
 
 By default the behaviour will run using data precomputed in
 `src/dungeon/ai/hale/qlearning/QValueStore.ser`. In order to learn more, change
-the fTrain class variable in QLearningHelper from false to true.
+the `fTrain` class variable in `QLearningHelper` from false to true.
 
-In order to reset the QLearning data, blank the file with
+In order to reset the `QLearning` data, blank the file with
 `: > src/dungeon/ai/hale/qlearning/QValueStore.ser`.
 
 ## Description of the learning algorithm
 
-I measured the following state variables:
+* **Learning rate:** 0.2
+* **Discount rate:** 0.35
 
-* Creature energy level (integer 1 to 5)
-* Creature health level (integer 1 to 5)
-* Whether the creature is threatened or not. (true or false)
+A low learning rate is chosen because of the large number of training
+runs required for improved behaviour.  This in turn is necessary because the set of
+action-state pairs is quite large.
+
+The discount rate is the result of trial and error, where much higher values
+would quickly cause Q values to reach +/-Infinity.
+
+The algorithm uses a HashMap for the data store.  I wanted to avoid primitive
+types (such as a 2D array), since using object orientation would allow the data
+structure to be more easily changed at a later point.
+
+Since the Q-Table associates action-state pairs with the Q values, I
+created an `ActionState` wrapper class to identify a unique action and state
+combination.  Overriding `equals()` and `hashCode()` simplified Q table updates.
+
+The Q-Learning implementation is based on pseudocode taken from Chapter 7 of
+*Artificial Intelligence for Games* (2009) by Ian Millington and John Funge.
+
+### State variables
+
+* Creature energy level (integer 1 to 5).
+* Creature health level (integer 1 to 5).
+* Whether the creature is threatened or not. (true or false).
 * Distance in squares from creature to goal (1 to the number of squares on the
-  board - typically values no larger than 1/4 this maximum)
+  board - typically values no larger than 1/4 this maximum).
 
-And had the following actions:
+I had initially hoped to achieve success from just measuring the first three of
+the above, but this resulted in an overvaluation of the `WAIT` action, where
+the creature would do nothing.  Tracking distance to goal allowed a reward to
+be placed on movement that takes the creature closer to its destination.
+Using the path computed with A\* ensures a more accurate measure of distance
+than a simple Euclidian calculation, and has the added benefit of already being
+a small(ish) discrete value.
+
+In order to determine whether the creature is under threat or not, the eight
+adjacent squares are inspected for the presence of enemy mobs.  This was
+relatively simple to implement, since I could reuse methods from the
+pathfinding exercise.
+
+### Actions
 
 * Move towards goal.
 * Stand still.
+
+Given the wide range of states and rewards, I decided to limit the available
+actions to moving or taking no action. In addition, adding additional complex
+behaviour was beyond the scope of this exercise.
+
+### Rewards
 
 The reward value is between -1.0 and +1.0, and is calculated based on the
 difference between the state of two game ticks. The rewards are cumulative.
@@ -98,7 +136,7 @@ rewarded.
 
 Initially, the algorithm would take random actions 20% of the time, and the
 rest of the time take the best action as determined by the Q Table. However,
-this cornered the learning into paritcular (bad) behaviours - such as not
+this cornered the learning into particular (bad) behaviours - such as not
 moving at all, or never waiting.  In addition, the learning would take to long
 when only acting randomly 20% of the time.  A class variable in
 `QLearningHelper.java` toggles either saving learning data into the Q-Table and
@@ -141,9 +179,16 @@ recorded.
 ## Limitations
 
 Despite the behaviour improving perceptually, the overall number of games won
-has not increased significantly. In addition, because of the large number of
+has not increased significantly. 
+
+In addition, because of the large number of
 possible distance (pathLength) values, some suboptimal actions can be observed
 despite reasonably large amounts of training.
+
+The other limitation resulted from the small range of available actions.
+Implementing some form of evasion would have widened the possibility of
+actions, and with appropriate rewards led to more complex and effective
+behaviour.
 
 ## Conclusion
 
@@ -155,5 +200,3 @@ thresh-hold. I hoped that using Q-Learning to achieve this goal would result in
 more nuanced and reliable behaviour than if that had been implemented
 procedurally.
 
-* no simple and quick way to train the game (sometimes get stuck, can't
-  randomise dungoen layout, can't randomise dungeons)
