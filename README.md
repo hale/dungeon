@@ -1,36 +1,36 @@
-## Modified files:
+Philip Hale - 50907446 - p.hale.09@aberdeen.ac.uk
 
-```
-src/dungeon/ai/hale
-├── CreatureBehaviour.java
-├── FactionBehaviour.java
-└── pathfind
-    ├── AStar.java
-    ├── Grid.java
-    └── Square.java
+# CS3523 Assessment 1: AI Tournament
 
-1 directory, 5 files
-```
+**Set:** March 11, 2013 **Due:** May 3, 2013
+
+---
+
+## File list
+
+    src/dungeon/ai/hale
+    |── Action.java
+    ├── CreatureBehaviour.java
+    ├── FactionBehaviour.java
+    ├── State.java
+    ├── pathfind
+    │   ├── AStar.java
+    │   ├── Grid.java
+    │   └── Square.java
+    └── qlearning
+        ├── ActionState.java
+        ├── QLearningHelper.java
+        ├── QValueStore.java
+        └── QValueStore.ser
+
+    2 directories, 11 files
 
 ## Usage
 
-To run from the command line:
+Extract the included source archive into `/src/dungeon/ai`.  My package assumes
+that the other classes in `dungeon.ai` have not been modified.
 
-    mvn compile exec:java
- 
- To create a Jar:
- 
-     mvn compile package
-    
-To add to the base dungeon package, copy `/src/dungeon/ai/hale`  into `src/dungeon/ai`
-
-## Requirements
-
-Depends on Java 6+.  Running from the command line requires Maven.
-
-## Maps
-
-The Faction and Creature Behaviour attributes should be set like so:
+The Faction Behaviour attribute in the map file should be set like so:
 
     [...]
     <Factions>
@@ -39,124 +39,182 @@ The Faction and Creature Behaviour attributes should be set like so:
         [...]
       </Vector>
     </Factions>
-    <Creatures>
-      <Vector>
-        <Orc Behaviour="dungeon.ai.hale.CreatureBehaviour" [...]/>
-        [...]
-      </Vector>
+    [...]
 
----
+By default the behaviour will run using data precomputed in
+`src/dungeon/ai/hale/qlearning/QValueStore.ser`. In order to learn more, change
+the `fTrain` class variable in `QLearningHelper` from false to true.
 
-## Strategy
+In order to reset the `QLearning` data, blank the file with
+`: > src/dungeon/ai/hale/qlearning/QValueStore.ser`.
 
-It's worth briefly mentioning that the strategy for my faction has changed repeatedly in the past fortnight. This is because either the strategy behaved unexpectedly in situations I haven't considered, or because its implementation proved more complicated than I'd hoped.
+## Description of the learning algorithm
 
-Rather than explain all of the iterations this package has gone through, I will describe the current strategy and explain why it was chosen.
+* **Learning rate:** 0.2
+* **Discount rate:** 0.35
 
----
+A low learning rate is chosen because of the large number of training
+runs required for improved behaviour.  This in turn is necessary because the set of
+action-state pairs is quite large.
 
-I wanted behaviour that could cope with any imaginable unknown map and any reasonable number of mobs and factions.
+The discount rate is the result of trial and error, where much higher values
+would quickly cause Q-values to reach +/-Infinity.
 
-More specifically, the AI would have to be resilient to:
+The algorithm uses a HashMap for the data store.  I wanted to avoid primitive
+types (such as a 2D array), since using object orientation would allow the data
+structure to be more easily changed at a later point.
 
-* Corridors with a dead end.
-* Goals that change on each tick.
-* Areas of the dungeon which are only accessible through a flame trap.
-* Pits on the tile.
-* When no path can be found.
+Since the Q-Table associates action-state pairs with the Q-values, I
+created an `ActionState` wrapper class to identify a unique action and state
+combination.  Overriding `equals()` and `hashCode()` simplified Q-table updates.
 
-I created a map which tests the above conditions.  
+The Q-Learning implementation is based on pseudocode taken from Chapter 7 of
+*Artificial Intelligence for Games* (2009) by Ian Millington and John Funge.
 
-At first I was choosing a leader based on their current health.  Whilst this chose an appropriate leader, the faction would get stuck in dead-ends, as the followers would be blocking the leader.
+### State variables
 
-Detecting for situations like that and fixing them retroactively is quite hard.  You might specify the condition as being 
+* Creature energy level (integer 1 to 5).
+* Creature health level (integer 1 to 5).
+* Whether the creature is threatened or not. (true or false).
+* Distance in squares from creature to goal (1 to the number of squares on the
+  board - typically values no larger than 1/4 this maximum).
 
-> When two or more faction creatures are within roughly the same area, and they have a goal which hasn't been reached in the past few ticks, then switch leaders".  Whilst this might work, you are still faced with the difficulties of:
+I had initially hoped to achieve success from just measuring the first three of
+the above, but this resulted in an overvaluation of the `WAIT` action, where
+the creature would do nothing.  Tracking distance to goal allowed a reward to
+be placed on movement that takes the creature closer to its destination.
+Using the path computed with A\* ensures a more accurate measure of distance
+than a simple Euclidian calculation, and has the added benefit of already being
+a small(ish) discrete value.
 
-* Determining 'the same area'.  In narrow corridors with lots of corners, you need pathfinding to be certain.
-* Once you've determined faction creatures are too close, you still need to make sure they've been too close for a period of time - otherwise, they might just be moving in parallel.  It's possible to change this condition to "if the path of one creature contains another, switch leaders", but this can cause paths to be incorrectly discounted.
-* No obvious criteria with which to pick the leader.
+In order to determine whether the creature is under threat or not, the eight
+adjacent squares are inspected for the presence of enemy mobs.  This was
+relatively simple to implement, since I could reuse methods from the
+pathfinding exercise.
 
-At this point, I wanted to write the behaviour in such a way that I didn't require the code to foresee and handle a multitude of exceptional circumstances.  
+### Actions
 
-Rather than micromanaging my creatures movement, I tried to think of a behaviour which would by its definition prevent the above problems from occurring.
+* Move towards goal.
+* Stand still.
 
-This was an interesting lesson in the challenges of artificial intelligence: there is often no simple function which can satisfy all circumstances, but hardcoding a response to each of each is also unachievable.  
+Given the wide range of states and rewards, I decided to limit the available
+actions to moving or not moving. Adding additional complex
+behaviour was beyond the scope of this exercise.
 
-I made a difficult decision.  My code which specified responses to exceptional situations was becoming bloated and impossible to maintain.  Even with a simple state machine and separate methods for each check, there were so many possible paths of execution that making any kind of high-level change would frequently break the behaviour.  This is discussed further under 'Testing'.
+### Rewards
 
-I came across one criteria for picking a leader which would avid the problem of collision: pick the leader closest to the goal. 
+The reward value is between -1.0 and +1.0, and is calculated based on the
+difference between the state of two game ticks. The rewards are cumulative.
 
-I found paths using A* form the goal point to each creature in my faction, then set the creature with the closest path to be the leader.  All other creatures in the faction were told to find a path to the leader's location.
+| Description                    | Reward modifier |
+| :-                             | :-:             |
+| No longer threatened           | +0.5            |
+| Closer to goal                 | +0.1            |
+| In same place                  | -0.1            |
+| Newly threatened               | -0.2            |
+| Creature dead                  | -0.4            |
+| Newly threatened and no energy | -0.3            |
 
-After attempting to improve upon this with more states and getting stuck once again for the reasons explained above, I discovered something else: you can find the shortest path from one point to a group of points by performing the A* search in reverse, and adding every goal to the open list. 
+'No longer threatened' implies an enemy mob has run away or been killed by the
+faction, and therefore represents the largest positive reward.
 
-Even better, you can find the shortest path given multiple goals as well, since you just exit the loop when any of the goal points are added to the closed list.  
+If the creature becomes newly threatened, a slight negative reward is given.
+This is based on the assumption that factions which avoid danger are likely to
+win more games.
 
-This is the final behaviour of my faction.  It finds the shortest path between any possible destination and any possible faction creature.  That destination is set as the goal, and the creatures move towards it independently.
+A slightly larger negative reward is given if in addition to being newly
+threatened, the creature has no energy.  This is as a result of observing the
+creatures behaviour, and noticing that the ogre often dies when attacking
+without sufficient energy.
 
-I realise that this behaviour isn't particularly complex.  This is just where I am now, after 117 commits and thousands of lines added/removed. If I was to repeat the assessment again, I would more ruthlessly pursue the assessment requirements, and not spend as much time on pathfinding.
+In addition, a small reward is given for reducing the distance between the
+creature and the goal.  Since I am not tracking which faction wins the game or
+the quantity of treasure, this is required to prevent waiting being overly
+rewarded.
 
-My next steps would be to implement influence maps.  I already have variable tile cost, with FlamePit tiles giving a large GScore than Floor tiles.  The missing step is to do the same for enemy creatures, and propagate the values throughout the array.
+## Training process
 
-This is in accordance with the mantra of creating complex behaviour by having simple AI in a complex environment.  I would rather keep the decision making for goals simple, and change behaviour by analysing and creating complexity in the game world.
+Initially, the algorithm would take random actions 20% of the time, and the
+rest of the time take the best action as determined by the Q-Table. However,
+this cornered the learning into particular (bad) behaviours - such as not
+moving at all, or never waiting.  In addition, the learning would take too long
+when only acting randomly 20% of the time.  To combat this, a class variable in
+`QLearningHelper.java` toggles either saving learning data into the Q-Table and
+acting randomly, or only reading the Q-Table and taking the best learnt action.
 
---- 
+The Q-Table is trained on `mapQ1.xml` against Collinson behaiour, and  against
+itself on pathfind3.xml  The included learning data is the result of
+approximately 100 tournaments. ~120 state-action pairs have been encountered
+during learning.
 
-## Behaviour: fulfilment of the strategy.
+The Q-Table HashMap is serialised and saved in a flat file, and updated at the
+end of each game.
 
-I have two behaviours: faction behaviour and creature behaviour.  The creature behaviour is responsible for navigating to a point.  The destination of the creature is controlled by the faction behaviour.
+Generating significantly more training data was not possible due to limitations
+of running tournaments. Sometimes the creatures would get stuck, requiring
+manual intervention to continue the training process. Further and better
+training would be possible if the dungeon layout and item placement could be
+programatically randomised.
 
-The faction behaviour is responsible for choosing a faction-level goal.  This is the closest reachable treasure or goal to any faction creature.
+## Analysis of behaviour
 
-## Implementation
+Q-Learning was employed in this implementation to overcome limitations of the
+previous behaviour.  The faction could optimally pathfind to treasure and
+enemies, but did not react to changes in health or energy.  The result was
+blind pursuit of the enemy factions, often resulting in lost games.
 
-In order to increase class cohesion, I removed the Game and Creature parameters from most of my methods and set them as class variables.  In the event that they were not set, I throw away that game tick.
+From observing the behaviour of my faction, I decided to reward and 'punish' the
+creatures for attacking the enemy with low energy.  By limiting the scope of
+learning to a known goal, the challenge of tuning the algorithm was made
+simpler than simply rewarded overall game wins.
 
-Objects which can be reused by different behaviour objects are sent as parameters in the first game tick.  The faction behaviour creates a pathfinding object and a grid, and this is reused throughout the game loop.
+The greatest challenge in programming this dungeon has been balancing complex
+behaviour with reliable and understandable code.  Conceptual AI behaviour, when
+implemented as you might express it linguistically, quickly spirals into dozens
+of edge cases and large quantities of code. Reinforcement learning techniques
+allow for the autonomous selection of actions in a large number of different
+game states. The different situations which can occur in even a simple game are
+played out, and given predefined rewards the action taken can be measured and
+recorded.
 
-The result of this is to make it easier to reduce the amount of work done on each tick.  Since the grid is only initialised once for every game round, we can choose to update it infrequently and only in one place.  This would be especially useful for influence mapping.
+The result matched my expectations.  In general, the ogre will wait after the
+first longbow shot until its energy is replenished.  In addition, when a
+faction creature is near the enemy they do not wait, since there isn't as much
+benefit. Other behavioural differences can be observed, but it's more difficult
+to see a pattern.
 
-My A* algorithm uses a Grid and Square class to search the map.  I decided early on that I wanted the tileMap to have more behaviour than the `boolean[][]` would allow.
+## Limitations
 
-Having a separate Grid and Square class allowed me to write useful utility methods, such as `adjacentTreasure(Square sq);` and `squareAt(Point2D p);`.  Overriding `equals()` and `hashCode()` in Square made many operations much simpler.  
+Despite the behaviour improving perceptually, the overall number of games won
+has not increased significantly. 
 
-An example of how this is tied together is as follows.  Whilst navigating to a destination, if a creature moves past a Square which contains treasure, the creature picks it up then returns to the square:
+In addition, because of the large number of
+possible distance (pathLength) values, some suboptimal actions can be observed
+despite reasonably large amounts of training.
 
-```
-for (Square square : fGrid.getAdjacentSquares(currentSquare))
-  if (square.containsTreasure())
-    Treasure treasure = fGrid.getTreasureIn(square, fGame);
-    if (CollisionDetection.canOccupy(fGame, fCreature, treasure.getLocation()))
-      fPath.push(treasure.getLocation());
+The other limitation resulted from the small range of available actions.
+Implementing some form of evasion would have widened the possibility of
+actions, and with appropriate rewards led to more complex and effective
+behaviour.
 
-```
+## Conclusion
 
-For A*, I maintain the OpenList using a Priority Queue.  Switching from a LinkedList which was resorted each iteration to a Priority queue roughly halved the time it takes to find paths.
+I began with the hypothesis that merely rewarding game wins and losses would
+not result in better behaviour.  Instead, Q-Learning could be employed to
+direct the creature's actions towards certain behavioural goals.  In the case
+of my behaviour, when the energy level was below a certain thresh-hold the
+creature should (normally) wait. Using Q-Learning to achieve this goal would
+result in more nuanced and reliable behaviour than if that had been implemented
+procedurally.
 
-This is because PriorityQueue in Java is backed by a heap.  Heaps have larger insertion and removal costs than linked lists - O(log n) vs O(1), but getting the smallest element can be done in amortised constant time - O(n log n) vs O(1).  
+Sometimes, it is more important for the AI players to behave according to an
+understandable logic than to always take the best possible action.  One
+possible negative consequence of learning algorithms is they can uncover
+exploits in the game world which might not be entertaining to human players.
+This effect can be mitigated by placing limitations on the action sequences of
+creatures.  It raises the interesting possibility of rewarding entertaining
+behaviour and punishing what players might consider 'cheating'.
 
-On every tick I compute n+1 paths, where n is the number of creatures.  One path is calculated to determine the goal, then each creature navigates to that goal.
 
----
 
-## Testing
-
-I ensured the correctness of my code by making small changes, and seeing how they affected the game state.
-
-There was a definite positive correlation between the number of lines changed before executing the game and the amount of time spent debugging any issues.
-
-Rather than watching the game myself, the changes I was looking for could have been automated with unit tests.
-
-Automated testing is the only way complex behaviour can be reliably created.  Simple tactics for humans quickly translate into dozens of possible conditions and exceptions which have to be tested.
-
-Despite not having automated tests, I still stuck to good testing disciplines.  Rather than implementing an idea for a strategy all at once, I'd incrementally change the behaviour to be more like what I want, and observe the effects this had when running the game.
-
-I found the easiest way to test faction behaviour was to have a hero and a faction of four creatures.  Control of the hero allowed me to try and force the faction into exception circumstances, and large numbers of creatures in the faction helped reveal bugs early.
-
-The map i created had several long corridors, multiple ways of getting to the same point, traps and fire pits.  I was attempting to recreate the worst possible map we might see in the tournament.
-
-The only thing I didn't test in this way was the initial A* implementation.  I wasn't sure how to implement it incrementally, and so wrote it direct from pseudocode.  
-
-In hindsight, implementing Breadth First Search and Dijkstra's algorithm separately would have allowed me to build on complexity, and would have reduced the time taken to get a working A* pathfinder.
 
